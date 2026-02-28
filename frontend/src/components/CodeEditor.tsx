@@ -1,0 +1,174 @@
+import { useState, useRef, useEffect } from 'react';
+import { useStore } from '../hooks/useStore';
+import { useAnalysis } from '../hooks/useAnalysis';
+import { DEMO_CODE } from '../data/demo';
+import { DEMO_SNIPPETS } from '../data/demoSnippets';
+
+const LANG_OPTIONS = DEMO_SNIPPETS.map(s => ({
+  key: s.language,
+  icon: s.language === 'python' ? '🐍' : s.language === 'go' ? '🔵' : s.language === 'rust' ? '🦀' : s.language === 'java' ? '☕' : s.language === 'typescript' ? '🔷' : '🐳',
+  label: s.language.charAt(0).toUpperCase() + s.language.slice(1),
+  filename: s.filename,
+}));
+
+export default function CodeEditor() {
+  const { loading, error, setView, galleryMode } = useStore();
+  const { analyze, loadDemo } = useAnalysis();
+  const [code, setCode] = useState('');
+  const [filename, setFilename] = useState('service.py');
+  const [language, setLanguage] = useState('python');
+  const [showDemoMenu, setShowDemoMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu on click outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setShowDemoMenu(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const handleAnalyze = async () => {
+    if (!code.trim()) return;
+    await analyze(code, filename, language);
+    setView('dashboard');
+  };
+
+  const handleLoadDemo = async (lang: string) => {
+    setShowDemoMenu(false);
+    const snippet = DEMO_SNIPPETS.find(s => s.language === lang);
+    if (snippet) {
+      setCode(snippet.code);
+      setFilename(snippet.filename);
+      setLanguage(snippet.language);
+    }
+    await loadDemo(lang);
+    setView('dashboard');
+  };
+
+  return (
+    <div className="space-y-4 animate-fade-in">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold">Analyze Code</h2>
+          <p className="text-reflex-muted text-sm">Paste your code and REFLEX will find every failure scenario</p>
+        </div>
+        <div className="flex gap-2">
+          {/* Gallery mode indicator */}
+          {galleryMode && (
+            <button onClick={() => setView('gallery')} className="btn-ghost text-sm border border-amber-500/30 text-amber-400">
+              📂 Back to Gallery
+            </button>
+          )}
+          {/* 6-language demo dropdown */}
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setShowDemoMenu(!showDemoMenu)}
+              className="btn-ghost text-sm border border-reflex-border flex items-center gap-1.5"
+            >
+              🎮 Try Demo
+              <svg className={`w-3 h-3 transition-transform ${showDemoMenu ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showDemoMenu && (
+              <div className="absolute right-0 top-full mt-1 w-56 bg-reflex-surface border border-reflex-border rounded-xl shadow-2xl shadow-black/40 z-50 overflow-hidden animate-fade-in">
+                <div className="px-3 py-2 text-xs text-reflex-muted border-b border-reflex-border">Choose a language:</div>
+                {LANG_OPTIONS.map(opt => (
+                  <button
+                    key={opt.key}
+                    onClick={() => handleLoadDemo(opt.key)}
+                    disabled={loading}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-reflex-accent/10 transition-colors text-left"
+                  >
+                    <span className="text-lg">{opt.icon}</span>
+                    <div>
+                      <p className="font-medium">{opt.label}</p>
+                      <p className="text-xs text-reflex-muted font-mono">{opt.filename}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* File info */}
+      <div className="flex gap-3">
+        <div className="flex-1">
+          <label className="text-xs text-reflex-muted uppercase tracking-wider mb-1 block">Filename</label>
+          <input
+            type="text"
+            value={filename}
+            onChange={(e) => setFilename(e.target.value)}
+            className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-reflex-accent"
+            placeholder="service.py"
+          />
+        </div>
+        <div className="w-40">
+          <label className="text-xs text-reflex-muted uppercase tracking-wider mb-1 block">Language</label>
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-reflex-accent"
+          >
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="java">Java</option>
+            <option value="yaml">YAML</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Code textarea */}
+      <div className="card p-0 overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-2 bg-reflex-border/30 border-b border-reflex-border">
+          <span className="text-xs text-reflex-muted font-mono">{filename}</span>
+          <span className="text-xs text-reflex-muted">{code.split('\n').length} lines</span>
+        </div>
+        <textarea
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          className="w-full h-96 bg-reflex-surface p-4 font-mono text-sm text-reflex-text resize-none focus:outline-none leading-6"
+          placeholder="// Paste your code here...&#10;// REFLEX will analyze every possible failure scenario&#10;// and generate production-ready runbooks."
+          spellCheck={false}
+        />
+      </div>
+
+      {/* Error */}
+      {error && (
+        <div className="card bg-red-500/10 border-red-500/30 border text-red-400 text-sm">
+          ⚠️ {error} — Using demo data as fallback.
+        </div>
+      )}
+
+      {/* Actions */}
+      <div className="flex gap-3">
+        <button
+          onClick={handleAnalyze}
+          disabled={loading || !code.trim()}
+          className="btn-primary flex items-center gap-2 text-base"
+        >
+          {loading ? (
+            <>
+              <span className="animate-spin">⏳</span>
+              Analyzing with Mistral AI...
+            </>
+          ) : (
+            <>⚡ Analyze for Failures</>
+          )}
+        </button>
+        {loading && (
+          <p className="text-reflex-muted text-sm self-center">
+            This may take 15-30 seconds. Mistral is analyzing every line...
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
