@@ -416,164 +416,150 @@ function drawBuilder(ctx: CanvasRenderingContext2D, f: number, W: number, H: num
   ctx.clearRect(0, 0, W, H);
   const pw = Math.floor(W / PX), ph = Math.floor(H / PX);
 
-  // === GAMEBOY SCREEN FRAME ===
-  // Outer shell (dark gray, rounded feel)
-  rect(ctx, 0, 0, pw, ph, '#1a1a2e');
-  // Screen bezel (lighter border)
-  rect(ctx, 2, 2, pw - 4, ph - 10, '#252540');
-  // Screen area (dark green-tinted like old LCD)
-  rect(ctx, 4, 4, pw - 8, ph - 14, '#0a0f0a');
-  // Screen inner glow
-  rect(ctx, 5, 5, pw - 10, ph - 16, '#0d120d');
-
-  // === BOTTOM PANEL (buttons area) ===
-  rect(ctx, 2, ph - 8, pw - 4, 6, '#252540');
-  // D-pad (left side)
-  const bx = 12;
-  const by = ph - 5;
-  rect(ctx, bx - 1, by - 2, 3, 5, '#3a3a5c'); // vertical
-  rect(ctx, bx - 2, by - 1, 5, 3, '#3a3a5c'); // horizontal
-  px(ctx, bx, by, '#4a4a6c'); // center dot
-  // A B buttons (right side)
-  const abx = pw - 15;
-  px(ctx, abx, by - 1, '#ef4444'); px(ctx, abx + 1, by - 1, '#ef4444'); // A
-  px(ctx, abx - 3, by, '#3b82f6'); px(ctx, abx - 2, by, '#3b82f6'); // B
-  // Button labels
-  px(ctx, abx + 3, by - 1, '#6b7280'); // A label dot
-  px(ctx, abx - 4, by + 1, '#6b7280'); // B label dot
-  // Start/Select (center bottom)
-  const sx = Math.floor(pw / 2) - 4;
-  rect(ctx, sx, by, 3, 1, '#4a4a6c');     // SELECT
-  rect(ctx, sx + 5, by, 3, 1, '#4a4a6c'); // START
+  // === BACKGROUND ===
+  rect(ctx, 0, 0, pw, ph, '#0a0a1a');
 
   const cx = Math.floor(pw / 2);
-  const screenTop = 7;
+  const groundY = ph - 4;
 
-  // === CHARACTER (pixel person, left side of screen) ===
-  const px2 = cx - 20;
-  const py = screenTop + 18;
+  // === GROUND LINE ===
+  rect(ctx, 6, groundY, pw - 12, 1, '#1e1e2e');
+
+  // === PERSON (centered, big, sitting at desk) ===
+  const personX = cx + 2;
+  const personY = groundY;
+
+  // Chair
+  rect(ctx, personX - 4, personY - 3, 10, 3, '#2a2a3e');
+  rect(ctx, personX + 5, personY - 12, 2, 10, '#2a2a3e');
+  rect(ctx, personX - 3, personY, 3, 1, '#2a2a3e');
+  rect(ctx, personX + 4, personY, 3, 1, '#2a2a3e');
+
   // Body (orange hoodie)
-  rect(ctx, px2 - 1, py - 4, 5, 4, '#f97316');
-  // Arms
-  px(ctx, px2 - 2, py - 3, '#f97316');
-  px(ctx, px2 + 4, py - 3, '#f97316');
-  // Waving hand (animated)
-  const wave = Math.sin(f * 0.08) > 0;
-  if (wave) {
-    px(ctx, px2 + 5, py - 4, '#fcd5b0');
-    px(ctx, px2 + 5, py - 5, '#fcd5b0');
-  } else {
-    px(ctx, px2 + 5, py - 3, '#fcd5b0');
-  }
-  px(ctx, px2 - 3, py - 2, '#fcd5b0'); // left hand
-  // Head
-  rect(ctx, px2, py - 8, 3, 3, '#fcd5b0');
-  // Hair
-  rect(ctx, px2 - 1, py - 9, 5, 2, '#1a1a2e');
-  px(ctx, px2 - 1, py - 7, '#1a1a2e'); // side hair
-  px(ctx, px2 + 3, py - 7, '#1a1a2e');
-  // Eyes (blink)
-  const blink = Math.sin(f * 0.03) > 0.9;
+  rect(ctx, personX - 2, personY - 9, 7, 6, '#f97316');
+  // Hoodie pocket
+  rect(ctx, personX, personY - 6, 3, 2, '#ea580c');
+  // Arms reaching to desk
+  rect(ctx, personX - 4, personY - 8, 2, 2, '#f97316');
+  rect(ctx, personX + 5, personY - 7, 2, 1, '#f97316');
+  // Hands (skin)
+  px(ctx, personX - 5, personY - 7, '#fcd5b0');
+  const typing = Math.sin(f * 0.1) > 0;
+  px(ctx, personX - 5, typing ? personY - 8 : personY - 7, '#fcd5b0');
+
+  // Head (big, detailed)
+  rect(ctx, personX - 1, personY - 14, 6, 5, '#fcd5b0');
+  // Hair (dark, messy)
+  rect(ctx, personX - 2, personY - 16, 8, 3, '#1a1a2e');
+  rect(ctx, personX - 2, personY - 14, 1, 4, '#1a1a2e');
+  rect(ctx, personX + 5, personY - 14, 1, 3, '#1a1a2e');
+  // Eyes
+  const blink = Math.sin(f * 0.025) > 0.92;
   if (!blink) {
-    px(ctx, px2, py - 6, '#0a0a0a');
-    px(ctx, px2 + 2, py - 6, '#0a0a0a');
+    px(ctx, personX, personY - 12, '#1a1a2e');
+    px(ctx, personX + 1, personY - 12, '#1a1a2e');
+    px(ctx, personX + 3, personY - 12, '#1a1a2e');
+    px(ctx, personX + 4, personY - 12, '#1a1a2e');
+    // Eye shine
+    px(ctx, personX + 1, personY - 13, '#ffffff');
+    px(ctx, personX + 4, personY - 13, '#ffffff');
+  } else {
+    rect(ctx, personX, personY - 12, 2, 1, '#1a1a2e');
+    rect(ctx, personX + 3, personY - 12, 2, 1, '#1a1a2e');
   }
   // Smile
-  px(ctx, px2 + 1, py - 5, '#d4845a');
-  // Legs
-  rect(ctx, px2, py, 2, 2, '#3b82f6');
-  rect(ctx, px2 + 2, py, 2, 2, '#3b82f6');
-  // Shoes
-  px(ctx, px2, py + 2, '#374151');
-  px(ctx, px2 + 3, py + 2, '#374151');
+  px(ctx, personX + 1, personY - 10, '#d4845a');
+  px(ctx, personX + 2, personY - 10, '#d4845a');
+  px(ctx, personX + 3, personY - 10, '#d4845a');
+  // Legs (jeans, sitting)
+  rect(ctx, personX - 1, personY - 3, 3, 3, '#3b82f6');
+  rect(ctx, personX + 3, personY - 3, 3, 3, '#3b82f6');
 
-  // === CAT (sitting next to person) ===
-  const catX = px2 - 8;
-  const catY = py + 2;
-  rect(ctx, catX, catY - 4, 5, 3, '#9ca3af'); // body
-  rect(ctx, catX + 1, catY - 3, 3, 2, '#d1d5db'); // belly
-  rect(ctx, catX + 1, catY - 7, 4, 3, '#9ca3af'); // head
-  px(ctx, catX + 1, catY - 8, '#9ca3af'); // ear L
-  px(ctx, catX + 4, catY - 8, '#9ca3af'); // ear R
-  px(ctx, catX + 1, catY - 7, '#f9a8d4'); // inner ear
-  px(ctx, catX + 4, catY - 7, '#f9a8d4');
-  // Cat eyes
-  const catBlink = Math.sin(f * 0.04) > 0.92;
-  if (!catBlink) {
-    px(ctx, catX + 2, catY - 5, '#22c55e');
-    px(ctx, catX + 3, catY - 5, '#22c55e');
-  }
-  // Tail (wagging)
-  const wag = Math.sin(f * 0.07) * 2;
-  px(ctx, catX - 1, catY - 2, '#9ca3af');
-  px(ctx, Math.floor(catX - 2 + wag), catY - 3, '#9ca3af');
+  // === DESK ===
+  const deskX = cx - 18;
+  rect(ctx, deskX, groundY - 7, 20, 2, '#4b5563');
+  rect(ctx, deskX + 1, groundY - 5, 3, 5, '#374151');
+  rect(ctx, deskX + 16, groundY - 5, 3, 5, '#374151');
 
-  // === TEXT DIALOG BOX (right side) ===
-  const tbx = cx - 5;
-  const tby = screenTop + 4;
-  const tbw = cx - 2;
-  const tbh = 18;
-  // Box background
-  rect(ctx, tbx, tby, tbw, tbh, '#1a2a1a');
-  // Box border (double line like RPG dialog)
-  for (let i = 0; i < tbw; i++) {
-    px(ctx, tbx + i, tby, '#4ade80');
-    px(ctx, tbx + i, tby + tbh - 1, '#4ade80');
-  }
-  for (let i = 0; i < tbh; i++) {
-    px(ctx, tbx, tby + i, '#4ade80');
-    px(ctx, tbx + tbw - 1, tby + i, '#4ade80');
-  }
-  // Inner border
-  for (let i = 0; i < tbw - 2; i++) {
-    px(ctx, tbx + 1 + i, tby + 1, '#22c55e');
-    px(ctx, tbx + 1 + i, tby + tbh - 2, '#22c55e');
-  }
-  for (let i = 0; i < tbh - 2; i++) {
-    px(ctx, tbx + 1, tby + 1 + i, '#22c55e');
-    px(ctx, tbx + tbw - 2, tby + 1 + i, '#22c55e');
-  }
-
-  // === TYPEWRITER TEXT ===
-  const text1 = 'Hi, I\'m Wiqi Lee!';
-  const text2 = 'Data Scientist';
-  const text3 = 'AI/ML Researcher';
-  const text4 = 'Press START...';
-
-  const charSpeed = 0.12;
-  const line1Len = Math.min(Math.floor(f * charSpeed), text1.length);
-  const line2Len = Math.min(Math.max(Math.floor((f - text1.length / charSpeed - 8) * charSpeed), 0), text2.length);
-  const line3Len = Math.min(Math.max(Math.floor((f - (text1.length + text2.length) / charSpeed - 16) * charSpeed), 0), text3.length);
-  const line4Visible = f > (text1.length + text2.length + text3.length) / charSpeed + 24;
-
-  // Render pixel text (using tiny font simulation — 1px per char width)
-  const drawText = (str: string, len: number, tx: number, ty: number, color: string) => {
-    for (let i = 0; i < len; i++) {
-      if (str[i] !== ' ') px(ctx, tx + i, ty, color);
-      if (str[i] === 'I' || str[i] === 'i' || str[i] === 'l' || str[i] === '!' || str[i] === '\'') px(ctx, tx + i, ty + 1, color);
-      if (str[i] === 'm' || str[i] === 'W' || str[i] === 'M') { px(ctx, tx + i, ty, color); px(ctx, tx + i, ty + 1, color); }
+  // === LAPTOP ON DESK ===
+  rect(ctx, deskX + 3, groundY - 9, 14, 2, '#374151');
+  rect(ctx, deskX + 4, groundY - 17, 12, 8, '#1e293b');
+  rect(ctx, deskX + 5, groundY - 16, 10, 6, '#0f172a');
+  // Code on screen (animated typing)
+  const codeColors = ['#f97316', '#22c55e', '#3b82f6', '#a855f7'];
+  for (let i = 0; i < 4; i++) {
+    const w = 2 + ((i * 3 + 1) % 5);
+    const t = Math.min(Math.max((f * 0.06 - i * 4), 0), w);
+    for (let c = 0; c < t; c++) {
+      px(ctx, deskX + 6 + c, groundY - 15 + i * 2, codeColors[i]);
     }
-  };
-
-  drawText(text1, line1Len, tbx + 3, tby + 4, '#4ade80');
-  drawText(text2, line2Len, tbx + 3, tby + 8, '#f97316');
-  drawText(text3, line3Len, tbx + 3, tby + 11, '#f97316');
-
-  // Blinking "Press START..." cursor
-  if (line4Visible && Math.sin(f * 0.06) > 0) {
-    drawText(text4, text4.length, tbx + 3, tby + 15, '#6b7280');
+  }
+  // Screen glow
+  if (Math.sin(f * 0.02) > 0.5) {
+    px(ctx, deskX + 5, groundY - 17, '#1e293b');
   }
 
-  // === SPARKLE STARS ===
-  [[cx - 28, screenTop + 3, 0], [cx + 25, screenTop + 2, 2], [tbx + tbw + 2, tby + 5, 3]].forEach(([sx2, sy, d]) => {
-    if (Math.sin(f * 0.04 + (d as number)) > 0.3) px(ctx, sx2 as number, sy as number, '#fbbf24');
+  // === CAT (on desk, watching screen) ===
+  const catX = deskX + 1;
+  const catY = groundY - 9;
+  // Body (sitting on desk)
+  rect(ctx, catX - 1, catY - 5, 6, 4, '#9ca3af');
+  rect(ctx, catX, catY - 4, 4, 2, '#d1d5db');
+  // Head
+  rect(ctx, catX, catY - 9, 5, 4, '#9ca3af');
+  // Ears (pointy)
+  px(ctx, catX, catY - 10, '#9ca3af');
+  px(ctx, catX + 4, catY - 10, '#9ca3af');
+  px(ctx, catX + 1, catY - 10, '#f9a8d4');
+  px(ctx, catX + 3, catY - 10, '#f9a8d4');
+  // Eyes (green, watching screen)
+  const catBlink = Math.sin(f * 0.035) > 0.93;
+  if (!catBlink) {
+    px(ctx, catX + 1, catY - 7, '#22c55e');
+    px(ctx, catX + 3, catY - 7, '#22c55e');
+    px(ctx, catX + 1, catY - 8, '#0a0a0a');
+    px(ctx, catX + 3, catY - 8, '#0a0a0a');
+  }
+  // Nose
+  px(ctx, catX + 2, catY - 6, '#f9a8d4');
+  // Tail (hanging off desk, swaying)
+  const wag = Math.sin(f * 0.06) * 2;
+  px(ctx, catX - 2, catY - 3, '#9ca3af');
+  px(ctx, catX - 2, catY - 2, '#9ca3af');
+  px(ctx, Math.floor(catX - 2 + wag), catY - 1, '#9ca3af');
+  // Front paws on desk
+  rect(ctx, catX, catY - 1, 2, 1, '#d1d5db');
+  rect(ctx, catX + 3, catY - 1, 2, 1, '#d1d5db');
+
+  // === COFFEE MUG ===
+  const mx = deskX + 17;
+  rect(ctx, mx, groundY - 11, 3, 4, '#f5f5f4');
+  px(ctx, mx + 3, groundY - 10, '#f5f5f4');
+  // Steam (animated)
+  if (Math.sin(f * 0.05) > 0) px(ctx, mx + 1, groundY - 13, '#475569');
+  if (Math.sin(f * 0.05 + 1.5) > 0) px(ctx, mx, groundY - 14, '#374151');
+
+  // === LIGHTNING BOLT (floating above laptop) ===
+  const ly = groundY - 20 + Math.sin(f * 0.04) * 1.5;
+  [[0,-2],[1,-2],[0,-1],[-1,0],[0,0],[0,1],[-1,2]].forEach(([dx,dy]) => {
+    px(ctx, Math.floor(deskX + 10 + dx), Math.floor(ly + dy), '#f97316');
   });
 
-  // === LIGHTNING BOLT (floating) ===
-  const ly = screenTop + 2 + Math.sin(f * 0.04) * 1.5;
-  [[0,-1],[1,-1],[0,0],[-1,1],[0,1]].forEach(([dx,dy]) => {
-    px(ctx, Math.floor(tbx - 4 + dx), Math.floor(ly + dy), '#f97316');
+  // === SPARKLE STARS (scattered) ===
+  const stars = [
+    [8, 6, 0], [pw - 10, 8, 2], [15, ph - 10, 4],
+    [pw - 15, 5, 3], [cx - 30, 4, 1], [cx + 25, 6, 5],
+  ];
+  stars.forEach(([sx, sy, d]) => {
+    if (Math.sin(f * 0.04 + (d as number)) > 0.3)
+      px(ctx, sx as number, sy as number, '#fbbf24');
   });
+
+  // === MUSIC NOTE (floating, cellist vibes) ===
+  const noteY = 8 + Math.sin(f * 0.03) * 2;
+  px(ctx, cx + 18, Math.floor(noteY), '#f9a8d4');
+  px(ctx, cx + 18, Math.floor(noteY) - 1, '#f9a8d4');
+  px(ctx, cx + 19, Math.floor(noteY) - 2, '#f9a8d4');
 }
 
 function SectionTitle({ icon, children }: { icon: string; children: React.ReactNode }) {
@@ -740,7 +726,7 @@ export default function About() {
       {/* Creator */}
       <div className="card hover-card">
         <SectionTitle icon="👩‍💻">Built by</SectionTitle>
-        <PixelCanvas draw={drawBuilder} height={140} />
+        <PixelCanvas draw={drawBuilder} height={100} />
         <div className="flex gap-6 items-center mt-3">
           <div className="shrink-0 w-24 h-24 rounded-2xl overflow-hidden shadow-lg shadow-reflex-accent/10 avatar-float">
             <img

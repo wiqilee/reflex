@@ -6,7 +6,7 @@ Now with multi-pass validation for critical/high severity runbooks.
 
 import uuid
 from datetime import datetime
-from typing import Optional
+
 
 from backend.models import (
     CodeInput, MultiFileInput, AnalysisResult,

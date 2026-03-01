@@ -21,7 +21,7 @@ def step_to_md(step: RunbookStep) -> str:
     meta_str = f" ({', '.join(meta)})" if meta else ""
     
     lines.append(f"**Step {step.order}**{meta_str}")
-    lines.append(f"")
+    lines.append("")
     lines.append(f"{step.action}")
     
     if step.command:
@@ -31,11 +31,11 @@ def step_to_md(step: RunbookStep) -> str:
         lines.append("```")
     
     if step.expected_output:
-        lines.append(f"")
+        lines.append("")
         lines.append(f"✅ **Expected:** {step.expected_output}")
     
     if step.warning:
-        lines.append(f"")
+        lines.append("")
         lines.append(f"⚠️ **Warning:** {step.warning}")
     
     lines.append("")

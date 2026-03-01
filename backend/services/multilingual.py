@@ -5,7 +5,7 @@ Leverages Mistral's strong multilingual capabilities.
 """
 
 import json
-from typing import Optional
+
 from backend.services.mistral_client import ReflexMistral
 
 SUPPORTED_LANGUAGES = {
