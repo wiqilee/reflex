@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
+  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
+  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <g transform="translate(12, 6)">
+    <rect width="72" height="36" rx="3" fill="#1a1d27" stroke="#3b82f6" stroke-width="1"/>
+    <text x="36" y="13" text-anchor="middle" font-size="10">🔧</text>
+    <text x="36" y="24" text-anchor="middle" font-size="5" fill="#3b82f6" font-family="monospace" font-weight="bold">SRE</text>
+    <text x="36" y="33" text-anchor="middle" font-size="4" fill="#64748b" font-family="monospace">weeks→min</text>
+  </g>
+  <g transform="translate(92, 6)">
+    <rect width="72" height="36" rx="3" fill="#1a1d27" stroke="#ef4444" stroke-width="1"/>
+    <text x="36" y="13" text-anchor="middle" font-size="10">🌙</text>
+    <text x="36" y="24" text-anchor="middle" font-size="5" fill="#ef4444" font-family="monospace" font-weight="bold">On-Call</text>
+    <text x="36" y="33" text-anchor="middle" font-size="4" fill="#64748b" font-family="monospace">hrs→min</text>
+  </g>
+  <g transform="translate(172, 6)">
+    <rect width="72" height="36" rx="3" fill="#1a1d27" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="36" y="13" text-anchor="middle" font-size="10">📊</text>
+    <text x="36" y="24" text-anchor="middle" font-size="5" fill="#8b5cf6" font-family="monospace" font-weight="bold">Manager</text>
+    <text x="36" y="33" text-anchor="middle" font-size="4" fill="#64748b" font-family="monospace">↓ MTTR</text>
+  </g>
+  <g transform="translate(252, 6)">
+    <rect width="72" height="36" rx="3" fill="#1a1d27" stroke="#22c55e" stroke-width="1"/>
+    <text x="36" y="13" text-anchor="middle" font-size="10">🚀</text>
+    <text x="36" y="24" text-anchor="middle" font-size="5" fill="#22c55e" font-family="monospace" font-weight="bold">Startup</text>
+    <text x="36" y="33" text-anchor="middle" font-size="4" fill="#64748b" font-family="monospace">$0 vs $50k</text>
+  </g>
+  <g transform="translate(332, 6)">
+    <rect width="72" height="36" rx="3" fill="#1a1d27" stroke="#eab308" stroke-width="1"/>
+    <text x="36" y="13" text-anchor="middle" font-size="10">🎓</text>
+    <text x="36" y="24" text-anchor="middle" font-size="5" fill="#eab308" font-family="monospace" font-weight="bold">Student</text>
+    <text x="36" y="33" text-anchor="middle" font-size="4" fill="#64748b" font-family="monospace">learn fast</text>
+  </g>
+  <g transform="translate(412, 6)">
+    <rect width="56" height="36" rx="3" fill="#1a1d27" stroke="#2dd4bf" stroke-width="1"/>
+    <text x="28" y="13" text-anchor="middle" font-size="10">🌍</text>
+    <text x="28" y="24" text-anchor="middle" font-size="5" fill="#2dd4bf" font-family="monospace" font-weight="bold">Global</text>
+    <text x="28" y="33" text-anchor="middle" font-size="4" fill="#64748b" font-family="monospace">18 langs</text>
+  </g>
+</svg>

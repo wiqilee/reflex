@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
+  <defs><style>@keyframes check { 0%,100%{opacity:0.4} 50%{opacity:1} }</style></defs>
+  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
+  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <g transform="translate(12, 6)">
+    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#ef4444" stroke-width="1"/>
+    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" font-weight="bold">🔍 Detect</text>
+    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">8 scenarios</text>
+    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite">✓</text>
+  </g>
+  <g transform="translate(92, 6)">
+    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#f97316" stroke-width="1"/>
+    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#f97316" font-family="monospace" font-weight="bold">📋 Runbook</text>
+    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">5-phase</text>
+    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:0.3s">✓</text>
+  </g>
+  <g transform="translate(172, 6)">
+    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#8b5cf6" font-family="monospace" font-weight="bold">🕸️ Graph</text>
+    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">deps + links</text>
+    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:0.6s">✓</text>
+  </g>
+  <g transform="translate(252, 6)">
+    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#ec4899" stroke-width="1"/>
+    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#ec4899" font-family="monospace" font-weight="bold">💥 Blast</text>
+    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">Rust WASM</text>
+    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:0.9s">✓</text>
+  </g>
+  <g transform="translate(332, 6)">
+    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#2dd4bf" stroke-width="1"/>
+    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#2dd4bf" font-family="monospace" font-weight="bold">🤖 Agent</text>
+    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">triage</text>
+    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:1.2s">✓</text>
+  </g>
+  <g transform="translate(412, 6)">
+    <rect width="56" height="36" rx="3" fill="#1a1d27" stroke="#22c55e" stroke-width="1"/>
+    <text x="28" y="14" text-anchor="middle" font-size="6" fill="#22c55e" font-family="monospace" font-weight="bold">🌍 i18n</text>
+    <text x="28" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">18 langs</text>
+    <text x="28" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:1.5s">✓</text>
+  </g>
+</svg>

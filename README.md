@@ -61,8 +61,8 @@
 
 ```
 ┌─────────────────────────────────────────────────┐
-│       8 failure scenarios detected              │
-│   3 critical · 2 high · 2 medium · 1 low        │
+│ 8 failure scenarios detected                    │
+│ 3 critical · 2 high · 2 medium · 1 low          │
 │                                                 │
 │ FS-001 SQL Injection in process_payment         │
 │ Severity: CRITICAL                              │
@@ -87,6 +87,10 @@
 
 ## The Problem
 
+<div align="center">
+<img src="docs/pixel-problem.svg" alt="The Problem" width="480" />
+</div>
+
 > I built REFLEX to solve a problem I've lived. As a software engineer, I've dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
 
 It is 3 AM. PagerDuty goes off. Production is down.
@@ -100,6 +104,7 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 ## The Solution
 
 <div align="center">
+<img src="docs/pixel-solution.svg" alt="The Solution" width="480" />
 
 ![REFLEX Dashboard](docs/screenshot.png)
 
@@ -116,6 +121,10 @@ Paste your infrastructure code. REFLEX identifies many common high-impact failur
 ---
 
 ## Why Not Just Ask ChatGPT?
+
+<div align="center">
+<img src="docs/pixel-chatgpt.svg" alt="ChatGPT vs REFLEX" width="480" />
+</div>
 
 A reasonable question. Here is why REFLEX exists as a dedicated tool instead of a prompt:
 
@@ -146,6 +155,10 @@ REFLEX exists because runbooks should be generated from the source of truth - th
 
 ## Who Benefits
 
+<div align="center">
+<img src="docs/pixel-who.svg" alt="Who Benefits" width="480" />
+</div>
+
 | Role | How REFLEX Helps | Time Saved |
 |---|---|---|
 | 🔧 **SRE / Platform Engineers** | Auto-generate and maintain runbooks from actual code. Every code change produces updated documentation instantly - no more stale runbooks. | Weeks → minutes |
@@ -169,6 +182,10 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 ---
 
 ## Features (21)
+
+<div align="center">
+<img src="docs/pixel-features.svg" alt="21 Features" width="480" />
+</div>
 
 ### Core Analysis
 
@@ -223,6 +240,10 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 ---
 
 ## Architecture
+
+<div align="center">
+<img src="docs/pixel-architecture.svg" alt="Architecture" width="480" />
+</div>
 
 ```
     Browser (Client)                     Server (FastAPI)                  Mistral AI
@@ -419,7 +440,7 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 
 | Platform | Handle |
 |---|---|
-| 🐦 X (Twitter) | [@wiqi_lee](https://x.com/wiqi_lee) |
+| 🐦 Twitter | [@wiqi_lee](https://x.com/wiqi_lee) |
 | 💻 GitHub | [wiqilee](https://github.com/wiqilee) |
 | 💬 Discord | [wiqi_lee](https://discord.com/users/209385020912173066) |
 
@@ -432,6 +453,6 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 [![Powered by](https://img.shields.io/badge/Powered_by-Mistral_Large_3-FF7000?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkw0IDdWMTdMMTIgMjJMMjAgMTdWN0wxMiAyWiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+)](https://mistral.ai)
 [![Mistral AI Hackathon](https://img.shields.io/badge/Mistral_AI-Worldwide_Hackathon_2026-FF7000?style=flat-square)](https://mistral.ai)
 
-🏆 **Built for the Mistral AI Worldwide Hackathon 2026**
+🏆 **Built for the Mistral Worldwide Hackathon 2026**
 
 </div>

@@ -218,21 +218,21 @@ export default function CodeEditor() {
       {/* File info */}
       <div className="flex gap-3">
         <div className="flex-1">
-          <label className="text-xs text-reflex-muted uppercase tracking-wider mb-1 block">Filename</label>
+          <label className="text-xs text-pink-400/80 font-bold uppercase tracking-wider mb-1 block">Filename</label>
           <input
             type="text"
             value={filename}
             onChange={(e) => setFilename(e.target.value)}
-            className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-reflex-accent"
+            className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400/60 focus:shadow-[0_0_12px_rgba(244,114,182,0.15)] transition-all duration-300"
             placeholder="service.py"
           />
         </div>
         <div className="w-40">
-          <label className="text-xs text-reflex-muted uppercase tracking-wider mb-1 block">Language</label>
+          <label className="text-xs text-pink-400/80 font-bold uppercase tracking-wider mb-1 block">Language</label>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-reflex-accent"
+            className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400/60 focus:shadow-[0_0_12px_rgba(244,114,182,0.15)] transition-all duration-300"
           >
             <option value="python">Python</option>
             <option value="javascript">JavaScript</option>
@@ -246,7 +246,7 @@ export default function CodeEditor() {
       </div>
 
       {/* Code textarea */}
-      <div className="card p-0 overflow-hidden">
+      <div className="card p-0 overflow-hidden border border-reflex-border focus-within:border-pink-400/40 focus-within:shadow-[0_0_20px_rgba(244,114,182,0.1)] transition-all duration-500">
         <div className="flex items-center justify-between px-4 py-2 bg-reflex-border/30 border-b border-reflex-border">
           <span className="text-xs text-reflex-muted font-mono">{filename}</span>
           <span className="text-xs text-reflex-muted">{code.split('\n').length} lines</span>

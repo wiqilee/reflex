@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
+  <defs>
+    <style>
+      @keyframes ring { 0%,100%{opacity:0.3} 50%{opacity:1} }
+      @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
+    </style>
+  </defs>
+  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
+  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <!-- PagerDuty alert -->
+  <g transform="translate(16, 8)">
+    <rect width="32" height="32" rx="4" fill="#1a1d27" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="16" y="22" text-anchor="middle" font-size="16" style="animation:shake 0.5s ease-in-out infinite">🚨</text>
+  </g>
+  <!-- 3 AM text -->
+  <text x="60" y="20" font-size="10" fill="#ef4444" font-family="monospace" font-weight="bold">3:00 AM</text>
+  <text x="60" y="34" font-size="7" fill="#64748b" font-family="monospace">Production is down</text>
+  <!-- Stale runbook -->
+  <g transform="translate(150, 8)">
+    <rect width="40" height="32" rx="3" fill="#1a1d27" stroke="#64748b" stroke-width="1" stroke-dasharray="3 2"/>
+    <text x="20" y="15" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">RUNBOOK</text>
+    <line x1="8" y1="20" x2="32" y2="20" stroke="#ef4444" stroke-width="1" opacity="0.5"/>
+    <line x1="8" y1="24" x2="28" y2="24" stroke="#ef4444" stroke-width="1" opacity="0.5"/>
+    <text x="20" y="31" text-anchor="middle" font-size="5" fill="#ef4444" font-family="monospace">STALE</text>
+  </g>
+  <!-- Arrow -->
+  <text x="200" y="28" font-size="14" fill="#f97316">→</text>
+  <!-- Broken commands -->
+  <g transform="translate(220, 8)">
+    <rect width="80" height="32" rx="3" fill="#1a1d27" stroke="#ef4444" stroke-width="1"/>
+    <text x="8" y="16" font-size="6" fill="#ef4444" font-family="monospace">$ cmd --fix ❌</text>
+    <text x="8" y="26" font-size="6" fill="#ef4444" font-family="monospace">$ rollback ❌</text>
+  </g>
+  <!-- Result: hours wasted -->
+  <g transform="translate(316, 8)">
+    <rect width="64" height="32" rx="3" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1"/>
+    <text x="32" y="16" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" font-weight="bold">2+ HOURS</text>
+    <text x="32" y="28" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" opacity="0.7">downtime</text>
+  </g>
+  <!-- Phone ringing -->
+  <g transform="translate(400, 8)">
+    <text x="16" y="22" text-anchor="middle" font-size="14" style="animation:ring 1s ease-in-out infinite">📱</text>
+    <text x="40" y="18" font-size="6" fill="#64748b" font-family="monospace">MTTR</text>
+    <text x="40" y="28" font-size="8" fill="#ef4444" font-family="monospace" font-weight="bold">💀</text>
+  </g>
+</svg>
