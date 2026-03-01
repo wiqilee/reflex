@@ -1,10 +1,13 @@
-//! REFLEX Engine — Failure Path Simulation
+//! REFLEX Engine — Failure Path Simulation + Code Complexity
 //! 
 //! Rust → WebAssembly engine for:
 //! - Failure path simulation (Monte Carlo)
 //! - Cascading failure scoring
 //! - Dependency graph risk calculation
 //! - Blast radius calculation
+//! - Cyclomatic complexity scoring
+//! - Nesting depth analysis
+//! - Coupling metrics
 //!
 //! Runs in the browser at sub-millisecond speed.
 
@@ -19,10 +22,10 @@ use std::collections::{HashMap, HashSet, VecDeque};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Node {
     pub name: String,
-    pub node_type: String, // service, database, api, queue, cache, config
-    pub failure_probability: f64, // 0.0 - 1.0
+    pub node_type: String,
+    pub failure_probability: f64,
     pub recovery_time_seconds: f64,
-    pub users_affected: u64, // estimated users impacted if this node fails
+    pub users_affected: u64,
     pub failure_modes: Vec<String>,
 }
 
@@ -30,9 +33,9 @@ pub struct Node {
 pub struct Edge {
     pub source: String,
     pub target: String,
-    pub relationship: String, // calls, reads, writes, depends_on
-    pub failure_propagation: f64, // probability that source failure propagates to target (0.0 - 1.0)
-    pub is_critical: bool, // if true, target cannot function without source
+    pub relationship: String,
+    pub failure_propagation: f64,
+    pub is_critical: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -49,30 +52,30 @@ pub struct DependencyGraph {
 pub struct SimulationResult {
     pub total_simulations: u32,
     pub failure_paths: Vec<FailurePath>,
-    pub node_failure_frequency: HashMap<String, f64>, // node_name → % of simulations where it failed
+    pub node_failure_frequency: HashMap<String, f64>,
     pub mean_cascade_depth: f64,
     pub max_cascade_depth: u32,
     pub mean_recovery_time: f64,
     pub worst_case_recovery_time: f64,
-    pub system_availability: f64, // estimated % uptime
+    pub system_availability: f64,
     pub execution_time_ms: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FailurePath {
     pub origin: String,
-    pub chain: Vec<String>, // ordered list of nodes that fail
+    pub chain: Vec<String>,
     pub depth: u32,
     pub total_recovery_time: f64,
     pub users_affected: u64,
     pub probability: f64,
-    pub severity: String, // critical, high, medium, low
+    pub severity: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RiskScore {
-    pub overall_score: f64, // 0-100, higher = more risky
-    pub grade: String, // A+ to F
+    pub overall_score: f64,
+    pub grade: String,
     pub node_scores: Vec<NodeRisk>,
     pub critical_paths: Vec<Vec<String>>,
     pub single_points_of_failure: Vec<String>,
@@ -111,7 +114,7 @@ pub struct PropagationStep {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CascadeScore {
     pub node_name: String,
-    pub cascade_score: f64, // 0-100
+    pub cascade_score: f64,
     pub max_depth: u32,
     pub max_nodes_affected: u32,
     pub max_users_affected: u64,
@@ -119,7 +122,33 @@ pub struct CascadeScore {
 }
 
 // ============================================================
-// Simple RNG (xorshift64 — no external deps needed for WASM)
+// Code Complexity Structures
+// ============================================================
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ComplexityResult {
+    pub cyclomatic: u32,
+    pub max_nesting: u32,
+    pub avg_nesting: f64,
+    pub lines_of_code: u32,
+    pub blank_lines: u32,
+    pub comment_lines: u32,
+    pub function_count: u32,
+    pub coupling_score: f64,
+    pub risk_label: String,
+    pub hotspots: Vec<Hotspot>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Hotspot {
+    pub line: u32,
+    pub complexity: u32,
+    pub nesting: u32,
+    pub reason: String,
+}
+
+// ============================================================
+// Simple RNG (xorshift64)
 // ============================================================
 
 struct Rng {
@@ -149,8 +178,8 @@ impl Rng {
 
 pub struct ReflexEngine {
     graph: DependencyGraph,
-    adjacency: HashMap<String, Vec<(String, f64, bool)>>, // source → [(target, propagation_prob, is_critical)]
-    reverse_adjacency: HashMap<String, Vec<String>>, // target → [sources]
+    adjacency: HashMap<String, Vec<(String, f64, bool)>>,
+    reverse_adjacency: HashMap<String, Vec<String>>,
     node_map: HashMap<String, Node>,
 }
 
@@ -180,9 +209,6 @@ impl ReflexEngine {
         ReflexEngine { graph, adjacency, reverse_adjacency, node_map }
     }
 
-    // --------------------------------------------------------
-    // Feature 6: Failure Path Simulation (Monte Carlo)
-    // --------------------------------------------------------
     pub fn simulate(&self, num_simulations: u32, seed: u64) -> SimulationResult {
         let start = js_sys::Date::now();
         let mut rng = Rng::new(seed);
@@ -198,12 +224,10 @@ impl ReflexEngine {
         }
 
         for _ in 0..num_simulations {
-            // Pick a random starting node weighted by failure probability
             let origin = self.pick_random_failure(&mut rng);
             if origin.is_none() { continue; }
             let origin = origin.unwrap();
 
-            // Simulate cascade from this node
             let path = self.simulate_cascade(&origin, &mut rng);
 
             for node_name in &path.chain {
@@ -220,7 +244,6 @@ impl ReflexEngine {
             all_paths.push(path);
         }
 
-        // Calculate frequencies
         let mut node_failure_frequency: HashMap<String, f64> = HashMap::new();
         for (name, count) in &node_fail_count {
             node_failure_frequency.insert(
@@ -229,9 +252,8 @@ impl ReflexEngine {
             );
         }
 
-        // Deduplicate and sort paths by severity
         all_paths.sort_by(|a, b| b.users_affected.cmp(&a.users_affected));
-        all_paths.truncate(50); // Keep top 50 most impactful paths
+        all_paths.truncate(50);
 
         let mean_depth = if num_simulations > 0 {
             total_depth as f64 / num_simulations as f64
@@ -241,8 +263,6 @@ impl ReflexEngine {
             total_recovery / num_simulations as f64
         } else { 0.0 };
 
-        // Estimate availability: assume each failure takes mean_recovery seconds
-        // and occurs proportional to total failure probability
         let total_failure_prob: f64 = self.graph.nodes.iter()
             .map(|n| n.failure_probability)
             .sum();
@@ -300,14 +320,14 @@ impl ReflexEngine {
         }
 
         while let Some((current, depth)) = queue.pop_front() {
-            if depth > 20 { break; } // Safety limit
+            if depth > 20 { break; }
 
             if let Some(targets) = self.adjacency.get(&current) {
                 for (target, prop_prob, is_critical) in targets {
                     if failed.contains(target) { continue; }
 
                     let will_propagate = if *is_critical {
-                        true // Critical dependencies always cascade
+                        true
                     } else {
                         rng.next_f64() < *prop_prob
                     };
@@ -349,16 +369,12 @@ impl ReflexEngine {
         }
     }
 
-    // --------------------------------------------------------
-    // Feature 7: Cascading Failure Scoring
-    // --------------------------------------------------------
     pub fn cascade_scores(&self) -> Vec<CascadeScore> {
         let mut scores: Vec<CascadeScore> = Vec::new();
 
         for node in &self.graph.nodes {
             let blast = self.calculate_blast_radius(&node.name);
             
-            // Score formula: weighted combination of depth, nodes affected, users affected
             let depth_factor = (blast.cascade_depth as f64 / 10.0).min(1.0) * 30.0;
             let nodes_factor = (blast.affected_count as f64 / self.graph.nodes.len() as f64) * 40.0;
             let users_factor = if blast.total_users_affected > 100_000 { 30.0 }
@@ -382,9 +398,6 @@ impl ReflexEngine {
         scores
     }
 
-    // --------------------------------------------------------
-    // Feature 8: Dependency Graph Risk Calculation
-    // --------------------------------------------------------
     pub fn risk_score(&self) -> RiskScore {
         let mut node_risks: Vec<NodeRisk> = Vec::new();
         let spofs = self.find_single_points_of_failure();
@@ -415,7 +428,6 @@ impl ReflexEngine {
 
         node_risks.sort_by(|a, b| b.risk_score.partial_cmp(&a.risk_score).unwrap());
 
-        // Overall score: weighted average of top risks
         let overall = if node_risks.is_empty() { 0.0 } else {
             let top_n = node_risks.len().min(5);
             let sum: f64 = node_risks[..top_n].iter().map(|n| n.risk_score).sum();
@@ -443,13 +455,13 @@ impl ReflexEngine {
         for nr in node_risks.iter().take(3) {
             if nr.cascade_potential > 0.5 {
                 recommendations.push(format!(
-                    "Add circuit breaker for '{}' — cascade potential {:.0}%",
+                    "Add circuit breaker for '{}' - cascade potential {:.0}%",
                     nr.name, nr.cascade_potential * 100.0
                 ));
             }
         }
         if critical_paths.len() > 3 {
-            recommendations.push("Too many critical paths — consider decoupling services".to_string());
+            recommendations.push("Too many critical paths - consider decoupling services".to_string());
         }
 
         RiskScore {
@@ -462,9 +474,6 @@ impl ReflexEngine {
         }
     }
 
-    // --------------------------------------------------------
-    // Feature 15: Blast Radius Calculator
-    // --------------------------------------------------------
     pub fn calculate_blast_radius(&self, origin: &str) -> BlastRadius {
         let mut affected: Vec<String> = Vec::new();
         let mut visited: HashSet<String> = HashSet::new();
@@ -488,7 +497,6 @@ impl ReflexEngine {
             if let Some(targets) = self.adjacency.get(&current) {
                 for (target, prop_prob, is_critical) in targets {
                     if visited.contains(target) { continue; }
-                    // For blast radius, assume worst case: all propagations happen
                     if *prop_prob > 0.0 || *is_critical {
                         visited.insert(target.clone());
                         affected.push(target.clone());
@@ -533,18 +541,11 @@ impl ReflexEngine {
         }
     }
 
-    // --------------------------------------------------------
-    // Helper Functions
-    // --------------------------------------------------------
-
     fn find_single_points_of_failure(&self) -> Vec<String> {
         let mut spofs: Vec<String> = Vec::new();
-
         for node in &self.graph.nodes {
-            // A node is SPOF if removing it disconnects any other node from the graph
             let downstream = self.count_downstream(&node.name);
             let has_redundancy = self.has_alternative_path(&node.name);
-
             if downstream > 0 && !has_redundancy {
                 spofs.push(node.name.clone());
             }
@@ -553,7 +554,6 @@ impl ReflexEngine {
     }
 
     fn has_alternative_path(&self, node_name: &str) -> bool {
-        // Check if any downstream node has another path that doesn't go through this node
         if let Some(targets) = self.adjacency.get(node_name) {
             for (target, _, _) in targets {
                 let sources = self.reverse_adjacency.get(target).cloned().unwrap_or_default();
@@ -584,19 +584,17 @@ impl ReflexEngine {
             }
         }
 
-        (visited.len() - 1) as u32 // Exclude self
+        (visited.len() - 1) as u32
     }
 
     fn find_critical_paths(&self) -> Vec<Vec<String>> {
         let mut paths: Vec<Vec<String>> = Vec::new();
 
-        // Find all paths through critical edges
         for edge in &self.graph.edges {
             if edge.is_critical {
                 let mut path = vec![edge.source.clone(), edge.target.clone()];
                 let mut current = edge.target.clone();
 
-                // Follow the critical chain
                 loop {
                     let next = self.adjacency.get(&current)
                         .and_then(|targets| {
@@ -620,10 +618,167 @@ impl ReflexEngine {
             }
         }
 
-        // Deduplicate (remove paths that are subsets of others)
         paths.sort_by(|a, b| b.len().cmp(&a.len()));
         paths.truncate(10);
         paths
+    }
+}
+
+
+// ============================================================
+// Code Complexity Analyzer
+// ============================================================
+
+/// Analyze cyclomatic complexity, nesting depth, and coupling
+/// for a given source code string. Runs entirely client-side.
+fn analyze_complexity_inner(code: &str, language: &str) -> ComplexityResult {
+    let lines: Vec<&str> = code.lines().collect();
+    let total_lines = lines.len() as u32;
+
+    let mut cyclomatic: u32 = 1;
+    let mut max_nesting: u32 = 0;
+    let mut current_nesting: u32 = 0;
+    let mut nesting_sum: u64 = 0;
+    let mut code_lines: u64 = 0;
+    let mut blank_lines: u32 = 0;
+    let mut comment_lines: u32 = 0;
+    let mut function_count: u32 = 0;
+    let mut hotspots: Vec<Hotspot> = Vec::new();
+    let mut import_count: u32 = 0;
+
+    let comment_prefix: &[&str] = match language {
+        "python" => &["#"],
+        "yaml" => &["#"],
+        "rust" => &["//", "///", "//!"],
+        "go" | "java" | "typescript" | "javascript" => &["//"],
+        _ => &["//", "#"],
+    };
+
+    let branch_patterns: &[&str] = match language {
+        "python" => &["if ", "elif ", "for ", "while ", "except ", "except:", " and ", " or ", " if "],
+        "rust" => &["if ", "else if ", "for ", "while ", "match ", "=> {", "&&", "||"],
+        "go" => &["if ", "else if ", "for ", "switch ", "case ", "&&", "||"],
+        "java" => &["if (", "else if ", "for (", "while (", "switch ", "case ", "catch (", "&&", "||"],
+        "typescript" | "javascript" => &["if (", "else if ", "for (", "while (", "switch ", "case ", "catch (", "? ", "&&", "||"],
+        _ => &["if ", "else if ", "for ", "while ", "&&", "||"],
+    };
+
+    let fn_patterns: &[&str] = match language {
+        "python" => &["def ", "async def ", "class "],
+        "rust" => &["fn ", "pub fn ", "async fn ", "pub async fn ", "impl "],
+        "go" => &["func "],
+        "java" => &["public ", "private ", "protected ", "void "],
+        "typescript" | "javascript" => &["function ", "async function ", "=> {", "export default", "export function"],
+        _ => &["fn ", "def ", "func ", "function "],
+    };
+
+    for (i, line) in lines.iter().enumerate() {
+        let trimmed = line.trim();
+        let line_num = (i + 1) as u32;
+
+        if trimmed.is_empty() {
+            blank_lines += 1;
+            continue;
+        }
+
+        let is_comment = comment_prefix.iter().any(|p| trimmed.starts_with(p));
+        if is_comment {
+            comment_lines += 1;
+            continue;
+        }
+
+        code_lines += 1;
+
+        // Function detection
+        for pat in fn_patterns {
+            if trimmed.contains(pat) {
+                function_count += 1;
+                break;
+            }
+        }
+
+        // Branch complexity
+        let mut line_complexity: u32 = 0;
+        for pat in branch_patterns {
+            line_complexity += trimmed.matches(pat).count() as u32;
+        }
+        cyclomatic += line_complexity;
+
+        // Nesting tracking
+        if language == "python" {
+            let indent = line.len() - line.trim_start().len();
+            current_nesting = (indent / 4) as u32;
+        } else {
+            let opens = trimmed.matches('{').count() as u32;
+            let closes = trimmed.matches('}').count() as u32;
+            current_nesting = current_nesting.saturating_add(opens).saturating_sub(closes);
+        }
+
+        if current_nesting > max_nesting {
+            max_nesting = current_nesting;
+        }
+        nesting_sum += current_nesting as u64;
+
+        // Import tracking
+        if trimmed.starts_with("import ") || trimmed.starts_with("from ")
+            || trimmed.starts_with("use ") || trimmed.starts_with("require(")
+            || trimmed.starts_with("const ") && trimmed.contains("require(")
+        {
+            import_count += 1;
+        }
+
+        // Hotspot detection
+        if line_complexity >= 2 || current_nesting >= 4 {
+            let reason = if line_complexity >= 2 && current_nesting >= 4 {
+                format!("{} branches at depth {}", line_complexity, current_nesting)
+            } else if line_complexity >= 2 {
+                format!("{} decision points on one line", line_complexity)
+            } else {
+                format!("nesting depth {} exceeds safe threshold", current_nesting)
+            };
+
+            hotspots.push(Hotspot {
+                line: line_num,
+                complexity: line_complexity,
+                nesting: current_nesting,
+                reason,
+            });
+        }
+    }
+
+    let avg_nesting = if code_lines > 0 {
+        (nesting_sum as f64) / (code_lines as f64)
+    } else {
+        0.0
+    };
+
+    let coupling_score = if function_count > 0 {
+        (import_count as f64) / (function_count as f64)
+    } else {
+        import_count as f64
+    };
+
+    let loc = total_lines - blank_lines - comment_lines;
+
+    let risk_label = if cyclomatic > 20 || max_nesting > 6 {
+        "high"
+    } else if cyclomatic > 10 || max_nesting > 4 {
+        "medium"
+    } else {
+        "low"
+    };
+
+    ComplexityResult {
+        cyclomatic,
+        max_nesting,
+        avg_nesting: (avg_nesting * 100.0).round() / 100.0,
+        lines_of_code: loc,
+        blank_lines,
+        comment_lines,
+        function_count,
+        coupling_score: (coupling_score * 100.0).round() / 100.0,
+        risk_label: risk_label.to_string(),
+        hotspots,
     }
 }
 
@@ -639,15 +794,6 @@ pub struct ReflexWasm {
 
 #[wasm_bindgen]
 impl ReflexWasm {
-    /// Create a new REFLEX engine from a JSON dependency graph.
-    /// 
-    /// Expected JSON format:
-    /// ```json
-    /// {
-    ///   "nodes": [{"name": "api", "node_type": "service", "failure_probability": 0.01, ...}],
-    ///   "edges": [{"source": "api", "target": "db", "relationship": "reads", ...}]
-    /// }
-    /// ```
     #[wasm_bindgen(constructor)]
     pub fn new(graph_json: &str) -> Result<ReflexWasm, JsValue> {
         let graph: DependencyGraph = serde_json::from_str(graph_json)
@@ -658,39 +804,30 @@ impl ReflexWasm {
         })
     }
 
-    /// Run Monte Carlo failure simulation.
-    /// Returns JSON with failure paths, frequencies, and availability estimate.
     #[wasm_bindgen]
     pub fn simulate(&self, num_simulations: u32, seed: u64) -> String {
         let result = self.engine.simulate(num_simulations, seed);
         serde_json::to_string(&result).unwrap_or_else(|_| "{}".to_string())
     }
 
-    /// Calculate cascading failure scores for all nodes.
-    /// Returns JSON array sorted by cascade potential (highest first).
     #[wasm_bindgen]
     pub fn cascade_scores(&self) -> String {
         let scores = self.engine.cascade_scores();
         serde_json::to_string(&scores).unwrap_or_else(|_| "[]".to_string())
     }
 
-    /// Calculate overall risk score and grade.
-    /// Returns JSON with grade (A+ to F), node risks, SPOFs, and recommendations.
     #[wasm_bindgen]
     pub fn risk_score(&self) -> String {
         let score = self.engine.risk_score();
         serde_json::to_string(&score).unwrap_or_else(|_| "{}".to_string())
     }
 
-    /// Calculate blast radius for a specific node failure.
-    /// Returns JSON with affected nodes, users impacted, and propagation tree.
     #[wasm_bindgen]
     pub fn blast_radius(&self, node_name: &str) -> String {
         let radius = self.engine.calculate_blast_radius(node_name);
         serde_json::to_string(&radius).unwrap_or_else(|_| "{}".to_string())
     }
 
-    /// Get all blast radii for every node (useful for heatmap visualization).
     #[wasm_bindgen]
     pub fn all_blast_radii(&self) -> String {
         let radii: Vec<BlastRadius> = self.engine.graph.nodes.iter()
@@ -698,6 +835,14 @@ impl ReflexWasm {
             .collect();
         serde_json::to_string(&radii).unwrap_or_else(|_| "[]".to_string())
     }
+}
+
+/// Standalone WASM function: analyze code complexity.
+/// No dependency graph needed - just pass source code and language.
+#[wasm_bindgen]
+pub fn analyze_complexity(code: &str, language: &str) -> String {
+    let result = analyze_complexity_inner(code, language);
+    serde_json::to_string(&result).unwrap_or_else(|_| "{}".to_string())
 }
 
 
@@ -744,7 +889,6 @@ mod tests {
         let engine = ReflexEngine::new(sample_graph());
         let scores = engine.cascade_scores();
         assert!(!scores.is_empty());
-        // API gateway should have highest cascade score
         assert_eq!(scores[0].node_name, "api-gateway");
     }
 
@@ -762,5 +906,39 @@ mod tests {
         let blast = engine.calculate_blast_radius("api-gateway");
         assert!(blast.affected_count > 0);
         assert!(blast.total_users_affected > 0);
+    }
+
+    #[test]
+    fn test_complexity_python() {
+        let code = "def hello():\n    if True:\n        for i in range(10):\n            if i > 5 and i < 8:\n                print(i)\n";
+        let result = analyze_complexity_inner(code, "python");
+        assert!(result.cyclomatic > 1);
+        assert!(result.max_nesting >= 3);
+        assert_eq!(result.function_count, 1);
+        assert_eq!(result.risk_label, "medium");
+    }
+
+    #[test]
+    fn test_complexity_rust() {
+        let code = "fn main() {\n    let x = 5;\n    if x > 3 {\n        println!(\"big\");\n    }\n}\n";
+        let result = analyze_complexity_inner(code, "rust");
+        assert!(result.cyclomatic >= 2);
+        assert_eq!(result.function_count, 1);
+    }
+
+    #[test]
+    fn test_complexity_empty() {
+        let result = analyze_complexity_inner("", "python");
+        assert_eq!(result.cyclomatic, 1);
+        assert_eq!(result.max_nesting, 0);
+        assert_eq!(result.lines_of_code, 0);
+    }
+
+    #[test]
+    fn test_complexity_hotspots() {
+        let code = "def f():\n    if a and b:\n        if c or d:\n            if e:\n                if f and g:\n                    pass\n";
+        let result = analyze_complexity_inner(code, "python");
+        assert!(!result.hotspots.is_empty());
+        assert_eq!(result.risk_label, "high");
     }
 }
