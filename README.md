@@ -97,7 +97,7 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 
 ![REFLEX Dashboard](docs/screenshot.png)
 
-*REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph.*
+*"REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph."*
 
 </div>
 
