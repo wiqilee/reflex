@@ -56,7 +56,7 @@
 ```
 ┌─────────────────────────────────────────────────┐
 │ 8 failure scenarios detected                    │
-│ 3 critical · 2 high · 2 medium · 1 low         │
+│ 3 critical · 2 high · 2 medium · 1 low          │
 │                                                 │
 │ FS-001 SQL Injection in process_payment         │
 │ Severity: CRITICAL                              │
@@ -71,7 +71,7 @@
 │ cursor.execute("INSERT INTO payments (user_id,  │
 │   amount) VALUES (?, ?)", (user_id, amount))    │
 │                                                 │
-│ Blast Radius: 4 nodes, 100% system, 70k users  │
+│ Blast Radius: 4 nodes, 100% system, 70k users   │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -81,7 +81,7 @@
 
 ## The Problem
 
-> I built REFLEX because I lived this problem. As a software engineer, I have been on the receiving end of stale runbooks, broken commands, and 3 AM incidents where the documentation was worse than useless. Every engineer I know has a horror story about an outdated runbook that turned a 10-minute fix into a 2-hour outage. This is not just a hackathon project for me. I genuinely believe automated runbook generation can save engineering teams hundreds of hours and prevent real production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
+> I built REFLEX to solve a problem I’ve lived. As a software engineer, I’ve dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
 
 It is 3 AM. PagerDuty goes off. Production is down.
 
@@ -91,7 +91,7 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 
 ---
 
-## Screenshot
+## The Solution
 
 <div align="center">
 
@@ -100,10 +100,6 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 *REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph.*
 
 </div>
-
----
-
-## The Solution
 
 REFLEX reads your actual code and generates production-ready incident runbooks automatically.
 
@@ -227,9 +223,9 @@ REFLEX is designed to support - not replace - human judgment in incident respons
     | Dependency      |   JSON Response  | Export Engine     |            |                  |
     | Graph (D3)      |                  | Multilingual Svc  |            | 3 Typed Tools:   |
     |                 |                  +-------------------+            | - report_failure |
-    | Rust WASM       |                                                  | - generate_runbk |
-    | Engine          |                                                  | - report_deps    |
-    | - Failure Sim   |                                                  +------------------+
+    | Rust WASM       |                                                   | - generate_runbk |
+    | Engine          |                                                   | - report_deps    |
+    | - Failure Sim   |                                                   +------------------+
     | - Blast Radius  |
     +-----------------+
 ```
