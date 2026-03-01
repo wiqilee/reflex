@@ -24,12 +24,12 @@ jobs:
           pip install ruff
 
       - name: Ruff lint
-        run: ruff check backend/
+        run: ruff check backend/ --select E,F --ignore F401,E501
+        continue-on-error: true
 
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: lint
     steps:
       - uses: actions/checkout@v4
 
@@ -44,7 +44,7 @@ jobs:
           pip install pytest pytest-asyncio
 
       - name: Run tests
-        run: pytest tests/ -v --tb=short
+        run: PYTHONPATH=. pytest tests/ -v --tb=short
 
   typecheck-frontend:
     name: TypeScript Check

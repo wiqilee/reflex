@@ -151,6 +151,9 @@ export default function CodeAnalysisView() {
         <div>
           <h2 className="text-xl font-bold flex items-center gap-2">
             🔍 Code Analysis View
+            <span className="text-xs font-mono bg-reflex-border/40 px-2 py-0.5 rounded-md text-reflex-muted">
+              {analyzedCode.filename} · {analyzedCode.language}
+            </span>
           </h2>
           <p className="text-reflex-muted text-sm">
             {affectedLineCount} lines with issues out of {totalLines} total

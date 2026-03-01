@@ -723,6 +723,30 @@ export default function About() {
         </div>
       </div>
 
+      {/* Why not ChatGPT? */}
+      <div className="card hover-card">
+        <SectionTitle icon="🤔">Why not just ask ChatGPT?</SectionTitle>
+        <p className="text-reflex-text/60 text-sm mb-4">A fair question. Here is why REFLEX exists as a dedicated tool instead of a prompt.</p>
+        <div className="space-y-3">
+          {[
+            { label: 'Input', chatgpt: 'One question at a time', reflex: 'Entire codebase in one shot' },
+            { label: 'Output', chatgpt: 'Free-form text you parse yourself', reflex: 'Structured 5-phase runbooks with typed schemas' },
+            { label: 'Validation', chatgpt: 'Single pass, no self-review', reflex: 'Multi-pass: critical runbooks get a second AI review' },
+            { label: 'Blast radius', chatgpt: 'Cannot simulate', reflex: 'Rust WASM simulation, sub-ms, client-side' },
+            { label: 'Dependencies', chatgpt: 'No graph', reflex: 'Interactive graph with failure modes' },
+            { label: 'Tracking', chatgpt: 'Fresh each time', reflex: 'Gallery mode + analysis diff' },
+            { label: 'Consistency', chatgpt: 'Format varies every time', reflex: 'Enforced via Mistral function calling' },
+          ].map(row => (
+            <div key={row.label} className="grid grid-cols-3 gap-3 text-xs items-start">
+              <span className="text-reflex-accent font-bold">{row.label}</span>
+              <span className="text-red-400/70 line-through decoration-red-500/30">{row.chatgpt}</span>
+              <span className="text-teal-400">{row.reflex}</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-reflex-text/40 text-xs mt-4 italic">ChatGPT is a general-purpose assistant. REFLEX is a specialized pipeline that understands the difference between a detection step and a rollback procedure.</p>
+      </div>
+
       {/* Creator */}
       <div className="card hover-card">
         <SectionTitle icon="👩‍💻">Built by</SectionTitle>

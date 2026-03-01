@@ -56,7 +56,7 @@
 ```
 ┌─────────────────────────────────────────────────┐
 │ 8 failure scenarios detected                    │
-│ 3 critical · 2 high · 2 medium · 1 low          │
+│ 3 critical · 2 high · 2 medium · 1 low         │
 │                                                 │
 │ FS-001 SQL Injection in process_payment         │
 │ Severity: CRITICAL                              │
@@ -71,7 +71,7 @@
 │ cursor.execute("INSERT INTO payments (user_id,  │
 │   amount) VALUES (?, ?)", (user_id, amount))    │
 │                                                 │
-│ Blast Radius: 4 nodes, 100% system, 70k users   │
+│ Blast Radius: 4 nodes, 100% system, 70k users  │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -81,11 +81,25 @@
 
 ## The Problem
 
+> I built REFLEX because I lived this problem. As a software engineer, I have been on the receiving end of stale runbooks, broken commands, and 3 AM incidents where the documentation was worse than useless. Every engineer I know has a horror story about an outdated runbook that turned a 10-minute fix into a 2-hour outage. This is not just a hackathon project for me. I genuinely believe automated runbook generation can save engineering teams hundreds of hours and prevent real production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
+
 It is 3 AM. PagerDuty goes off. Production is down.
 
 The on-call engineer opens the runbook. It was written six months ago for a system refactored twice since. Half the commands are broken. The person who wrote it left the company in October.
 
 **Every engineering team has this problem.** Runbooks are mission-critical but universally neglected because writing good ones takes weeks and they go stale within days.
+
+---
+
+## Screenshot
+
+<div align="center">
+
+![REFLEX Dashboard](docs/screenshot.png)
+
+*REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph.*
+
+</div>
 
 ---
 
@@ -96,6 +110,26 @@ REFLEX reads your actual code and generates production-ready incident runbooks a
 Paste your infrastructure code. REFLEX identifies many common high-impact failure modes your system can produce and generates structured, step-by-step runbooks with exact commands to run, expected output at each stage, rollback procedures, and prevention measures.
 
 **How it works:** Mistral Large 3 (`mistral-large-latest`) powers the failure analysis through structured function calling - not free-form text generation. Each analysis goes through 3 typed tool calls with validated outputs, plus a second validation pass for critical/high severity runbooks. Rust compiled to WebAssembly handles dependency graph simulation directly in the browser.
+
+---
+
+## Why Not Just Ask ChatGPT?
+
+A reasonable question. Here is why REFLEX exists as a dedicated tool instead of a prompt:
+
+| | ChatGPT / Claude | REFLEX |
+|---|---|---|
+| **Input** | One question at a time, conversational | Entire codebase analyzed in one shot |
+| **Output** | Free-form text (you parse it yourself) | Structured 5-phase runbooks with typed schemas |
+| **Validation** | Single pass, no self-review | Multi-pass: critical runbooks get a second AI review |
+| **Blast radius** | Cannot simulate cascading failures | Rust WASM simulation, sub-ms, client-side |
+| **Dependencies** | No graph visualization | Interactive dependency graph with failure modes |
+| **Tracking** | No history, starts fresh each time | Gallery mode, analysis diff, risk score comparison |
+| **On-call tiers** | Does not understand L1/L2/L3 | Built-in access level annotations per step |
+| **Translation** | Manual re-prompting per language | One-click 18-language translation |
+| **Consistency** | Output format varies every time | Enforced structure via Mistral function calling |
+
+ChatGPT is a general-purpose assistant. REFLEX is a specialized pipeline that understands the difference between a detection step and a rollback procedure, knows that critical runbooks need validation, and can simulate what happens when your payment service goes down at 3 AM.
 
 ---
 
@@ -193,9 +227,9 @@ REFLEX is designed to support - not replace - human judgment in incident respons
     | Dependency      |   JSON Response  | Export Engine     |            |                  |
     | Graph (D3)      |                  | Multilingual Svc  |            | 3 Typed Tools:   |
     |                 |                  +-------------------+            | - report_failure |
-    | Rust WASM       |                                                   | - generate_runbk |
-    | Engine          |                                                   | - report_deps    |
-    | - Failure Sim   |                                                   +------------------+
+    | Rust WASM       |                                                  | - generate_runbk |
+    | Engine          |                                                  | - report_deps    |
+    | - Failure Sim   |                                                  +------------------+
     | - Blast Radius  |
     +-----------------+
 ```
@@ -298,8 +332,7 @@ reflex/
 │       └── multilingual.py        # 18-language translation
 ├── engine/
 │   ├── src/
-│   │   ├── lib.rs                 # Rust WASM: failure sim, blast radius
-│   │   └── complexity.rs          # Cyclomatic complexity, nesting, coupling
+│   │   └── lib.rs                 # Rust WASM: failure sim, blast radius, cyclomatic complexity
 │   └── Cargo.toml
 ├── frontend/src/
 │   ├── App.tsx                    # Router with 9 views
@@ -321,6 +354,8 @@ reflex/
 │       └── demoSnippets.ts        # 6-language demo samples
 ├── tests/
 │   └── test_reflex.py             # Model, pipeline, and edge case tests
+├── docs/
+│   └── screenshot.png              # App screenshot for README
 └── README.md
 ```
 
@@ -330,7 +365,7 @@ reflex/
 
 **Code Analysis:** Python, Go, Rust, Java, TypeScript, YAML/Docker (with built-in demo samples for each).
 
-**Runbook Translation:** English, French, German, Spanish, Portuguese, Italian, Dutch, Russian, Chinese (Simplified/Traditional), Japanese, Korean, Arabic, Hindi, Turkish, Polish, Indonesian, Vietnamese.
+**Runbook Translation:** 🇬🇧 English, 🇫🇷 French, 🇩🇪 German, 🇪🇸 Spanish, 🇧🇷 Portuguese, 🇮🇹 Italian, 🇳🇱 Dutch, 🇷🇺 Russian, 🇨🇳 Chinese (Simplified), 🇹🇼 Chinese (Traditional), 🇯🇵 Japanese, 🇰🇷 Korean, 🇸🇦 Arabic, 🇮🇳 Hindi, 🇹🇷 Turkish, 🇵🇱 Polish, 🇮🇩 Indonesian, 🇻🇳 Vietnamese.
 
 ---
 

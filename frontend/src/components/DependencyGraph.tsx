@@ -178,19 +178,20 @@ export default function DependencyGraph() {
                   {isHovered && (
                     <>
                       <rect
-                        x={(x1 + x2) / 2 - 25}
-                        y={(y1 + y2) / 2 - 18}
-                        width="50" height="14" rx="3"
-                        fill="#12121a" opacity="0.9"
+                        x={(x1 + x2) / 2 - 28}
+                        y={(y1 + y2) / 2 - 24}
+                        width="56" height="14" rx="4"
+                        fill="#0a0a12" stroke={color} strokeWidth="0.5" opacity="0.95"
                       />
                       <text
                         x={(x1 + x2) / 2}
-                        y={(y1 + y2) / 2 - 8}
-                        fontSize="9"
+                        y={(y1 + y2) / 2 - 14}
+                        fontSize="8"
                         fill={color}
                         textAnchor="middle"
                         className="pointer-events-none"
                         fontWeight="bold"
+                        letterSpacing="0.5"
                       >
                         {edge.relationship}
                       </text>
@@ -433,7 +434,7 @@ export default function DependencyGraph() {
                     return (
                       <div
                         key={i}
-                        className="flex items-center gap-2 text-xs text-reflex-text/60 hover:text-reflex-text/80 cursor-pointer transition-colors"
+                        className="flex items-center gap-2 text-xs text-reflex-text/60 hover:text-reflex-text/90 cursor-pointer transition-all duration-200 px-2 py-1 rounded-md hover:bg-white/[0.04] hover:translate-x-1"
                         onClick={() => setClickedNode(other)}
                       >
                         <span>{direction}</span>

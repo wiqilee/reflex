@@ -142,10 +142,10 @@ export default function BlastRadiusView() {
                 return <line key={`line-${name}`} x1="300" y1="300" x2={x} y2={y} stroke={ringColors[selected.severity]} strokeWidth="1.5" opacity="0.3" strokeDasharray="5 4" />;
               })}
 
-              <circle cx="300" cy="300" r="44" fill="#1a1d27" stroke={ringColors[selected.severity]} strokeWidth="3" />
-              <text x="300" y="290" textAnchor="middle" fontSize="20" className="pointer-events-none">💥</text>
-              <text x="300" y="310" textAnchor="middle" fontSize="10" fill="#f1f5f9" fontWeight="bold" className="pointer-events-none">
-                {selected.origin.length > 18 ? selected.origin.slice(0, 18) + '...' : selected.origin}
+              <circle cx="300" cy="300" r="50" fill="#1a1d27" stroke={ringColors[selected.severity]} strokeWidth="3" />
+              <text x="300" y="288" textAnchor="middle" fontSize="20" className="pointer-events-none">💥</text>
+              <text x="300" y="308" textAnchor="middle" fontSize={selected.origin.length > 14 ? '8' : '10'} fill="#f1f5f9" fontWeight="bold" className="pointer-events-none">
+                {selected.origin.length > 14 ? selected.origin.slice(0, 14) + '..' : selected.origin}
               </text>
 
               {selected.affected.map((name, i) => {
@@ -157,10 +157,10 @@ export default function BlastRadiusView() {
                 const y = 300 + dist * Math.sin(angle);
                 return (
                   <g key={name}>
-                    <circle cx={x} cy={y} r="36" fill="#1a1d27" stroke="#ef4444" strokeWidth="2" opacity="0.9" />
+                    <circle cx={x} cy={y} r="40" fill="#1a1d27" stroke="#ef4444" strokeWidth="2" opacity="0.9" />
                     <text x={x} y={y - 6} textAnchor="middle" fontSize="14" className="pointer-events-none">💀</text>
-                    <text x={x} y={y + 12} textAnchor="middle" fontSize="9" fill="#cbd5e1" fontWeight="600" className="pointer-events-none">
-                      {name.length > 16 ? name.slice(0, 16) + '...' : name}
+                    <text x={x} y={y + 12} textAnchor="middle" fontSize={name.length > 12 ? '8' : '9'} fill="#cbd5e1" fontWeight="600" className="pointer-events-none">
+                      {name.length > 12 ? name.slice(0, 12) + '..' : name}
                     </text>
                   </g>
                 );
