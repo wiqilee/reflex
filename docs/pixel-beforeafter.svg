@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
+  <defs><style>@keyframes check2 { 0%,100%{opacity:0.4} 50%{opacity:1} }</style></defs>
+  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
+  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <!-- BEFORE -->
+  <g transform="translate(12, 6)">
+    <rect width="110" height="36" rx="4" fill="#1a1d27" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="55" y="12" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" font-weight="bold">BEFORE</text>
+    <rect x="6" y="16" width="20" height="3" rx="1" fill="#ef4444" opacity="0.5"/>
+    <text x="28" y="19" font-size="4" fill="#ef4444" font-family="monospace">3 CRIT</text>
+    <rect x="6" y="22" width="16" height="3" rx="1" fill="#f97316" opacity="0.5"/>
+    <text x="24" y="25" font-size="4" fill="#f97316" font-family="monospace">2 HIGH</text>
+    <rect x="6" y="28" width="12" height="3" rx="1" fill="#eab308" opacity="0.5"/>
+    <text x="20" y="31" font-size="4" fill="#eab308" font-family="monospace">2 MED</text>
+    <text x="82" y="22" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="bold" font-family="monospace">8</text>
+    <text x="82" y="30" text-anchor="middle" font-size="4" fill="#ef4444" font-family="monospace">issues</text>
+  </g>
+  <!-- Arrow -->
+  <g transform="translate(130, 16)">
+    <text x="10" y="14" font-size="12" fill="#f97316">⚡</text>
+    <text x="28" y="10" font-size="5" fill="#64748b" font-family="monospace">fix &amp;</text>
+    <text x="28" y="18" font-size="5" fill="#64748b" font-family="monospace">re-scan</text>
+  </g>
+  <!-- REFLEX diff -->
+  <g transform="translate(180, 6)">
+    <rect width="100" height="36" rx="4" fill="#1a1d27" stroke="#f97316" stroke-width="1.5"/>
+    <text x="50" y="12" text-anchor="middle" font-size="6" fill="#f97316" font-family="monospace" font-weight="bold">REFLEX DIFF</text>
+    <text x="10" y="22" font-size="4" fill="#22c55e" font-family="monospace">-3 critical ✓</text>
+    <text x="10" y="30" font-size="4" fill="#22c55e" font-family="monospace">↓38% risk</text>
+    <text x="70" y="30" font-size="8" fill="#22c55e" font-weight="bold" font-family="monospace">📊</text>
+  </g>
+  <!-- Arrow -->
+  <text x="288" y="30" font-size="12" fill="#22c55e">→</text>
+  <!-- AFTER -->
+  <g transform="translate(308, 6)">
+    <rect width="110" height="36" rx="4" fill="#1a1d27" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="55" y="12" text-anchor="middle" font-size="6" fill="#22c55e" font-family="monospace" font-weight="bold">AFTER</text>
+    <rect x="6" y="16" width="4" height="3" rx="1" fill="#ef4444" opacity="0.3"/>
+    <text x="14" y="19" font-size="4" fill="#22c55e" font-family="monospace">0 CRIT ✓</text>
+    <rect x="6" y="22" width="8" height="3" rx="1" fill="#f97316" opacity="0.3"/>
+    <text x="18" y="25" font-size="4" fill="#22c55e" font-family="monospace">1 HIGH</text>
+    <rect x="6" y="28" width="6" height="3" rx="1" fill="#eab308" opacity="0.3"/>
+    <text x="16" y="31" font-size="4" fill="#22c55e" font-family="monospace">2 MED</text>
+    <text x="82" y="22" text-anchor="middle" font-size="8" fill="#22c55e" font-weight="bold" font-family="monospace">3</text>
+    <text x="82" y="30" text-anchor="middle" font-size="4" fill="#22c55e" font-family="monospace">issues</text>
+  </g>
+  <!-- Sleep icon -->
+  <g transform="translate(432, 8)">
+    <text x="16" y="22" text-anchor="middle" font-size="16" style="animation:check2 2s ease infinite">😴</text>
+  </g>
+</svg>

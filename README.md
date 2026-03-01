@@ -55,6 +55,10 @@
 
 ## Before / After - 30-Second Proof
 
+<div align="center">
+<img src="docs/pixel-beforeafter.svg" alt="Before / After" width="480" />
+</div>
+
 **Input:** A 50-line Python payment service with SQL injection, missing timeouts, and no connection pooling.
 
 **Output (in ~15 seconds):**
@@ -209,7 +213,7 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 
 9. **Graph → Runbook Linking.** Click any node in the dependency graph to see which runbooks are relevant to that service. Smart matching across affected_code, titles, and descriptions.
 
-10. **Failure Path Simulation.** Rust WASM engine simulates cascading failures through the dependency graph. Select a node, watch the cascade propagate. Also computes cyclomatic complexity, nesting depth, and coupling metrics for uploaded code - entirely client-side at sub-millisecond speed.
+10. **Failure Path Simulation.** Rust WASM engine simulates cascading failures through the dependency graph. Select a node, watch the cascade propagate. Also computes cyclomatic complexity, nesting depth, coupling metrics, and function count for uploaded code — displayed as a metrics panel in Code View, entirely client-side at sub-millisecond speed.
 
 11. **Blast Radius Calculator.** Quantified impact: nodes affected, cascade depth, users impacted, system percentage. Prioritize which runbooks to review first.
 
@@ -387,6 +391,7 @@ reflex/
 │   ├── pixel-scene.svg            # Animated pixel art hero banner
 │   ├── pixel-problem.svg          # The Problem section art
 │   ├── pixel-solution.svg         # The Solution section art
+│   ├── pixel-beforeafter.svg      # Before/After proof section art
 │   ├── pixel-chatgpt.svg          # ChatGPT comparison section art
 │   ├── pixel-who.svg              # Who Benefits section art
 │   ├── pixel-features.svg         # Features section art

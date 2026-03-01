@@ -314,7 +314,7 @@ export default function CodeEditor() {
         <div className="text-xs text-reflex-text/30 flex items-center gap-3">
           <span>{code.split('\n').length} lines</span>
           <span className="w-1 h-1 rounded-full bg-reflex-text/15" />
-          <span>Recommended: up to ~500 lines</span>
+          <span>Recommended: up to ~1,000 lines</span>
         </div>
       </div>
     </div>

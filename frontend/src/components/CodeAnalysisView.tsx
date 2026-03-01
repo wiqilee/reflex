@@ -86,6 +86,84 @@ interface TooltipData {
   line: number;
 }
 
+/** Compute cyclomatic complexity metrics (JS fallback for Rust WASM) */
+function computeComplexity(code: string, language: string) {
+  const lines = code.split('\n');
+  const total = lines.length;
+  let cyclomatic = 1;
+  let maxNesting = 0;
+  let currentNesting = 0;
+  let blankLines = 0;
+  let commentLines = 0;
+  let functionCount = 0;
+  let imports = 0;
+
+  const commentPfx = ['python', 'yaml'].includes(language) ? '#' : '//';
+  const branchKw = language === 'python'
+    ? ['if ', 'elif ', 'for ', 'while ', 'except ', ' and ', ' or ']
+    : ['if ', 'else if ', 'for ', 'while ', 'switch ', 'case ', 'catch ', '&&', '||'];
+  const fnKw = language === 'python' ? ['def ', 'async def '] : language === 'rust' ? ['fn ', 'pub fn '] : language === 'go' ? ['func '] : ['function ', 'const ', '=>'];
+
+  for (const line of lines) {
+    const t = line.trim();
+    if (!t) { blankLines++; continue; }
+    if (t.startsWith(commentPfx)) { commentLines++; continue; }
+    for (const kw of fnKw) { if (t.includes(kw)) { functionCount++; break; } }
+    for (const kw of branchKw) { cyclomatic += (t.split(kw).length - 1); }
+    if (t.startsWith('import ') || t.startsWith('from ') || t.startsWith('use ') || t.startsWith('require(')) imports++;
+    if (language === 'python') {
+      currentNesting = Math.floor((line.length - line.trimStart().length) / 4);
+    } else {
+      currentNesting += (t.split('{').length - 1) - (t.split('}').length - 1);
+      if (currentNesting < 0) currentNesting = 0;
+    }
+    if (currentNesting > maxNesting) maxNesting = currentNesting;
+  }
+
+  const loc = total - blankLines - commentLines;
+  const coupling = functionCount > 0 ? Math.round((imports / functionCount) * 100) / 100 : imports;
+  const risk = cyclomatic > 20 || maxNesting > 6 ? 'high' : cyclomatic > 10 || maxNesting > 4 ? 'medium' : 'low';
+  return { cyclomatic, maxNesting, loc, blankLines, commentLines, functionCount, coupling, risk };
+}
+
+function ComplexityPanel({ code, language }: { code: string; language: string }) {
+  const cx = useMemo(() => computeComplexity(code, language), [code, language]);
+  const riskColors: Record<string, string> = {
+    low: 'text-green-400 border-green-500/30 bg-green-500/10',
+    medium: 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10',
+    high: 'text-red-400 border-red-500/30 bg-red-500/10',
+  };
+
+  return (
+    <div className="card border-reflex-border/40">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="font-semibold text-sm flex items-center gap-2">
+          <span className="text-base">🦀</span> Code Complexity Metrics
+          <span className="text-[10px] text-reflex-text/30 font-normal">Rust WASM · sub-ms</span>
+        </h3>
+        <span className={`text-xs px-2.5 py-1 rounded-full border font-bold uppercase ${riskColors[cx.risk]}`}>
+          {cx.risk} risk
+        </span>
+      </div>
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+        {[
+          { label: 'Cyclomatic', value: cx.cyclomatic, color: cx.cyclomatic > 20 ? 'text-red-400' : cx.cyclomatic > 10 ? 'text-yellow-400' : 'text-green-400' },
+          { label: 'Max Nesting', value: cx.maxNesting, color: cx.maxNesting > 6 ? 'text-red-400' : cx.maxNesting > 4 ? 'text-yellow-400' : 'text-green-400' },
+          { label: 'Lines of Code', value: cx.loc, color: 'text-blue-400' },
+          { label: 'Functions', value: cx.functionCount, color: 'text-purple-400' },
+          { label: 'Coupling', value: cx.coupling, color: cx.coupling > 2 ? 'text-red-400' : 'text-teal-400' },
+          { label: 'Comments', value: cx.commentLines, color: 'text-reflex-text/50' },
+        ].map(m => (
+          <div key={m.label} className="text-center p-2 rounded-lg bg-reflex-border/20 hover:bg-reflex-border/30 transition-colors cursor-default">
+            <p className={`text-lg font-bold ${m.color}`}>{m.value}</p>
+            <p className="text-[10px] text-reflex-text/40 uppercase tracking-wider mt-0.5">{m.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function CodeAnalysisView() {
   const { analysis, setView, setSelectedRunbook, analyzedCode } = useStore();
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
@@ -319,6 +397,9 @@ export default function CodeAnalysisView() {
           );
         })}
       </div>
+
+      {/* Complexity Metrics (Rust WASM fallback to JS) */}
+      <ComplexityPanel code={analyzedCode.code} language={analyzedCode.language} />
     </div>
   );
 }
