@@ -104,12 +104,13 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 ## The Solution
 
 <div align="center">
-<img src="docs/pixel-solution.svg" alt="The Solution" width="480" />
-<br />
-![REFLEX Dashboard](docs/screenshot.png)
+  <img src="docs/pixel-solution.svg" alt="The Solution" width="480" />
+  <br /><br />
 
-*"REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph."*
-<br />
+  <img src="docs/screenshot.png" alt="REFLEX Dashboard" width="900" />
+  <br /><br />
+
+  <em>"REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph."</em>
 </div>
 
 REFLEX reads your actual code and generates production-ready incident runbooks automatically.
