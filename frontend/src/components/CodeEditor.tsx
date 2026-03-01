@@ -43,29 +43,37 @@ export default function CodeEditor() {
       setFilename(snippet.filename);
       setLanguage(snippet.language);
     }
-    await loadDemo(lang);
-    setView('dashboard');
+  };
+
+  const handleReset = () => {
+    setCode('');
+    setFilename('service.py');
+    setLanguage('python');
   };
 
   return (
-    <div className="space-y-4 animate-fade-in">
+    <div className="space-y-6 animate-fade-in max-w-5xl mx-auto">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold">Analyze Code</h2>
-          <p className="text-reflex-muted text-sm">Paste your code and REFLEX will find every failure scenario</p>
+          <h2 className="text-2xl font-bold tracking-tight">Analyze Code</h2>
+          <p className="text-reflex-muted text-sm mt-1">Paste your infrastructure code. REFLEX finds failure modes and generates runbooks.</p>
         </div>
         <div className="flex gap-2">
-          {/* Gallery mode indicator */}
           {galleryMode && (
             <button onClick={() => setView('gallery')} className="btn-ghost text-sm border border-amber-500/30 text-amber-400">
               📂 Back to Gallery
             </button>
           )}
-          {/* 6-language demo dropdown */}
+          {code.trim() && (
+            <button onClick={handleReset} className="btn-ghost text-sm border border-reflex-border text-reflex-muted hover:text-white">
+              ✕ Clear
+            </button>
+          )}
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setShowDemoMenu(!showDemoMenu)}
-              className="btn-ghost text-sm border border-reflex-border flex items-center gap-1.5"
+              className="btn-ghost text-sm border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 flex items-center gap-1.5"
             >
               🎮 Try Demo
               <svg className={`w-3 h-3 transition-transform ${showDemoMenu ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,7 +88,7 @@ export default function CodeEditor() {
                     key={opt.key}
                     onClick={() => handleLoadDemo(opt.key)}
                     disabled={loading}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-reflex-accent/10 transition-colors text-left"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-teal-500/10 transition-colors text-left"
                   >
                     <span className="text-lg">{opt.icon}</span>
                     <div>

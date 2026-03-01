@@ -91,7 +91,7 @@
 
   /* === GLOW UTILITY === */
   .glow {
-    box-shadow: 0 0 30px rgba(249, 115, 22, 0.1), 0 0 60px rgba(249, 115, 22, 0.05);
+    box-shadow: 0 0 30px rgba(45, 212, 191, 0.1), 0 0 60px rgba(45, 212, 191, 0.05);
   }
   .glow-critical { box-shadow: 0 0 20px rgba(239, 68, 68, 0.15), 0 0 40px rgba(239, 68, 68, 0.05); }
   .glow-high { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 0 40px rgba(249, 115, 22, 0.05); }
@@ -282,8 +282,8 @@
 }
 .runbook-card-hover:hover {
   transform: translateY(-3px) scale(1.005);
-  border-color: rgba(249, 115, 22, 0.3);
-  box-shadow: 0 0 24px rgba(249, 115, 22, 0.08), 0 8px 20px rgba(0, 0, 0, 0.35);
+  border-color: rgba(45, 212, 191, 0.3);
+  box-shadow: 0 0 24px rgba(45, 212, 191, 0.08), 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* ===== PREVENTION HOVER ===== */
@@ -294,8 +294,8 @@
   border: 1px solid transparent;
 }
 .prevention-hover:hover {
-  background-color: rgba(249, 115, 22, 0.08);
-  border-color: rgba(249, 115, 22, 0.25);
+  background-color: rgba(45, 212, 191, 0.08);
+  border-color: rgba(45, 212, 191, 0.25);
   transform: translateX(6px);
 }
 
@@ -304,14 +304,14 @@
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hover-card:hover {
-  border-color: rgba(249, 115, 22, 0.3);
-  box-shadow: 0 0 24px rgba(249, 115, 22, 0.06), 0 4px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(45, 212, 191, 0.3);
+  box-shadow: 0 0 24px rgba(45, 212, 191, 0.06), 0 4px 16px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
 }
 
 /* Legacy compat */
 .stat-card-hover { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: default; }
-.stat-card-hover:hover { transform: scale(1.06) translateY(-3px); border-color: rgba(249, 115, 22, 0.5); box-shadow: 0 0 28px rgba(249, 115, 22, 0.12), 0 8px 24px rgba(0, 0, 0, 0.4); z-index: 10; position: relative; }
+.stat-card-hover:hover { transform: scale(1.06) translateY(-3px); border-color: rgba(45, 212, 191, 0.5); box-shadow: 0 0 28px rgba(45, 212, 191, 0.12), 0 8px 24px rgba(0, 0, 0, 0.4); z-index: 10; position: relative; }
 
 /* ===== AVATAR FLOAT ===== */
 @keyframes avatar-float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
