@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 120">
+  <style>
+    @keyframes shield { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
+    .shield { animation: shield 2s ease-in-out infinite; }
+  </style>
+  <rect width="640" height="120" fill="#0a0a1a"/>
+  <!-- Shield icon -->
+  <rect x="260" y="12" width="40" height="48" fill="#22c55e" opacity="0.15" rx="4" class="shield"/>
+  <text x="280" y="44" text-anchor="middle" font-size="24" class="shield">🛡️</text>
+  <!-- Human + AI handshake concept -->
+  <rect x="40" y="20" width="16" height="16" fill="#fbbf24" rx="2"/><!-- Human -->
+  <rect x="36" y="38" width="24" height="16" fill="#3b82f6"/>
+  <text x="48" y="68" text-anchor="middle" font-family="monospace" font-size="7" fill="#3b82f6">Human</text>
+  <rect x="76" y="40" width="40" height="3" fill="#22c55e" opacity="0.5"/>
+  <text x="96" y="36" text-anchor="middle" font-family="monospace" font-size="7" fill="#22c55e">reviews</text>
+  <!-- AI -->
+  <rect x="130" y="20" width="16" height="16" fill="#a855f7" rx="2"/>
+  <rect x="126" y="38" width="24" height="16" fill="#a855f7" opacity="0.5"/>
+  <text x="138" y="68" text-anchor="middle" font-family="monospace" font-size="7" fill="#a855f7">AI</text>
+  <text x="108" y="56" text-anchor="middle" font-family="monospace" font-size="6" fill="#64748b">+</text>
+  <!-- Badges -->
+  <rect x="380" y="20" width="100" height="24" fill="#1e293b" rx="4"/>
+  <text x="430" y="36" text-anchor="middle" font-family="monospace" font-size="7" fill="#22c55e">✓ No data stored</text>
+  <rect x="500" y="20" width="100" height="24" fill="#1e293b" rx="4"/>
+  <text x="550" y="36" text-anchor="middle" font-family="monospace" font-size="7" fill="#22c55e">✓ Human in loop</text>
+  <rect x="380" y="52" width="100" height="24" fill="#1e293b" rx="4"/>
+  <text x="430" y="68" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24">⚠ Review first</text>
+  <rect x="500" y="52" width="100" height="24" fill="#1e293b" rx="4"/>
+  <text x="550" y="68" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24">⚠ Not a scanner</text>
+  <text x="320" y="100" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Support — not replace — human judgment</text>
+  <rect x="0" y="112" width="640" height="4" fill="#374151" opacity="0.2"/>
+</svg>

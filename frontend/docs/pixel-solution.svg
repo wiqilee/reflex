@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180">
+  <style>
+    @keyframes glow { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+    @keyframes scan { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(60px); opacity: 0; } }
+    @keyframes pop { 0% { transform: scale(0); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    .glow { animation: glow 2s ease-in-out infinite; }
+    .scan-line { animation: scan 2s linear infinite; }
+  </style>
+  <rect width="640" height="180" fill="#0a0a1a"/>
+  <!-- Step 1: Code input -->
+  <rect x="30" y="30" width="120" height="100" fill="#1e293b" rx="4"/>
+  <text x="90" y="24" text-anchor="middle" font-family="monospace" font-size="9" fill="#64748b">1. PASTE CODE</text>
+  <rect x="38" y="40" width="60" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="38" y="48" width="48" height="4" fill="#3b82f6" opacity="0.6"/>
+  <rect x="38" y="56" width="72" height="4" fill="#f97316" opacity="0.6"/>
+  <rect x="38" y="64" width="36" height="4" fill="#a855f7" opacity="0.6"/>
+  <rect x="38" y="72" width="56" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="38" y="80" width="44" height="4" fill="#ef4444" opacity="0.6"/>
+  <rect x="38" y="88" width="64" height="4" fill="#3b82f6" opacity="0.6"/>
+  <rect x="38" y="96" width="28" height="4" fill="#fbbf24" opacity="0.6"/>
+  <!-- Scan line -->
+  <rect x="30" y="36" width="120" height="3" fill="#f97316" opacity="0.4" class="scan-line"/>
+  <!-- Arrow 1 -->
+  <rect x="166" y="76" width="24" height="4" fill="#f97316" class="glow"/>
+  <rect x="186" y="72" width="4" height="4" fill="#f97316"/>
+  <rect x="186" y="80" width="4" height="4" fill="#f97316"/>
+  <!-- Step 2: Mistral AI analysis -->
+  <rect x="206" y="30" width="120" height="100" fill="#1e293b" rx="4" stroke="#f97316" stroke-width="1" opacity="0.8"/>
+  <text x="266" y="24" text-anchor="middle" font-family="monospace" font-size="9" fill="#f97316">2. MISTRAL ANALYSIS</text>
+  <text x="266" y="56" text-anchor="middle" font-family="monospace" font-size="28" class="glow">🧠</text>
+  <rect x="220" y="76" width="92" height="4" fill="#f97316" opacity="0.3"/>
+  <rect x="220" y="84" width="72" height="4" fill="#f97316" opacity="0.5"/>
+  <rect x="220" y="92" width="84" height="4" fill="#f97316" opacity="0.3"/>
+  <rect x="220" y="100" width="60" height="4" fill="#f97316" opacity="0.5"/>
+  <text x="266" y="118" text-anchor="middle" font-family="monospace" font-size="7" fill="#f97316">Function Calling × 3</text>
+  <!-- Arrow 2 -->
+  <rect x="342" y="76" width="24" height="4" fill="#22c55e" class="glow" style="animation-delay:0.5s"/>
+  <rect x="362" y="72" width="4" height="4" fill="#22c55e"/>
+  <rect x="362" y="80" width="4" height="4" fill="#22c55e"/>
+  <!-- Step 3: Runbooks output -->
+  <rect x="382" y="20" width="120" height="50" fill="#1e293b" rx="4"/>
+  <text x="442" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#22c55e">3. RUNBOOKS</text>
+  <rect x="390" y="28" width="40" height="3" fill="#22c55e" opacity="0.7"/>
+  <rect x="390" y="34" width="56" height="3" fill="#22c55e" opacity="0.5"/>
+  <rect x="390" y="40" width="32" height="3" fill="#22c55e" opacity="0.7"/>
+  <rect x="390" y="46" width="48" height="3" fill="#22c55e" opacity="0.5"/>
+  <rect x="390" y="52" width="24" height="3" fill="#22c55e" opacity="0.7"/>
+  <rect x="390" y="58" width="64" height="3" fill="#22c55e" opacity="0.5"/>
+  <!-- Step 3b: Dependency graph -->
+  <rect x="382" y="80" width="120" height="56" fill="#1e293b" rx="4"/>
+  <text x="442" y="76" text-anchor="middle" font-family="monospace" font-size="9" fill="#a855f7">4. GRAPH + BLAST</text>
+  <circle cx="412" cy="104" r="8" fill="none" stroke="#3b82f6" stroke-width="2"/>
+  <circle cx="442" cy="92" r="8" fill="none" stroke="#f97316" stroke-width="2"/>
+  <circle cx="472" cy="108" r="8" fill="none" stroke="#ef4444" stroke-width="2"/>
+  <circle cx="440" cy="120" r="6" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+  <line x1="420" y1="104" x2="434" y2="94" stroke="#64748b" stroke-width="1"/>
+  <line x1="450" y1="92" x2="464" y2="104" stroke="#64748b" stroke-width="1"/>
+  <line x1="442" y1="100" x2="440" y2="114" stroke="#64748b" stroke-width="1"/>
+  <!-- Arrow 3 -->
+  <rect x="518" y="76" width="24" height="4" fill="#a855f7" class="glow" style="animation-delay:1s"/>
+  <rect x="538" y="72" width="4" height="4" fill="#a855f7"/>
+  <rect x="538" y="80" width="4" height="4" fill="#a855f7"/>
+  <!-- Step 5: Happy engineer -->
+  <text x="580" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#fbbf24">5. SHIP IT!</text>
+  <rect x="568" y="50" width="20" height="20" fill="#fbbf24" rx="2"/>
+  <rect x="572" y="58" width="4" height="4" fill="#0a0a1a"/>
+  <rect x="580" y="58" width="4" height="4" fill="#0a0a1a"/>
+  <rect x="574" y="66" width="8" height="2" fill="#22c55e"/>
+  <rect x="564" y="72" width="28" height="24" fill="#22c55e"/>
+  <rect x="556" y="70" width="8" height="4" fill="#22c55e"/>
+  <rect x="556" y="64" width="4" height="6" fill="#fbbf24"/>
+  <rect x="592" y="70" width="8" height="4" fill="#22c55e"/>
+  <rect x="600" y="64" width="4" height="6" fill="#fbbf24"/>
+  <text x="580" y="32" text-anchor="middle" font-size="18" class="glow">🎉</text>
+  <!-- Ground -->
+  <rect x="0" y="160" width="640" height="4" fill="#374151" opacity="0.3"/>
+</svg>

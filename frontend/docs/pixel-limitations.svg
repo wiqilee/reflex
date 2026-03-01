@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 100">
+  <style>
+    @keyframes warn { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+    .warn { animation: warn 2s ease-in-out infinite; }
+  </style>
+  <rect width="640" height="100" fill="#0a0a1a"/>
+  <!-- Honest limitation badges -->
+  <rect x="40" y="16" width="112" height="28" fill="#1e293b" rx="4" stroke="#fbbf24" stroke-width="0.5"/>
+  <text x="96" y="34" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24" class="warn">⚠ Model Dependent</text>
+  <rect x="168" y="16" width="112" height="28" fill="#1e293b" rx="4" stroke="#fbbf24" stroke-width="0.5"/>
+  <text x="224" y="34" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24" class="warn" style="animation-delay:0.3s">⚠ No AST Parsing</text>
+  <rect x="296" y="16" width="112" height="28" fill="#1e293b" rx="4" stroke="#fbbf24" stroke-width="0.5"/>
+  <text x="352" y="34" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24" class="warn" style="animation-delay:0.6s">⚠ localStorage</text>
+  <rect x="424" y="16" width="96" height="28" fill="#1e293b" rx="4" stroke="#fbbf24" stroke-width="0.5"/>
+  <text x="472" y="34" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24" class="warn" style="animation-delay:0.9s">⚠ Rate Limits</text>
+  <rect x="536" y="16" width="80" height="28" fill="#1e293b" rx="4" stroke="#fbbf24" stroke-width="0.5"/>
+  <text x="576" y="34" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24" class="warn" style="animation-delay:1.2s">⚠ i18n</text>
+  <!-- Transparency message -->
+  <text x="320" y="68" text-anchor="middle" font-family="monospace" font-size="9" fill="#64748b">Honest about limitations. Working to improve.</text>
+  <rect x="0" y="92" width="640" height="4" fill="#374151" opacity="0.2"/>
+</svg>

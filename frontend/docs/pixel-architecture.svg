@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180">
+  <style>
+    @keyframes data-flow { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+    .flow { animation: data-flow 2s linear infinite; }
+    .pulse { animation: pulse 2s ease-in-out infinite; }
+  </style>
+  <rect width="640" height="180" fill="#0a0a1a"/>
+  <!-- Browser box -->
+  <rect x="20" y="20" width="160" height="130" fill="#1e293b" rx="6" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="100" y="40" text-anchor="middle" font-family="monospace" font-size="9" fill="#3b82f6" font-weight="bold">🖥 Browser</text>
+  <rect x="32" y="48" width="56" height="4" fill="#3b82f6" opacity="0.4"/>
+  <text x="32" y="62" font-family="monospace" font-size="6" fill="#64748b">React + Tailwind</text>
+  <rect x="32" y="70" width="48" height="4" fill="#a855f7" opacity="0.4"/>
+  <text x="32" y="84" font-family="monospace" font-size="6" fill="#64748b">D3 Graph</text>
+  <rect x="32" y="92" width="64" height="4" fill="#f97316" opacity="0.4"/>
+  <text x="32" y="106" font-family="monospace" font-size="6" fill="#64748b">Zustand Store</text>
+  <rect x="32" y="114" width="136" height="24" fill="#0f172a" rx="3" stroke="#ef4444" stroke-width="1"/>
+  <text x="100" y="130" text-anchor="middle" font-family="monospace" font-size="7" fill="#ef4444" class="pulse">🦀 Rust WASM Engine</text>
+  <!-- Arrow: Browser → Server -->
+  <rect x="192" y="72" width="6" height="4" fill="#f97316" class="flow"/>
+  <rect x="204" y="72" width="6" height="4" fill="#f97316" class="flow" style="animation-delay:0.3s"/>
+  <rect x="216" y="72" width="6" height="4" fill="#f97316" class="flow" style="animation-delay:0.6s"/>
+  <rect x="228" y="72" width="6" height="4" fill="#f97316" class="flow" style="animation-delay:0.9s"/>
+  <text x="216" y="66" text-anchor="middle" font-family="monospace" font-size="6" fill="#64748b">POST /analyze</text>
+  <!-- Arrow: Server ← Browser -->
+  <rect x="228" y="86" width="6" height="4" fill="#22c55e" class="flow" style="animation-delay:0.9s"/>
+  <rect x="216" y="86" width="6" height="4" fill="#22c55e" class="flow" style="animation-delay:0.6s"/>
+  <rect x="204" y="86" width="6" height="4" fill="#22c55e" class="flow" style="animation-delay:0.3s"/>
+  <rect x="192" y="86" width="6" height="4" fill="#22c55e" class="flow"/>
+  <text x="216" y="100" text-anchor="middle" font-family="monospace" font-size="6" fill="#64748b">JSON Response</text>
+  <!-- Server box -->
+  <rect x="240" y="20" width="160" height="130" fill="#1e293b" rx="6" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="320" y="40" text-anchor="middle" font-family="monospace" font-size="9" fill="#22c55e" font-weight="bold">⚙ FastAPI Server</text>
+  <text x="252" y="58" font-family="monospace" font-size="6" fill="#64748b">Analysis Engine</text>
+  <rect x="252" y="62" width="72" height="3" fill="#22c55e" opacity="0.3"/>
+  <text x="252" y="78" font-family="monospace" font-size="6" fill="#64748b">Code Parser</text>
+  <rect x="252" y="82" width="56" height="3" fill="#22c55e" opacity="0.3"/>
+  <text x="252" y="98" font-family="monospace" font-size="6" fill="#64748b">Export Engine</text>
+  <rect x="252" y="102" width="64" height="3" fill="#22c55e" opacity="0.3"/>
+  <text x="252" y="118" font-family="monospace" font-size="6" fill="#64748b">Multilingual Svc</text>
+  <rect x="252" y="122" width="48" height="3" fill="#22c55e" opacity="0.3"/>
+  <!-- Arrow: Server → Mistral -->
+  <rect x="412" y="62" width="6" height="4" fill="#fbbf24" class="flow"/>
+  <rect x="424" y="62" width="6" height="4" fill="#fbbf24" class="flow" style="animation-delay:0.3s"/>
+  <rect x="436" y="62" width="6" height="4" fill="#fbbf24" class="flow" style="animation-delay:0.6s"/>
+  <rect x="448" y="62" width="6" height="4" fill="#fbbf24" class="flow" style="animation-delay:0.9s"/>
+  <text x="436" y="56" text-anchor="middle" font-family="monospace" font-size="6" fill="#64748b">Function Call</text>
+  <!-- Mistral box -->
+  <rect x="460" y="20" width="160" height="130" fill="#1e293b" rx="6" stroke="#f97316" stroke-width="1.5"/>
+  <text x="540" y="40" text-anchor="middle" font-family="monospace" font-size="9" fill="#f97316" font-weight="bold">🧠 Mistral AI</text>
+  <text x="540" y="56" text-anchor="middle" font-family="monospace" font-size="7" fill="#64748b">mistral-large-latest</text>
+  <rect x="476" y="68" width="128" height="20" fill="#0f172a" rx="3"/>
+  <text x="540" y="82" text-anchor="middle" font-family="monospace" font-size="6" fill="#ef4444">report_failure_scenarios</text>
+  <rect x="476" y="92" width="128" height="20" fill="#0f172a" rx="3"/>
+  <text x="540" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#f97316">generate_runbook</text>
+  <rect x="476" y="116" width="128" height="20" fill="#0f172a" rx="3"/>
+  <text x="540" y="130" text-anchor="middle" font-family="monospace" font-size="6" fill="#a855f7">report_dependencies</text>
+  <rect x="0" y="168" width="640" height="4" fill="#374151" opacity="0.2"/>
+</svg>

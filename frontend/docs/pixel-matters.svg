@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140">
+  <style>
+    @keyframes count { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+    @keyframes tick { 0% { width: 0; } 100% { width: 200px; } }
+    .count { animation: count 1.5s ease-in-out infinite; }
+  </style>
+  <rect width="640" height="140" fill="#0a0a1a"/>
+  <!-- Cost counter -->
+  <rect x="40" y="20" width="180" height="80" fill="#1e293b" rx="6"/>
+  <text x="130" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#64748b">Downtime Cost</text>
+  <text x="130" y="76" text-anchor="middle" font-family="monospace" font-size="24" font-weight="bold" fill="#ef4444" class="count">$5,600</text>
+  <text x="130" y="92" text-anchor="middle" font-family="monospace" font-size="8" fill="#ef4444">per minute</text>
+  <!-- Clock/time stat -->
+  <rect x="240" y="20" width="180" height="80" fill="#1e293b" rx="6"/>
+  <text x="330" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#64748b">Resolution Time</text>
+  <text x="330" y="76" text-anchor="middle" font-family="monospace" font-size="24" font-weight="bold" fill="#f97316" class="count">69%</text>
+  <text x="330" y="92" text-anchor="middle" font-family="monospace" font-size="8" fill="#f97316">&gt; 1 hour to resolve</text>
+  <!-- Solution -->
+  <rect x="440" y="20" width="180" height="80" fill="#1e293b" rx="6" stroke="#22c55e" stroke-width="1"/>
+  <text x="530" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#64748b">REFLEX Solution</text>
+  <text x="530" y="76" text-anchor="middle" font-family="monospace" font-size="24" font-weight="bold" fill="#22c55e" class="count">~15s</text>
+  <text x="530" y="92" text-anchor="middle" font-family="monospace" font-size="8" fill="#22c55e">code → runbooks</text>
+  <!-- Bottom line -->
+  <text x="320" y="124" text-anchor="middle" font-family="monospace" font-size="9" fill="#f97316">Source of truth: the code itself</text>
+  <rect x="0" y="132" width="640" height="4" fill="#374151" opacity="0.2"/>
+</svg>
