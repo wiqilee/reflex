@@ -113,7 +113,7 @@ Paste your infrastructure code. REFLEX identifies many common high-impact failur
 
 A reasonable question. Here is why REFLEX exists as a dedicated tool instead of a prompt:
 
-| | ChatGPT / Claude | REFLEX |
+| | ChatGPT | REFLEX |
 |---|---|---|
 | **Input** | One question at a time, conversational | Entire codebase analyzed in one shot |
 | **Output** | Free-form text (you parse it yourself) | Structured 5-phase runbooks with typed schemas |
