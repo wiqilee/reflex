@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore, Runbook, RunbookStep } from '../hooks/useStore';
 
 const PHASE_CONFIG = {
@@ -32,10 +32,18 @@ function OnCallBadge({ level }: { level: string }) {
     ? 'bg-reflex-accent/15 text-reflex-accent border-reflex-accent/20 hover:border-reflex-accent/50'
     : 'bg-purple-500/15 text-purple-400 border-purple-500/20 hover:border-purple-500/50';
 
+  // Close tooltip on click anywhere
+  useEffect(() => {
+    if (!show) return;
+    const handler = () => setShow(false);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [show]);
+
   return (
     <span className="relative inline-flex items-center">
       <span
-        onClick={() => setShow(!show)}
+        onClick={(e) => { e.stopPropagation(); setShow(!show); }}
         className={`text-xs ${badgeColor} px-2 py-0.5 rounded-full border transition-colors cursor-pointer select-none`}
       >
         {icon} {normalizedLevel}
@@ -43,7 +51,6 @@ function OnCallBadge({ level }: { level: string }) {
       {show && (
         <span className="absolute left-0 top-full mt-1 px-3 py-2 bg-reflex-surface/95 backdrop-blur-sm border border-white/15 rounded-lg shadow-2xl shadow-black/50 text-xs text-reflex-text/80 w-72 z-[100]">
           {tooltip}
-          <span onClick={() => setShow(false)} className="ml-2 text-reflex-text/30 hover:text-reflex-text/60 cursor-pointer">✕</span>
         </span>
       )}
     </span>
@@ -111,6 +118,14 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
     id: '🇮🇩 Indonesian', es: '🇪🇸 Spanish', fr: '🇫🇷 French', de: '🇩🇪 German',
     pt: '🇧🇷 Portuguese', ja: '🇯🇵 Japanese', ko: '🇰🇷 Korean', zh: '🇨🇳 Chinese',
   };
+
+  // Close language dropdown on click outside
+  useEffect(() => {
+    if (!showLangs) return;
+    const handler = () => setShowLangs(false);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [showLangs]);
 
   const exportMarkdown = () => {
     const s = runbook.scenario;
@@ -209,11 +224,11 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
             <button onClick={exportMarkdown} className="btn-ghost text-xs border border-reflex-border">
               {exporting ? '✅ Saved!' : '📥 Export .md'}
             </button>
-            <button onClick={() => setShowLangs(!showLangs)} disabled={translating} className="btn-ghost text-xs border border-reflex-border">
+            <button onClick={(e) => { e.stopPropagation(); setShowLangs(!showLangs); }} disabled={translating} className="btn-ghost text-xs border border-reflex-border">
               {translating ? '⏳ Translating...' : '🌐 Translate'}
             </button>
             {showLangs && (
-              <div className="absolute top-full right-0 mt-1 bg-reflex-surface border border-reflex-border rounded-lg shadow-xl z-50 p-2 grid grid-cols-2 gap-1 min-w-[250px]">
+              <div className="absolute top-full right-0 mt-1 bg-reflex-surface border border-reflex-border rounded-lg shadow-xl z-50 p-2 grid grid-cols-2 gap-1 min-w-[250px]" onClick={(e) => e.stopPropagation()}>
                 {Object.entries(LANGUAGES).map(([code, label]) => (
                   <button key={code} onClick={() => translateRunbook(code)} className="text-left text-xs px-2 py-1.5 rounded hover:bg-reflex-border transition-colors">
                     {label}
@@ -281,7 +296,7 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
 }
 
 export default function RunbookViewer() {
-  const { analysis, selectedRunbook, setSelectedRunbook, setView } = useStore();
+  const { analysis, selectedRunbook, setSelectedRunbook, setView, prevView } = useStore();
   if (!analysis) return null;
 
   const { runbooks } = analysis;
@@ -291,36 +306,50 @@ export default function RunbookViewer() {
     const hasPrev = currentIdx > 0;
     const hasNext = currentIdx < runbooks.length - 1;
 
+    // Check if user came from dependencies page
+    const cameFromGraph = prevView === 'graph';
+
     return (
       <div className="space-y-4">
-        {/* Navigation bar */}
+        {/* Navigation bar — top: back button only */}
         <div className="flex items-center justify-between">
           <button
-            onClick={() => setSelectedRunbook(null)}
+            onClick={() => {
+              if (cameFromGraph) {
+                // Go back to dependencies
+                setSelectedRunbook(null);
+                setView('graph');
+              } else {
+                setSelectedRunbook(null);
+              }
+            }}
             className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-accent/40 text-reflex-accent font-medium hover:bg-reflex-accent/10 hover:border-reflex-accent hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
           >
             <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-            All Runbooks
+            {cameFromGraph ? '← Back to Dependencies' : 'All Runbooks'}
           </button>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-reflex-text/40 mr-2">{currentIdx + 1} of {runbooks.length}</span>
-            <button
-              onClick={() => hasPrev && setSelectedRunbook(runbooks[currentIdx - 1])}
-              disabled={!hasPrev}
-              className={`p-2 rounded-lg border transition-all ${hasPrev ? 'border-reflex-border/50 text-reflex-text/60 hover:border-reflex-accent/50 hover:text-reflex-accent hover:bg-reflex-accent/5' : 'border-reflex-border/20 text-reflex-text/15 cursor-not-allowed'}`}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-            </button>
-            <button
-              onClick={() => hasNext && setSelectedRunbook(runbooks[currentIdx + 1])}
-              disabled={!hasNext}
-              className={`p-2 rounded-lg border transition-all ${hasNext ? 'border-reflex-border/50 text-reflex-text/60 hover:border-reflex-accent/50 hover:text-reflex-accent hover:bg-reflex-accent/5' : 'border-reflex-border/20 text-reflex-text/15 cursor-not-allowed'}`}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-            </button>
-          </div>
         </div>
+
         <RunbookDetail runbook={selectedRunbook} />
+
+        {/* Navigation — bottom: "1 of N" with prev/next */}
+        <div className="flex items-center justify-center gap-3 pt-2 pb-4">
+          <button
+            onClick={() => hasPrev && setSelectedRunbook(runbooks[currentIdx - 1])}
+            disabled={!hasPrev}
+            className={`p-2 rounded-lg border transition-all ${hasPrev ? 'border-reflex-border/50 text-reflex-text/60 hover:border-reflex-accent/50 hover:text-reflex-accent hover:bg-reflex-accent/5' : 'border-reflex-border/20 text-reflex-text/15 cursor-not-allowed'}`}
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <span className="text-xs text-reflex-text/40">{currentIdx + 1} of {runbooks.length}</span>
+          <button
+            onClick={() => hasNext && setSelectedRunbook(runbooks[currentIdx + 1])}
+            disabled={!hasNext}
+            className={`p-2 rounded-lg border transition-all ${hasNext ? 'border-reflex-border/50 text-reflex-text/60 hover:border-reflex-accent/50 hover:text-reflex-accent hover:bg-reflex-accent/5' : 'border-reflex-border/20 text-reflex-text/15 cursor-not-allowed'}`}
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
       </div>
     );
   }

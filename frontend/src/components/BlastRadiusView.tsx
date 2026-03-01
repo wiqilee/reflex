@@ -168,25 +168,29 @@ export default function BlastRadiusView() {
             </svg>
           </div>
 
-          {/* Impact stats */}
+          {/* Impact stats — animated gradient borders like CodeAnalysisView */}
           <div className="grid grid-cols-4 gap-4 mt-2">
-            <div className="text-center card py-4 border-red-500/30 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/50 hover:shadow-lg hover:shadow-red-500/10 transition-all duration-300 hover:scale-[1.03]">
-              <p className="text-3xl font-black text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]">{selected.affected.length}</p>
-              <p className="text-xs text-red-300/60 font-bold uppercase tracking-wider mt-1">Nodes affected</p>
+            <div className="relative overflow-hidden rounded-xl border border-red-500/40 bg-gradient-to-br from-red-500/20 via-red-600/5 to-transparent shadow-lg shadow-red-500/10 text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group">
+              <p className="text-3xl font-black text-red-400 group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300">{selected.affected.length}</p>
+              <p className="text-xs text-reflex-text/50 font-bold uppercase tracking-wider mt-1">Nodes affected</p>
+              {selected.affected.length > 0 && <div className="absolute top-0 left-0 w-full h-0.5 bg-red-500 group-hover:h-1 transition-all duration-300" />}
             </div>
-            <div className="text-center card py-4 border-orange-500/30 bg-orange-500/5 hover:bg-orange-500/10 hover:border-orange-500/50 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300 hover:scale-[1.03]">
-              <p className="text-3xl font-black text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.3)]">{selected.depth}</p>
-              <p className="text-xs text-orange-300/60 font-bold uppercase tracking-wider mt-1">Cascade depth</p>
+            <div className="relative overflow-hidden rounded-xl border border-orange-500/40 bg-gradient-to-br from-orange-500/20 via-orange-600/5 to-transparent shadow-lg shadow-orange-500/10 text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group">
+              <p className="text-3xl font-black text-orange-400 group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300">{selected.depth}</p>
+              <p className="text-xs text-reflex-text/50 font-bold uppercase tracking-wider mt-1">Cascade depth</p>
+              {selected.depth > 0 && <div className="absolute top-0 left-0 w-full h-0.5 bg-orange-500 group-hover:h-1 transition-all duration-300" />}
             </div>
-            <div className="text-center card py-4 border-yellow-500/30 bg-yellow-500/5 hover:bg-yellow-500/10 hover:border-yellow-500/50 hover:shadow-lg hover:shadow-yellow-500/10 transition-all duration-300 hover:scale-[1.03]">
-              <p className="text-3xl font-black text-yellow-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.3)]">{(selected.users / 1000).toFixed(0)}k</p>
-              <p className="text-xs text-yellow-300/60 font-bold uppercase tracking-wider mt-1">Users impacted</p>
+            <div className="relative overflow-hidden rounded-xl border border-yellow-500/40 bg-gradient-to-br from-yellow-500/20 via-yellow-600/5 to-transparent shadow-lg shadow-yellow-500/10 text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group">
+              <p className="text-3xl font-black text-yellow-400 group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300">{(selected.users / 1000).toFixed(0)}k</p>
+              <p className="text-xs text-reflex-text/50 font-bold uppercase tracking-wider mt-1">Users impacted</p>
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-yellow-500 group-hover:h-1 transition-all duration-300" />
             </div>
-            <div className="text-center card py-4 border-pink-500/30 bg-pink-500/5 hover:bg-pink-500/10 hover:border-pink-500/50 hover:shadow-lg hover:shadow-pink-500/10 transition-all duration-300 hover:scale-[1.03]">
-              <p className="text-3xl font-black text-pink-400 drop-shadow-[0_0_8px_rgba(236,72,153,0.3)]">
+            <div className="relative overflow-hidden rounded-xl border border-pink-500/40 bg-gradient-to-br from-pink-500/20 via-pink-600/5 to-transparent shadow-lg shadow-pink-500/10 text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group">
+              <p className="text-3xl font-black text-pink-400 group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300">
                 {((selected.affected.length / Math.max(totalNodes - 1, 1)) * 100).toFixed(0)}%
               </p>
-              <p className="text-xs text-pink-300/60 font-bold uppercase tracking-wider mt-1">System affected</p>
+              <p className="text-xs text-reflex-text/50 font-bold uppercase tracking-wider mt-1">System affected</p>
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-pink-500 group-hover:h-1 transition-all duration-300" />
             </div>
           </div>
 

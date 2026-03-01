@@ -27,6 +27,16 @@ const SEV_BADGE: Record<string, string> = {
   low: 'bg-green-500/8 border-green-500/25 text-green-400',
 };
 
+// Hover colors for Related Runbooks cards — cycle through neon colors
+const HOVER_GLOW_COLORS = [
+  'hover:border-orange-400/50 hover:shadow-orange-500/15 hover:bg-orange-500/[0.06]',
+  'hover:border-pink-400/50 hover:shadow-pink-500/15 hover:bg-pink-500/[0.06]',
+  'hover:border-purple-400/50 hover:shadow-purple-500/15 hover:bg-purple-500/[0.06]',
+  'hover:border-blue-400/50 hover:shadow-blue-500/15 hover:bg-blue-500/[0.06]',
+  'hover:border-cyan-400/50 hover:shadow-cyan-500/15 hover:bg-cyan-500/[0.06]',
+  'hover:border-green-400/50 hover:shadow-green-500/15 hover:bg-green-500/[0.06]',
+];
+
 interface NodePos { x: number; y: number; name: string; type: string; failureModes: string[] }
 
 function wrapText(text: string, maxChars: number): string[] {
@@ -109,6 +119,12 @@ export default function DependencyGraph() {
   const apiNodes = nodes.filter(n => n.type === 'api').length;
   const serviceNodes = nodes.filter(n => n.type === 'service').length;
   const dbNodes = nodes.filter(n => n.type === 'database').length;
+
+  // Handler to view runbook and set prevView for back navigation
+  const viewRunbook = (rb: Runbook) => {
+    setSelectedRunbook(rb);
+    setView('runbooks');
+  };
 
   return (
     <div className="space-y-4 animate-fade-in">
@@ -261,7 +277,7 @@ export default function DependencyGraph() {
               );
             })}
 
-            {/* Tooltip - only when hovering and NOT the clicked node (clicked node shows side panel) */}
+            {/* Tooltip - only when hovering and NOT the clicked node */}
             {hoveredNode && hoveredNode !== clickedNode && (() => {
               const node = positions.find(p => p.name === hoveredNode);
               if (!node) return null;
@@ -369,7 +385,7 @@ export default function DependencyGraph() {
                 </button>
                 {relatedRunbooks.length > 0 && (
                   <button
-                    onClick={() => { setSelectedRunbook(relatedRunbooks[0]); setView('runbooks'); }}
+                    onClick={() => viewRunbook(relatedRunbooks[0])}
                     className="flex-1 text-xs px-3 py-1.5 rounded-lg bg-reflex-border/50 text-reflex-text/70 border border-reflex-border hover:bg-reflex-border transition-colors"
                   >
                     📋 Top Runbook
@@ -378,7 +394,7 @@ export default function DependencyGraph() {
               </div>
             </div>
 
-            {/* Related runbooks list */}
+            {/* Related runbooks list — with hover color animations */}
             <div className="card">
               <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
                 📋 Related Runbooks
@@ -396,11 +412,11 @@ export default function DependencyGraph() {
                       const order = { critical: 0, high: 1, medium: 2, low: 3 };
                       return (order[a.scenario.severity as keyof typeof order] ?? 4) - (order[b.scenario.severity as keyof typeof order] ?? 4);
                     })
-                    .map(rb => (
+                    .map((rb, idx) => (
                       <div
                         key={rb.id}
-                        onClick={() => { setSelectedRunbook(rb); setView('runbooks'); }}
-                        className={`p-2.5 rounded-lg border cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10 hover:border-reflex-accent/40 ${SEV_BADGE[rb.scenario.severity] || ''}`}
+                        onClick={() => viewRunbook(rb)}
+                        className={`p-2.5 rounded-lg border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${SEV_BADGE[rb.scenario.severity] || ''} ${HOVER_GLOW_COLORS[idx % HOVER_GLOW_COLORS.length]}`}
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${SEV_BADGE[rb.scenario.severity]}`}>
@@ -413,7 +429,7 @@ export default function DependencyGraph() {
                         <div className="flex items-center gap-3 mt-1.5 text-[10px] text-reflex-muted">
                           <span>⏱ {rb.estimated_resolution}</span>
                           <span>👤 {rb.on_call_level}</span>
-                          <span className="text-reflex-accent ml-auto">View →</span>
+                          <span className="text-reflex-accent ml-auto font-medium">View →</span>
                         </div>
                       </div>
                     ))}

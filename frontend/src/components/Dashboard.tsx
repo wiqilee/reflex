@@ -239,10 +239,10 @@ export default function Dashboard() {
         </button>
         <button
           onClick={() => setView('editor')}
-          className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm text-black bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-105 transition-all duration-300 overflow-hidden"
+          className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm text-black bg-gradient-to-r from-orange-400 via-reflex-accent to-amber-500 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300 overflow-hidden"
         >
           <span className="relative z-10 flex items-center gap-2">⚡ New Analysis</span>
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-reflex-accent to-amber-500 blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
         </button>
       </div>
 

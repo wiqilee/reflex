@@ -139,61 +139,67 @@ function ComplexityPanel({ code, language }: { code: string; language: string })
       label: 'Cyclomatic',
       value: cx.cyclomatic,
       color: cx.cyclomatic > 20 ? 'text-red-400' : cx.cyclomatic > 10 ? 'text-yellow-400' : 'text-green-400',
+      borderColor: cx.cyclomatic > 20 ? 'border-red-500/30' : cx.cyclomatic > 10 ? 'border-yellow-500/30' : 'border-green-500/30',
       glow: cx.cyclomatic > 20 ? 'hover:shadow-red-500/20' : cx.cyclomatic > 10 ? 'hover:shadow-yellow-500/20' : 'hover:shadow-green-500/20',
-      border: cx.cyclomatic > 20 ? 'hover:border-red-500/40' : cx.cyclomatic > 10 ? 'hover:border-yellow-500/40' : 'hover:border-green-500/40',
+      hoverBorder: cx.cyclomatic > 20 ? 'hover:border-red-500/50' : cx.cyclomatic > 10 ? 'hover:border-yellow-500/50' : 'hover:border-green-500/50',
       interp: cx.cyclomatic > 20 ? 'High branching — consider splitting into smaller functions' : cx.cyclomatic > 10 ? 'Moderate — some refactoring may help testability' : 'Clean — low branching, easy to test',
     },
     {
       label: 'Max Nesting',
       value: cx.maxNesting,
       color: cx.maxNesting > 6 ? 'text-red-400' : cx.maxNesting > 4 ? 'text-yellow-400' : 'text-green-400',
+      borderColor: cx.maxNesting > 6 ? 'border-red-500/30' : cx.maxNesting > 4 ? 'border-yellow-500/30' : 'border-green-500/30',
       glow: cx.maxNesting > 6 ? 'hover:shadow-red-500/20' : cx.maxNesting > 4 ? 'hover:shadow-yellow-500/20' : 'hover:shadow-green-500/20',
-      border: cx.maxNesting > 6 ? 'hover:border-red-500/40' : cx.maxNesting > 4 ? 'hover:border-yellow-500/40' : 'hover:border-green-500/40',
+      hoverBorder: cx.maxNesting > 6 ? 'hover:border-red-500/50' : cx.maxNesting > 4 ? 'hover:border-yellow-500/50' : 'hover:border-green-500/50',
       interp: cx.maxNesting > 6 ? 'Deeply nested — hard to read and debug under stress' : cx.maxNesting > 4 ? 'Moderate depth — consider early returns' : 'Flat — easy to follow at 3 AM',
     },
     {
       label: 'Lines of Code',
       value: cx.loc,
       color: 'text-blue-400',
+      borderColor: 'border-blue-500/30',
       glow: 'hover:shadow-blue-500/20',
-      border: 'hover:border-blue-500/40',
+      hoverBorder: 'hover:border-blue-500/50',
       interp: cx.loc > 300 ? 'Large file — consider splitting into modules' : cx.loc > 100 ? 'Medium-sized — manageable' : 'Compact — focused scope',
     },
     {
       label: 'Functions',
       value: cx.functionCount,
       color: 'text-purple-400',
+      borderColor: 'border-purple-500/30',
       glow: 'hover:shadow-purple-500/20',
-      border: 'hover:border-purple-500/40',
+      hoverBorder: 'hover:border-purple-500/50',
       interp: cx.functionCount > 10 ? `${cx.functionCount} functions — well-decomposed` : cx.functionCount > 3 ? 'Reasonable function count' : 'Few functions — may benefit from decomposition',
     },
     {
       label: 'Coupling',
       value: cx.coupling,
       color: cx.coupling > 2 ? 'text-red-400' : cx.coupling > 1 ? 'text-yellow-400' : 'text-teal-400',
+      borderColor: cx.coupling > 2 ? 'border-red-500/30' : cx.coupling > 1 ? 'border-yellow-500/30' : 'border-teal-500/30',
       glow: cx.coupling > 2 ? 'hover:shadow-red-500/20' : 'hover:shadow-teal-500/20',
-      border: cx.coupling > 2 ? 'hover:border-red-500/40' : 'hover:border-teal-500/40',
+      hoverBorder: cx.coupling > 2 ? 'hover:border-red-500/50' : 'hover:border-teal-500/50',
       interp: cx.coupling > 2 ? 'High coupling — many imports per function' : cx.coupling > 1 ? 'Moderate coupling' : 'Low coupling — well-isolated',
     },
     {
       label: 'Comments',
       value: cx.commentLines,
-      color: 'text-reflex-text/60',
+      color: 'text-reflex-text/70',
+      borderColor: 'border-white/10',
       glow: 'hover:shadow-white/10',
-      border: 'hover:border-white/20',
+      hoverBorder: 'hover:border-white/25',
       interp: cx.commentLines === 0 ? 'No comments — consider adding context for on-call' : `${Math.round((cx.commentLines / (cx.loc + cx.commentLines)) * 100)}% comment ratio`,
     },
   ];
 
   return (
-    <div className="relative rounded-xl border border-reflex-border/40 bg-gradient-to-br from-reflex-surface/80 to-transparent overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-teal-500/40 to-transparent" />
+    <div className="relative rounded-xl border border-teal-500/25 bg-gradient-to-br from-reflex-surface/80 to-transparent overflow-hidden shadow-lg shadow-teal-500/5">
+      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-teal-500/50 to-transparent" />
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-sm flex items-center gap-2">
-            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-teal-500/15 border border-teal-500/25 text-sm">🦀</span>
+            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-teal-500/15 border border-teal-500/30 text-sm">🦀</span>
             <span>Code Complexity Metrics</span>
-            <span className="text-[10px] text-reflex-text/25 font-normal ml-1">Rust WASM · sub-ms</span>
+            <span className="text-[10px] text-reflex-text/35 font-normal ml-1">Rust WASM · sub-ms</span>
           </h3>
           <span className={`text-xs px-3 py-1 rounded-full border font-bold uppercase tracking-wider ${riskColors[cx.risk]}`}>
             {cx.risk} risk
@@ -201,10 +207,10 @@ function ComplexityPanel({ code, language }: { code: string; language: string })
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {metrics.map(m => (
-            <div key={m.label} className={`group relative rounded-xl border border-reflex-border/30 bg-reflex-border/10 p-3 text-center transition-all duration-300 hover:shadow-lg ${m.glow} ${m.border} cursor-default`}>
+            <div key={m.label} className={`group relative rounded-xl border ${m.borderColor} bg-reflex-border/10 p-3 text-center transition-all duration-300 hover:shadow-lg ${m.glow} ${m.hoverBorder} cursor-default`}>
               <p className={`text-2xl font-black ${m.color} group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300`}>{m.value}</p>
-              <p className="text-[10px] text-reflex-text/45 uppercase tracking-wider mt-1 font-bold">{m.label}</p>
-              <p className="text-[9px] text-reflex-text/30 mt-1.5 leading-tight opacity-0 group-hover:opacity-100 transition-opacity duration-300">{m.interp}</p>
+              <p className="text-[10px] text-reflex-text/50 uppercase tracking-wider mt-1 font-bold">{m.label}</p>
+              <p className="text-[9px] text-reflex-text/45 mt-1.5 leading-tight">{m.interp}</p>
             </div>
           ))}
         </div>
