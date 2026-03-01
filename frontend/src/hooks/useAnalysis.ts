@@ -7,16 +7,19 @@ const API_BASE = '/api/v1';
 export function useAnalysis() {
   const { setAnalysis, setLoading, setError, setAnalyzedCode } = useStore();
 
-  const analyze = async (code: string, filename: string, language: string) => {
+  const analyze = async (code: string, filename: string, language: string, context?: string) => {
     setLoading(true);
     setError(null);
     // Save the code being analyzed (for code-view highlighting)
     setAnalyzedCode({ code, filename, language });
     try {
+      const body: Record<string, string> = { code, filename, language };
+      if (context) body.context = context;
+
       const res = await fetch(`${API_BASE}/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, filename, language }),
+        body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const data = await res.json();

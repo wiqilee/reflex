@@ -14,6 +14,11 @@
 
 **Your code already knows how it will fail. REFLEX makes it tell you.**
 
+<!-- Animated pixel art scene -->
+<br>
+<img src="docs/pixel-scene.svg" alt="REFLEX Pixel Art" width="480" />
+<br>
+
 ### 🚀 Live Demo
 
 [![Try It Now](https://img.shields.io/badge/Try_It_Now-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://YOUR_PROJECT.vercel.app)
@@ -22,9 +27,9 @@
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/watch?v=YOUR_VIDEO_ID)
 
-[Features](#-features-20) · [Quick Start](#-quick-start) · [Architecture](#️-architecture) · [API Reference](#-api-reference) · [Who Benefits](#-who-benefits)
+[Features](#-features-21) · [Quick Start](#-quick-start) · [Architecture](#️-architecture) · [API Reference](#-api-reference) · [Who Benefits](#-who-benefits)
 
-[![Failure Analysis](https://img.shields.io/badge/Failure-Analysis-ef4444?style=flat-square)](.) [![Runbook Generation](https://img.shields.io/badge/Runbook-Generation-f97316?style=flat-square)](.) [![Dependency Graph](https://img.shields.io/badge/Dependency-Graph-8b5cf6?style=flat-square)](.) [![Blast Radius](https://img.shields.io/badge/Blast-Radius-ec4899?style=flat-square)](.) [![Multi-Pass Validation](https://img.shields.io/badge/Multi--Pass-Validation-3b82f6?style=flat-square)](.) [![18-Lang Translation](https://img.shields.io/badge/18--Lang-Translation-22c55e?style=flat-square)](.)
+[![Failure Analysis](https://img.shields.io/badge/Failure-Analysis-ef4444?style=flat-square)](.) [![Runbook Generation](https://img.shields.io/badge/Runbook-Generation-f97316?style=flat-square)](.) [![Dependency Graph](https://img.shields.io/badge/Dependency-Graph-8b5cf6?style=flat-square)](.) [![Blast Radius](https://img.shields.io/badge/Blast-Radius-ec4899?style=flat-square)](.) [![Multi-Pass Validation](https://img.shields.io/badge/Multi--Pass-Validation-3b82f6?style=flat-square)](.) [![Agent Triage](https://img.shields.io/badge/Agent-Triage-2dd4bf?style=flat-square)](.) [![18-Lang Translation](https://img.shields.io/badge/18--Lang-Translation-22c55e?style=flat-square)](.)
 
 </div>
 
@@ -33,17 +38,18 @@
 ## For Judges - Quick Walkthrough (2 minutes)
 
 1. **Open the app** - Dashboard with pixel art animation
-2. **Click "Try Demo"** - Choose one of **6 languages** (Python, Go, Rust, Java, TypeScript, YAML)
-3. **Wait ~15s** - Mistral Large 3 analyzes via function calling (not free-form text)
-4. **Dashboard** - Severity breakdown, failure scenarios with severity reasoning
-5. **🔍 Code View** - Source code with line-by-line severity highlighting - click any red line to jump to its runbook
-6. **📋 Runbooks** - 5-phase structure with copy-paste commands, L1/L2/L3 tooltips
-7. **🕸️ Dependencies** - Click any node to see related runbooks in a side panel
-8. **💥 Blast Radius** - Cascading failure simulation (Rust WASM, sub-ms, client-side)
-9. **📊 Diff** - Compare two analyses: see fixed issues, new issues, risk score change
-10. **Export/Translate** - Markdown export, 18-language translation
+2. **Click "Analyze Code"** - Paste code or choose one of **6 language demos** (Python, Go, Rust, Java, TypeScript, YAML)
+3. **🤖 Agent Triage** - Optional wizard asks runtime, database, observability, SLO - context flows into AI prompt for environment-specific commands
+4. **Wait ~15s** - Mistral Large 3 analyzes via function calling (not free-form text)
+5. **Dashboard** - Severity breakdown, failure scenarios with severity reasoning
+6. **🔍 Code View** - Source code with line-by-line severity highlighting - click any red line to jump to its runbook
+7. **📋 Runbooks** - 5-phase structure with copy-paste commands, L1/L2/L3 tooltips
+8. **🕸️ Dependencies** - Click any node to see related runbooks in a side panel
+9. **💥 Blast Radius** - Cascading failure simulation (Rust WASM, sub-ms, client-side)
+10. **📊 Diff** - Compare two analyses: see fixed issues, new issues, risk score change
+11. **Export/Translate** - Markdown export, 18-language translation
 
-**Key differentiators:** Mistral function calling with 3 typed tools · Multi-pass runbook validation · Rust WASM simulation · Code-to-runbook line mapping · Analysis diff tracking · 20 features total.
+**Key differentiators:** Mistral function calling with 3 typed tools · Multi-pass runbook validation · Rust WASM simulation · Code-to-runbook line mapping · Analysis diff tracking · Agent triage context · 21 features total.
 
 ---
 
@@ -81,7 +87,7 @@
 
 ## The Problem
 
-> I built REFLEX to solve a problem I’ve lived. As a software engineer, I’ve dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
+> I built REFLEX to solve a problem I've lived. As a software engineer, I've dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
 
 It is 3 AM. PagerDuty goes off. Production is down.
 
@@ -124,6 +130,7 @@ A reasonable question. Here is why REFLEX exists as a dedicated tool instead of 
 | **On-call tiers** | Does not understand L1/L2/L3 | Built-in access level annotations per step |
 | **Translation** | Manual re-prompting per language | One-click 18-language translation |
 | **Consistency** | Output format varies every time | Enforced structure via Mistral function calling |
+| **Context** | You must explain your stack every time | Agent Triage remembers runtime, DB, observability |
 
 ChatGPT is a general-purpose assistant. REFLEX is a specialized pipeline that understands the difference between a detection step and a rollback procedure, knows that critical runbooks need validation, and can simulate what happens when your payment service goes down at 3 AM.
 
@@ -161,7 +168,7 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 
 ---
 
-## Features (20)
+## Features (21)
 
 ### Core Analysis
 
@@ -208,6 +215,10 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 19. **Health Monitoring.** Built-in health check endpoint for deployment verification.
 
 20. **Pixel Art Dashboard.** Custom animated pixel art scenes with 7 frames for a distinctive visual identity.
+
+### Agent Skills
+
+21. **Agent Triage Wizard.** Before analysis, an optional triage panel asks about runtime environment (Kubernetes/serverless/VM), database, observability stack, message queues, and SLO targets. This context flows into the AI prompt so generated runbooks contain environment-specific commands (kubectl for k8s, aws for Lambda, docker for containers) rather than generic placeholders.
 
 ---
 
@@ -334,24 +345,25 @@ reflex/
 │   ├── App.tsx                    # Router with 9 views
 │   ├── components/
 │   │   ├── Dashboard.tsx          # Stats, severity breakdown, 6-lang demo
-│   │   ├── CodeEditor.tsx         # Code input with 6-lang demo dropdown
+│   │   ├── CodeEditor.tsx         # Code input + Agent Triage Wizard
 │   │   ├── CodeAnalysisView.tsx   # Line-by-line severity highlighting
 │   │   ├── RunbookViewer.tsx      # 5-phase viewer with L1/L2/L3 tooltips
 │   │   ├── DependencyGraph.tsx    # Interactive graph + related runbooks panel
 │   │   ├── BlastRadiusView.tsx    # Cascade sim + heatmap
 │   │   ├── AnalysisDiff.tsx       # Before/after comparison
 │   │   ├── Gallery.tsx            # Saved analyses
-│   │   └── About.tsx              # Pixel art + feature showcase
+│   │   └── About.tsx              # Pixel art + feature showcase + ChatGPT comparison
 │   ├── hooks/
 │   │   ├── useStore.ts            # Zustand (analyzedCode, gallery, diff)
-│   │   └── useAnalysis.ts         # API client + demo loader
+│   │   └── useAnalysis.ts         # API client + demo loader + triage context
 │   └── data/
 │       ├── demo.ts                # Offline fallback
 │       └── demoSnippets.ts        # 6-language demo samples
 ├── tests/
 │   └── test_reflex.py             # Model, pipeline, and edge case tests
 ├── docs/
-│   └── screenshot.png              # App screenshot for README
+│   ├── screenshot.png             # App screenshot for README
+│   └── pixel-scene.svg            # Animated pixel art for README
 └── README.md
 ```
 

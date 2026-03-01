@@ -408,7 +408,7 @@ function drawAllFeatures(ctx: CanvasRenderingContext2D, f: number, W: number, H:
   ctx.font = 'bold 9px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText('20 Features, All Production-Ready', W / 2, H - 3);
+  ctx.fillText('21 Features, All Production-Ready', W / 2, H - 3);
 }
 
 // Scene 7: Big pixel cat next to laptop
@@ -671,7 +671,7 @@ export default function About() {
             'Blast Radius Calculator', 'Analysis Diff / Compare', 'Multi-File Analysis',
             'Markdown Export', 'Multilingual Translation (18 langs)', 'Runbook Regeneration',
             'Analysis Gallery & History', 'Interactive API Docs (Swagger)', 'Health Monitoring',
-            'Copy-Pasteable Commands', 'Pixel Art Dashboard',
+            'Copy-Pasteable Commands', 'Pixel Art Dashboard', 'Agent Triage Wizard',
           ].map((f, i) => (
             <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-reflex-border/20 hover:bg-reflex-accent/10 transition-colors">
               <span className="text-reflex-accent">✓</span>

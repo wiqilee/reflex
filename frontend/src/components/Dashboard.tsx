@@ -122,7 +122,7 @@ export default function Dashboard() {
         {/* Feature pills */}
         {!loading && (
           <div className="flex flex-wrap justify-center gap-2 mt-1">
-            {['Failure Detection', 'Auto Runbooks', 'Dependency Graph', 'Blast Radius', '18 Languages'].map((f) => (
+            {['Failure Detection', 'Auto Runbooks', 'Dependency Graph', 'Blast Radius', 'Agent Triage', '18 Languages'].map((f) => (
               <span key={f} className="text-xs px-3 py-1 rounded-full border border-reflex-border text-reflex-text/45 hover:border-reflex-accent/40 hover:text-reflex-accent transition-all cursor-default">
                 {f}
               </span>
@@ -202,7 +202,7 @@ export default function Dashboard() {
             <span className="w-1 h-1 rounded-full bg-reflex-text/15" />
             <span className="flex items-center gap-1.5">🦀 Rust WebAssembly</span>
             <span className="w-1 h-1 rounded-full bg-reflex-text/15" />
-            <span className="flex items-center gap-1.5">📋 20 Features</span>
+            <span className="flex items-center gap-1.5">📋 21 Features</span>
           </div>
         )}
 
@@ -228,6 +228,17 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 view-enter">
+      {/* Action bar */}
+      <div className="flex items-center justify-between">
+        <div />
+        <button
+          onClick={() => setView('editor')}
+          className="btn-ghost text-sm border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 flex items-center gap-1.5"
+        >
+          ⚡ New Analysis
+        </button>
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 stagger-children">
         <StatCard label="Overall Risk" value={overall_risk.toUpperCase()} color={SEVERITY_COLORS[overall_risk]?.text} variant={`stat-card-${overall_risk}`} />
         <StatCard label="Failure Scenarios" value={scenarios.length} sub={`${critCount} critical`} variant="stat-card-critical" />
