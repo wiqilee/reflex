@@ -61,8 +61,8 @@
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ 8 failure scenarios detected                    │
-│ 3 critical · 2 high · 2 medium · 1 low          │
+│       8 failure scenarios detected              │
+│   3 critical · 2 high · 2 medium · 1 low        │
 │                                                 │
 │ FS-001 SQL Injection in process_payment         │
 │ Severity: CRITICAL                              │
@@ -419,7 +419,7 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 
 | Platform | Handle |
 |---|---|
-| 🐦 Twitter | [@wiqi_lee](https://x.com/wiqi_lee) |
+| 🐦 X (Twitter) | [@wiqi_lee](https://x.com/wiqi_lee) |
 | 💻 GitHub | [wiqilee](https://github.com/wiqilee) |
 | 💬 Discord | [wiqi_lee](https://discord.com/users/209385020912173066) |
 
@@ -432,6 +432,6 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 [![Powered by](https://img.shields.io/badge/Powered_by-Mistral_Large_3-FF7000?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkw0IDdWMTdMMTIgMjJMMjAgMTdWN0wxMiAyWiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+)](https://mistral.ai)
 [![Mistral AI Hackathon](https://img.shields.io/badge/Mistral_AI-Worldwide_Hackathon_2026-FF7000?style=flat-square)](https://mistral.ai)
 
-🏆 **Built for the Mistral Worldwide Hackathon 2026**
+🏆 **Built for the Mistral AI Worldwide Hackathon 2026**
 
 </div>
