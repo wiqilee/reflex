@@ -155,7 +155,7 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 
 9. **Graph → Runbook Linking.** Click any node in the dependency graph to see which runbooks are relevant to that service. Smart matching across affected_code, titles, and descriptions.
 
-10. **Failure Path Simulation.** Rust WASM engine simulates cascading failures through the dependency graph. Select a node, watch the cascade propagate. Entirely client-side at sub-millisecond speed.
+10. **Failure Path Simulation.** Rust WASM engine simulates cascading failures through the dependency graph. Select a node, watch the cascade propagate. Also computes cyclomatic complexity, nesting depth, and coupling metrics for uploaded code - entirely client-side at sub-millisecond speed.
 
 11. **Blast Radius Calculator.** Quantified impact: nodes affected, cascade depth, users impacted, system percentage. Prioritize which runbooks to review first.
 
@@ -204,7 +204,7 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 |---|---|---|
 | **AI Engine** | `mistral-large-latest` (Mistral Large 3) | Structured failure analysis via function calling with 3 typed tools + validation pass |
 | **Backend** | Python, FastAPI | Async API orchestration, code parsing, export, translation |
-| **Simulation** | Rust → WebAssembly | Sub-millisecond failure path simulation, entirely client-side |
+| **Simulation** | Rust → WebAssembly | Sub-millisecond failure path simulation, cyclomatic complexity scoring, nesting analysis - entirely client-side |
 | **Frontend** | React, TypeScript, Tailwind CSS, Zustand | Interactive dashboard, code viewer, dependency graph, blast radius |
 
 ### Why Mistral Function Calling?
@@ -219,8 +219,9 @@ Output is guaranteed machine-parseable. No brittle regex parsing.
 
 ### Why Rust WebAssembly?
 
-- **No server round trip** for interactive simulations
-- **Sub-millisecond performance** for cascading failure graphs
+- **No server round trip** for interactive simulations or complexity analysis
+- **Sub-millisecond performance** for cascading failure graphs and code metrics
+- **Cyclomatic complexity scoring** computed client-side: decision points, nesting depth, coupling metrics, hotspot detection
 - **Deterministic execution** with no garbage collection pauses
 - **Portable** across every modern browser
 
@@ -296,7 +297,9 @@ reflex/
 │       ├── exporter.py            # Markdown export
 │       └── multilingual.py        # 18-language translation
 ├── engine/
-│   ├── src/lib.rs                 # Rust WASM: failure sim, blast radius
+│   ├── src/
+│   │   ├── lib.rs                 # Rust WASM: failure sim, blast radius
+│   │   └── complexity.rs          # Cyclomatic complexity, nesting, coupling
 │   └── Cargo.toml
 ├── frontend/src/
 │   ├── App.tsx                    # Router with 9 views
@@ -343,7 +346,6 @@ reflex/
 
 - **CI/CD integration.** GitHub Action that auto-regenerates runbooks on merge to main, with diff against previous version committed as PR comment.
 - **AST-aware analysis.** Integrate `tree-sitter` for language-specific parsing. Extract call graphs, type annotations, and dependency injection patterns before sending to Mistral.
-- **Rust WASM expansion.** Move code complexity scoring (cyclomatic complexity, nesting depth, coupling metrics) to the WASM layer for client-side pre-analysis.
 - **Terraform / Kubernetes.** Extend failure detection to infrastructure-as-code: misconfigured health checks, missing resource limits, overly permissive RBAC.
 - **PagerDuty / Opsgenie export.** One-click push of generated runbooks directly into incident management platforms.
 - **VS Code extension.** Inline failure annotations in the editor gutter, powered by the same Mistral analysis pipeline.
