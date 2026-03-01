@@ -726,8 +726,12 @@ export default function About() {
       {/* Why not ChatGPT? */}
       <div className="card hover-card">
         <SectionTitle icon="🤔">Why not just ask ChatGPT?</SectionTitle>
+        {/* Pixel art */}
+        <div className="flex justify-center mb-4">
+          <img src="/pixel-chatgpt.svg" alt="ChatGPT vs REFLEX" className="w-full max-w-[480px] rounded-lg opacity-80" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        </div>
         <p className="text-reflex-text/60 text-sm mb-4">A fair question. Here is why REFLEX exists as a dedicated tool instead of a prompt.</p>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {[
             { label: 'Input', chatgpt: 'One question at a time', reflex: 'Entire codebase in one shot' },
             { label: 'Output', chatgpt: 'Free-form text you parse yourself', reflex: 'Structured 5-phase runbooks with typed schemas' },
@@ -737,10 +741,10 @@ export default function About() {
             { label: 'Tracking', chatgpt: 'Fresh each time', reflex: 'Gallery mode + analysis diff' },
             { label: 'Consistency', chatgpt: 'Format varies every time', reflex: 'Enforced via Mistral function calling' },
           ].map(row => (
-            <div key={row.label} className="grid grid-cols-3 gap-3 text-xs items-start">
-              <span className="text-reflex-accent font-bold">{row.label}</span>
-              <span className="text-red-400/70 line-through decoration-red-500/30">{row.chatgpt}</span>
-              <span className="text-teal-400">{row.reflex}</span>
+            <div key={row.label} className="grid grid-cols-3 gap-3 text-xs items-start p-2 rounded-lg transition-all duration-300 hover:bg-reflex-accent/[0.04] hover:border-reflex-accent/10 border border-transparent cursor-default group">
+              <span className="text-reflex-accent font-bold group-hover:text-reflex-accent">{row.label}</span>
+              <span className="text-red-400/70 line-through decoration-red-500/30 group-hover:text-red-400/90">{row.chatgpt}</span>
+              <span className="text-teal-400 group-hover:text-teal-300">{row.reflex}</span>
             </div>
           ))}
         </div>

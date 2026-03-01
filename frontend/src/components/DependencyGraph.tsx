@@ -400,7 +400,7 @@ export default function DependencyGraph() {
                       <div
                         key={rb.id}
                         onClick={() => { setSelectedRunbook(rb); setView('runbooks'); }}
-                        className={`p-2.5 rounded-lg border cursor-pointer transition-all hover:scale-[1.02] hover:shadow-md ${SEV_BADGE[rb.scenario.severity] || ''}`}
+                        className={`p-2.5 rounded-lg border cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10 hover:border-reflex-accent/40 ${SEV_BADGE[rb.scenario.severity] || ''}`}
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${SEV_BADGE[rb.scenario.severity]}`}>
@@ -422,8 +422,8 @@ export default function DependencyGraph() {
             </div>
 
             {/* Connected services */}
-            <div className="card">
-              <h4 className="font-semibold text-sm mb-2">🔗 Connections</h4>
+            <div className="card border-reflex-accent/15">
+              <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">🔗 Connections <span className="h-px flex-1 bg-gradient-to-r from-reflex-accent/20 to-transparent" /></h4>
               <div className="space-y-1">
                 {edges
                   .filter(e => e.source === clickedNode || e.target === clickedNode)

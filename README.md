@@ -16,7 +16,7 @@
 
 <!-- Animated pixel art scene -->
 <br>
-<img src="docs/pixel-scene.svg" alt="REFLEX Pixel Art" width="480" />
+<img src="docs/pixel-scene.svg" alt="REFLEX Pixel Art" width="640" />
 <br>
 
 ### 🚀 Live Demo
@@ -56,7 +56,8 @@
 ## Before / After - 30-Second Proof
 
 <div align="center">
-<img src="docs/pixel-beforeafter.svg" alt="Before / After" width="480" />
+<img src="docs/pixel-beforeafter.svg" alt="Before / After" width="640" />
+<br>
 </div>
 
 **Input:** A 50-line Python payment service with SQL injection, missing timeouts, and no connection pooling.
@@ -92,7 +93,8 @@
 ## The Problem
 
 <div align="center">
-<img src="docs/pixel-problem.svg" alt="The Problem" width="480" />
+<img src="docs/pixel-problem.svg" alt="The Problem" width="640" />
+<br>
 </div>
 
 > I built REFLEX to solve a problem I've lived. As a software engineer, I've dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
@@ -108,7 +110,8 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 ## The Solution
 
 <div align="center">
-<img src="docs/pixel-solution.svg" alt="The Solution" width="480" />
+<img src="docs/pixel-solution.svg" alt="The Solution" width="640" />
+<br>
 
 ![REFLEX Dashboard](docs/screenshot.png)
 
@@ -127,7 +130,8 @@ Paste your infrastructure code. REFLEX identifies many common high-impact failur
 ## Why Not Just Ask ChatGPT?
 
 <div align="center">
-<img src="docs/pixel-chatgpt.svg" alt="ChatGPT vs REFLEX" width="480" />
+<img src="docs/pixel-chatgpt.svg" alt="ChatGPT vs REFLEX" width="640" />
+<br>
 </div>
 
 A reasonable question. Here is why REFLEX exists as a dedicated tool instead of a prompt:
@@ -160,7 +164,8 @@ REFLEX exists because runbooks should be generated from the source of truth - th
 ## Who Benefits
 
 <div align="center">
-<img src="docs/pixel-who.svg" alt="Who Benefits" width="480" />
+<img src="docs/pixel-who.svg" alt="Who Benefits" width="640" />
+<br>
 </div>
 
 | Role | How REFLEX Helps | Time Saved |
@@ -188,7 +193,8 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 ## Features (21)
 
 <div align="center">
-<img src="docs/pixel-features.svg" alt="21 Features" width="480" />
+<img src="docs/pixel-features.svg" alt="21 Features" width="640" />
+<br>
 </div>
 
 ### Core Analysis
@@ -246,7 +252,8 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 ## Architecture
 
 <div align="center">
-<img src="docs/pixel-architecture.svg" alt="Architecture" width="480" />
+<img src="docs/pixel-architecture.svg" alt="Architecture" width="640" />
+<br>
 </div>
 
 ```

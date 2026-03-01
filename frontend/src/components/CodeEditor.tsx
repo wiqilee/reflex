@@ -110,6 +110,7 @@ function TriageWizard({ triage, setTriage, visible }: {
             </div>
           ))}
         </div>
+        </div>
       )}
 
       {expanded && answeredCount > 0 && (
@@ -311,10 +312,10 @@ export default function CodeEditor() {
             <span className="text-xs text-teal-400/50">🤖 Agent context included</span>
           )}
         </div>
-        <div className="text-xs text-reflex-text/30 flex items-center gap-3">
-          <span>{code.split('\n').length} lines</span>
-          <span className="w-1 h-1 rounded-full bg-reflex-text/15" />
-          <span>Recommended: up to ~1,000 lines</span>
+        <div className="text-xs text-reflex-text/40 flex items-center gap-2 px-3 py-1.5 rounded-lg border border-reflex-border/30 bg-reflex-border/10">
+          <span className="font-mono text-reflex-text/60">{code.split('\n').length} lines</span>
+          <span className="w-1 h-1 rounded-full bg-reflex-text/20" />
+          <span>Best: ~500 lines · Max: ~1,000 lines</span>
         </div>
       </div>
     </div>

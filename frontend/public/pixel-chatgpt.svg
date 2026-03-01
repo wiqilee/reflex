@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
+  <defs><style>@keyframes cross { 0%,100%{opacity:0.5} 50%{opacity:1} }</style></defs>
+  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
+  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <!-- ChatGPT side -->
+  <g transform="translate(12, 6)">
+    <rect width="100" height="36" rx="4" fill="#1a1d27" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2"/>
+    <text x="50" y="14" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace">ChatGPT</text>
+    <text x="50" y="24" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">free-form text</text>
+    <text x="50" y="34" text-anchor="middle" font-size="8" fill="#ef4444" style="animation:cross 1s ease infinite">✗</text>
+  </g>
+  <!-- VS -->
+  <text x="125" y="30" font-size="10" fill="#64748b" font-family="monospace" font-weight="bold">vs</text>
+  <!-- REFLEX side -->
+  <g transform="translate(148, 6)">
+    <rect width="100" height="36" rx="4" fill="#1a1d27" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="50" y="14" text-anchor="middle" font-size="6" fill="#22c55e" font-family="monospace" font-weight="bold">⚡ REFLEX</text>
+    <text x="50" y="24" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">structured pipeline</text>
+    <text x="50" y="34" text-anchor="middle" font-size="8" fill="#22c55e">✓</text>
+  </g>
+  <!-- Comparison items -->
+  <g transform="translate(264, 4)">
+    <text x="0" y="10" font-size="5" fill="#ef4444" font-family="monospace">✗ no validation</text>
+    <text x="0" y="20" font-size="5" fill="#ef4444" font-family="monospace">✗ no blast sim</text>
+    <text x="0" y="30" font-size="5" fill="#ef4444" font-family="monospace">✗ no graph</text>
+    <text x="0" y="40" font-size="5" fill="#ef4444" font-family="monospace">✗ no history</text>
+  </g>
+  <g transform="translate(370, 4)">
+    <text x="0" y="10" font-size="5" fill="#22c55e" font-family="monospace">✓ multi-pass</text>
+    <text x="0" y="20" font-size="5" fill="#22c55e" font-family="monospace">✓ Rust WASM</text>
+    <text x="0" y="30" font-size="5" fill="#22c55e" font-family="monospace">✓ interactive</text>
+    <text x="0" y="40" font-size="5" fill="#22c55e" font-family="monospace">✓ gallery+diff</text>
+  </g>
+</svg>

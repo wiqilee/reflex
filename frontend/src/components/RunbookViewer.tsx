@@ -20,53 +20,30 @@ const ON_CALL_TOOLTIPS: Record<string, string> = {
 
 function OnCallBadge({ level }: { level: string }) {
   const [show, setShow] = useState(false);
-  const [pos, setPos] = useState({ top: 0, left: 0 });
-  const ref = React.useRef<HTMLSpanElement>(null);
 
-  // Normalize: try exact match, then case-insensitive, then L-prefix, then raw
   const normalizedLevel = level.trim();
   const tooltip = ON_CALL_TOOLTIPS[normalizedLevel]
     || ON_CALL_TOOLTIPS[normalizedLevel.toLowerCase()]
     || (normalizedLevel.match(/^L\d/i) ? `${normalizedLevel} — Access level: ${normalizedLevel}` : `🔑 ${normalizedLevel}`);
 
-  // Determine icon + color based on type
   const isOnCall = /^L\d/i.test(normalizedLevel);
   const icon = isOnCall ? '🔑' : '🔐';
   const badgeColor = isOnCall
     ? 'bg-reflex-accent/15 text-reflex-accent border-reflex-accent/20 hover:border-reflex-accent/50'
     : 'bg-purple-500/15 text-purple-400 border-purple-500/20 hover:border-purple-500/50';
 
-  const handleEnter = () => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      const spaceRight = window.innerWidth - rect.right;
-      if (spaceRight > 300) {
-        // Show to the right
-        setPos({ top: rect.top + rect.height / 2, left: rect.right + 8 });
-      } else {
-        // Show to the left
-        setPos({ top: rect.top + rect.height / 2, left: rect.left - 290 });
-      }
-    }
-    setShow(true);
-  };
-
   return (
-    <span
-      ref={ref}
-      className="relative cursor-help inline-flex"
-      onMouseEnter={handleEnter}
-      onMouseLeave={() => setShow(false)}
-    >
-      <span className={`text-xs ${badgeColor} px-2 py-0.5 rounded-full border transition-colors`}>
+    <span className="relative inline-flex items-center">
+      <span
+        onClick={() => setShow(!show)}
+        className={`text-xs ${badgeColor} px-2 py-0.5 rounded-full border transition-colors cursor-pointer select-none`}
+      >
         {icon} {normalizedLevel}
       </span>
       {show && (
-        <span
-          className="fixed px-3 py-2 bg-reflex-surface/95 backdrop-blur-sm border border-white/15 rounded-lg shadow-2xl shadow-black/50 text-xs text-reflex-text/80 w-72 z-[9999] pointer-events-none"
-          style={{ top: Math.max(40, Math.min(pos.top, window.innerHeight - 60)), left: Math.max(8, pos.left), transform: 'translateY(-50%)' }}
-        >
+        <span className="absolute left-0 top-full mt-1 px-3 py-2 bg-reflex-surface/95 backdrop-blur-sm border border-white/15 rounded-lg shadow-2xl shadow-black/50 text-xs text-reflex-text/80 w-72 z-[100]">
           {tooltip}
+          <span onClick={() => setShow(false)} className="ml-2 text-reflex-text/30 hover:text-reflex-text/60 cursor-pointer">✕</span>
         </span>
       )}
     </span>
