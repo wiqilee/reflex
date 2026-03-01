@@ -39,7 +39,7 @@
 
 1. **Open the app** - Dashboard with pixel art animation
 2. **Click "Analyze Code"** - Paste code or choose one of **6 language demos** (Python, Go, Rust, Java, TypeScript, YAML)
-3. **🤖 Agent Triage** - Optional wizard asks runtime, database, observability, SLO - context flows into AI prompt for environment-specific commands
+3. **🤖 Agent Triage** - Optional wizard asks runtime, database, observability, SLO - structured context (JSON) feeds into the function-calling pipeline for environment-specific commands (`kubectl describe pod` for K8s, `aws logs tail` for Lambda, `docker logs` for containers)
 4. **Wait ~15s** - Mistral Large 3 analyzes via function calling (not free-form text)
 5. **Dashboard** - Severity breakdown, failure scenarios with severity reasoning
 6. **🔍 Code View** - Source code with line-by-line severity highlighting - click any red line to jump to its runbook
@@ -66,8 +66,8 @@
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ 8 failure scenarios detected                    │
-│ 3 critical · 2 high · 2 medium · 1 low          │
+│        8 failure scenarios detected             │
+│    3 critical · 2 high · 2 medium · 1 low       │
 │                                                 │
 │ FS-001 SQL Injection in process_payment         │
 │ Severity: CRITICAL                              │
@@ -245,7 +245,7 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 
 ### Agent Skills
 
-21. **Agent Triage Wizard.** Before analysis, an optional triage panel asks about runtime environment (Kubernetes/serverless/VM), database, observability stack, message queues, and SLO targets. This context flows into the AI prompt so generated runbooks contain environment-specific commands (kubectl for k8s, aws for Lambda, docker for containers) rather than generic placeholders.
+21. **Agent Triage Wizard.** Before analysis, an optional triage panel asks about the runtime environment (Kubernetes/serverless/VM), databases, observability stack, message queues, and SLO targets. This structured context (JSON) feeds into the function-calling pipeline so generated runbooks include environment-specific commands, such as `kubectl describe pod` for Kubernetes, `aws logs tail` for Lambda, and `docker logs --tail 100` for containers, rather than generic placeholders.
 
 ---
 
@@ -458,7 +458,7 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 
 | Platform | Handle |
 |---|---|
-| 🐦 Twitter | [@wiqi_lee](https://x.com/wiqi_lee) |
+| 🐦 X (Twitter) | [@wiqi_lee](https://x.com/wiqi_lee) |
 | 💻 GitHub | [wiqilee](https://github.com/wiqilee) |
 | 💬 Discord | [wiqi_lee](https://discord.com/users/209385020912173066) |
 
@@ -471,6 +471,6 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 [![Powered by](https://img.shields.io/badge/Powered_by-Mistral_Large_3-FF7000?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkw0IDdWMTdMMTIgMjJMMjAgMTdWN0wxMiAyWiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+)](https://mistral.ai)
 [![Mistral AI Hackathon](https://img.shields.io/badge/Mistral_AI-Worldwide_Hackathon_2026-FF7000?style=flat-square)](https://mistral.ai)
 
-🏆 **Built for the Mistral Worldwide Hackathon 2026**
+🏆 **Built for the Mistral AI Worldwide Hackathon 2026**
 
 </div>

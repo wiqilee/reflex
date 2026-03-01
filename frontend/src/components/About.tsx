@@ -1,7 +1,57 @@
 import { useEffect, useRef } from 'react';
 
 const DISCORD_USER_ID = '209385020912173066';
-const PX = 2;
+const PX = 3;
+
+// Inject pixel border animation CSS
+const pixelBorderCSS = `
+@keyframes pixel-border-cycle {
+  0%   { border-color: rgba(249,115,22,0.5); box-shadow: 0 0 8px rgba(249,115,22,0.15), inset 0 0 8px rgba(249,115,22,0.05); }
+  16%  { border-color: rgba(236,72,153,0.5); box-shadow: 0 0 8px rgba(236,72,153,0.15), inset 0 0 8px rgba(236,72,153,0.05); }
+  33%  { border-color: rgba(168,85,247,0.5); box-shadow: 0 0 8px rgba(168,85,247,0.15), inset 0 0 8px rgba(168,85,247,0.05); }
+  50%  { border-color: rgba(59,130,246,0.5); box-shadow: 0 0 8px rgba(59,130,246,0.15), inset 0 0 8px rgba(59,130,246,0.05); }
+  66%  { border-color: rgba(34,197,94,0.5); box-shadow: 0 0 8px rgba(34,197,94,0.15), inset 0 0 8px rgba(34,197,94,0.05); }
+  83%  { border-color: rgba(6,182,212,0.5); box-shadow: 0 0 8px rgba(6,182,212,0.15), inset 0 0 8px rgba(6,182,212,0.05); }
+  100% { border-color: rgba(249,115,22,0.5); box-shadow: 0 0 8px rgba(249,115,22,0.15), inset 0 0 8px rgba(249,115,22,0.05); }
+}
+@keyframes pixel-border-cycle-subtle {
+  0%   { border-color: rgba(249,115,22,0.25); }
+  16%  { border-color: rgba(236,72,153,0.25); }
+  33%  { border-color: rgba(168,85,247,0.25); }
+  50%  { border-color: rgba(59,130,246,0.25); }
+  66%  { border-color: rgba(34,197,94,0.25); }
+  83%  { border-color: rgba(6,182,212,0.25); }
+  100% { border-color: rgba(249,115,22,0.25); }
+}
+.pixel-card-border {
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.3s ease;
+}
+.pixel-card-border:hover {
+  animation: pixel-border-cycle 3s linear infinite;
+  border-width: 1.5px;
+}
+.pixel-inner-border {
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.3s ease;
+}
+.pixel-inner-border:hover {
+  animation: pixel-border-cycle-subtle 3s linear infinite;
+}
+`;
+
+function InjectPixelCSS() {
+  useEffect(() => {
+    const id = 'pixel-border-css';
+    if (document.getElementById(id)) return;
+    const style = document.createElement('style');
+    style.id = id;
+    style.textContent = pixelBorderCSS;
+    document.head.appendChild(style);
+    return () => { style.remove(); };
+  }, []);
+  return null;
+}
 
 // Reusable mini pixel canvas component
 function PixelCanvas({ draw, width = 800, height = 60 }: { draw: (ctx: CanvasRenderingContext2D, f: number, w: number, h: number) => void; width?: number; height?: number }) {
@@ -106,12 +156,12 @@ function drawCodeScan(ctx: CanvasRenderingContext2D, f: number, W: number, H: nu
   });
 
   // Label
-  ctx.font = 'bold 9px "JetBrains Mono", monospace';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText('Source Code', 10, H - 3);
+  ctx.fillText('Source Code', 14, H - 5);
   ctx.textAlign = 'right';
-  ctx.fillText('Runbooks', W - 10, H - 3);
+  ctx.fillText('Runbooks', W - 14, H - 5);
 }
 
 // Scene 2: 4-step pipeline animation
@@ -176,10 +226,10 @@ function drawPipeline(ctx: CanvasRenderingContext2D, f: number, W: number, H: nu
   });
 
   // Step counter
-  ctx.font = 'bold 9px "JetBrains Mono", monospace';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText(`Step ${Math.min(activeStep + 1, 4)} of 4`, W / 2, H - 3);
+  ctx.fillText(`Step ${Math.min(activeStep + 1, 4)} of 4`, W / 2, H - 5);
 }
 
 // Scene 3: Feature constellation
@@ -233,10 +283,10 @@ function drawFeatures(ctx: CanvasRenderingContext2D, f: number, W: number, H: nu
     }
   });
 
-  ctx.font = 'bold 9px "JetBrains Mono", monospace';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText('6 Core Capabilities Connected', W / 2, H - 3);
+  ctx.fillText('6 Core Capabilities Connected', W / 2, H - 5);
 }
 
 // Scene 4: Tech stack blocks building up
@@ -288,10 +338,10 @@ function drawTechStack(ctx: CanvasRenderingContext2D, f: number, W: number, H: n
   // Platform line
   rect(ctx, startX - 2, ph - 13, totalW + 4, 1, '#374151');
 
-  ctx.font = 'bold 9px "JetBrains Mono", monospace';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText('8 Technologies, 1 Platform', W / 2, H - 3);
+  ctx.fillText('8 Technologies, 1 Platform', W / 2, H - 5);
 }
 
 // Scene 5: People icons getting helped
@@ -356,10 +406,10 @@ function drawPeople(ctx: CanvasRenderingContext2D, f: number, W: number, H: numb
     }
   });
 
-  ctx.font = 'bold 9px "JetBrains Mono", monospace';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText('From Alert to Resolution', W / 2, H - 3);
+  ctx.fillText('From Alert to Resolution', W / 2, H - 5);
 }
 
 // Scene 6: Feature checkmarks grid appearing one by one
@@ -405,10 +455,10 @@ function drawAllFeatures(ctx: CanvasRenderingContext2D, f: number, W: number, H:
     }
   }
 
-  ctx.font = 'bold 9px "JetBrains Mono", monospace';
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#6b7280';
-  ctx.fillText('21 Features, All Production-Ready', W / 2, H - 3);
+  ctx.fillText('21 Features, All Production-Ready', W / 2, H - 5);
 }
 
 // Scene 7: Big pixel cat next to laptop
@@ -562,6 +612,138 @@ function drawBuilder(ctx: CanvasRenderingContext2D, f: number, W: number, H: num
   px(ctx, cx + 19, Math.floor(noteY) - 2, '#f9a8d4');
 }
 
+// Scene 8: ChatGPT vs REFLEX comparison pixel art
+function drawChatGPTvsReflex(ctx: CanvasRenderingContext2D, f: number, W: number, H: number) {
+  ctx.clearRect(0, 0, W, H);
+  const pw = Math.floor(W / PX), ph = Math.floor(H / PX);
+  rect(ctx, 0, 0, pw, ph, '#0a0a1a');
+
+  const midX = Math.floor(pw / 2);
+
+  // === LEFT SIDE: ChatGPT (free-form text, messy) ===
+  const leftX = Math.floor(pw * 0.2);
+  const leftY = 5;
+
+  // Chat bubble (dashed border effect)
+  rect(ctx, leftX - 12, leftY, 24, 16, '#1e293b');
+  rect(ctx, leftX - 11, leftY + 1, 22, 14, '#0a0a1a');
+
+  // Messy text lines (varying lengths, fading in/out)
+  for (let i = 0; i < 5; i++) {
+    const lineW = 6 + ((i * 7 + 3) % 12);
+    const phase = Math.sin(f * 0.03 + i * 1.2);
+    const color = phase > 0 ? '#ef4444' : '#6b7280';
+    rect(ctx, leftX - 9, leftY + 3 + i * 2, lineW, 1, color + '88');
+  }
+
+  // Blinking cursor
+  if (Math.sin(f * 0.08) > 0) {
+    px(ctx, leftX - 9, leftY + 14, '#ef4444');
+  }
+
+  // "?" appearing over it (confusion)
+  const qMark = Math.sin(f * 0.04) > 0.3;
+  if (qMark) {
+    px(ctx, leftX + 14, leftY - 2, '#ef4444');
+    px(ctx, leftX + 15, leftY - 3, '#ef4444');
+    px(ctx, leftX + 16, leftY - 2, '#ef4444');
+    px(ctx, leftX + 16, leftY - 1, '#ef4444');
+    px(ctx, leftX + 15, leftY, '#ef4444');
+    px(ctx, leftX + 15, leftY + 2, '#ef4444');
+  }
+
+  // Label: "ChatGPT"
+  const chatLabel = 'ChatGPT';
+  for (let c = 0; c < chatLabel.length; c++) {
+    px(ctx, leftX - Math.floor(chatLabel.length / 2) + c, leftY + 19, '#ef4444');
+  }
+  // Dashed underline
+  for (let c = 0; c < 14; c++) {
+    if (c % 3 !== 2) px(ctx, leftX - 7 + c, leftY + 21, '#ef4444' + '44');
+  }
+
+  // === VS DIVIDER ===
+  // Animated lightning bolt divider
+  const boltY = Math.floor(ph / 2) - 2;
+  rect(ctx, midX - 1, 3, 1, ph - 6, '#1e293b');
+  // "VS" text dots
+  px(ctx, midX - 2, boltY - 1, '#f97316');
+  px(ctx, midX - 1, boltY, '#f97316');
+  px(ctx, midX, boltY + 1, '#f97316');
+  px(ctx, midX + 1, boltY, '#f97316');
+  // Spark traveling down the line
+  const sparkY = 3 + ((f * 0.15) % (ph - 6));
+  px(ctx, midX - 1, Math.floor(sparkY), '#f97316');
+  px(ctx, midX - 1, Math.floor(sparkY) - 1, '#f97316' + '88');
+
+  // === RIGHT SIDE: REFLEX (structured pipeline) ===
+  const rightX = Math.floor(pw * 0.75);
+  const rightY = 3;
+
+  // Structured runbook box (solid border)
+  rect(ctx, rightX - 14, rightY, 28, 18, '#22c55e' + '33');
+  rect(ctx, rightX - 13, rightY + 1, 26, 16, '#0a0a1a');
+
+  // 5-phase steps appearing sequentially
+  const phases = [
+    { label: 'DET', color: '#3b82f6' },
+    { label: 'DGN', color: '#a855f7' },
+    { label: 'FIX', color: '#22c55e' },
+    { label: 'RBK', color: '#f97316' },
+    { label: 'PRV', color: '#ef4444' },
+  ];
+  phases.forEach((p, i) => {
+    const py = rightY + 2 + i * 3;
+    const appear = (f * 0.02) % 6 > i;
+    if (appear) {
+      // Phase indicator dot
+      px(ctx, rightX - 11, py, p.color);
+      px(ctx, rightX - 11, py + 1, p.color);
+      // Phase label
+      for (let c = 0; c < p.label.length; c++) {
+        px(ctx, rightX - 8 + c, py, p.color);
+      }
+      // Progress bar
+      const barW = Math.min(Math.floor((f * 0.04 - i * 3) % 12), 10);
+      if (barW > 0) {
+        rect(ctx, rightX - 3, py, barW, 1, p.color + 'aa');
+      }
+      // Checkmark
+      if (barW >= 10) {
+        px(ctx, rightX + 9, py, '#22c55e');
+        px(ctx, rightX + 10, py - 1, '#22c55e');
+      }
+    } else {
+      rect(ctx, rightX - 11, py, 20, 1, '#1e293b');
+    }
+  });
+
+  // Label: "REFLEX"
+  const reflexLabel = 'REFLEX';
+  for (let c = 0; c < reflexLabel.length; c++) {
+    px(ctx, rightX - Math.floor(reflexLabel.length / 2) + c, rightY + 19, '#22c55e');
+  }
+  // Solid underline
+  rect(ctx, rightX - 7, rightY + 21, 14, 1, '#22c55e' + '44');
+
+  // === Floating arrows from left to right (transformation) ===
+  const arrowCount = 3;
+  for (let a = 0; a < arrowCount; a++) {
+    const t = ((f * 0.02 + a * 2) % 6) / 6;
+    if (t < 0.1 || t > 0.9) continue;
+    const ax = leftX + 16 + (rightX - leftX - 30) * t;
+    const ay = ph / 2 + Math.sin(t * Math.PI) * -4 + a * 3 - 3;
+    px(ctx, Math.floor(ax), Math.floor(ay), '#f97316');
+    px(ctx, Math.floor(ax) - 1, Math.floor(ay), '#f97316' + '66');
+  }
+
+  // Bottom label
+  ctx.font = 'bold 14px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#6b7280';
+  ctx.fillText('Free-form Text → Structured Pipeline', W / 2, H - 5);
+}
+
 function SectionTitle({ icon, children }: { icon: string; children: React.ReactNode }) {
   return (
     <h3 className="font-semibold text-xl mb-3 flex items-center gap-2">
@@ -590,6 +772,7 @@ function DiscordIcon() {
 export default function About() {
   return (
     <div className="space-y-8 animate-fade-in max-w-4xl mx-auto">
+      <InjectPixelCSS />
       {/* Hero */}
       <div className="text-center space-y-4">
         <span className="lightning-icon inline-block" style={{ fontSize: '72px', lineHeight: 1 }}>⚡</span>
@@ -603,9 +786,9 @@ export default function About() {
       </div>
 
       {/* What is REFLEX */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="🎯">What is <span className="reflex-shimmer">REFLEX</span>?</SectionTitle>
-        <PixelCanvas draw={drawCodeScan} height={60} />
+        <PixelCanvas draw={drawCodeScan} height={120} />
         <p className="text-reflex-text/70 leading-relaxed">
           <span className="reflex-shimmer font-semibold">REFLEX</span> is an AI-powered tool that reads your actual source code and automatically
           generates structured incident runbooks for every failure scenario your system can produce.
@@ -617,9 +800,9 @@ export default function About() {
       </div>
 
       {/* How to Use */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="🚀">How to Use</SectionTitle>
-        <PixelCanvas draw={drawPipeline} height={60} />
+        <PixelCanvas draw={drawPipeline} height={120} />
         <div className="space-y-4 text-reflex-text/70">
           {[
             { num: '1', title: 'Paste Your Code', desc: 'Go to "Analyze Code" and paste any infrastructure code: Python services, Docker configs, YAML, Go, Rust, Java, or TypeScript.', hoverColor: 'hover:bg-blue-500/10 hover:border-blue-400/30' },
@@ -627,7 +810,7 @@ export default function About() {
             { num: '3', title: 'Get Production-Ready Runbooks', desc: 'Each failure scenario gets a structured runbook with Detection, Diagnosis, Fix, Rollback, and Prevention steps. Export as Markdown or translate to 18 languages.', hoverColor: 'hover:bg-green-500/10 hover:border-green-400/30' },
             { num: '4', title: 'Explore Dependencies & Blast Radius', desc: 'Visualize service dependencies and simulate cascading failures with the Rust WebAssembly engine at sub-millisecond speed.', hoverColor: 'hover:bg-purple-500/10 hover:border-purple-400/30' },
           ].map((step) => (
-            <div key={step.num} className={`flex gap-4 items-start p-3 rounded-lg border border-transparent transition-all duration-300 cursor-default hover:scale-[1.01] ${step.hoverColor}`}>
+            <div key={step.num} className={`flex gap-4 items-start p-3 rounded-lg border border-transparent transition-all duration-300 cursor-default hover:scale-[1.01] pixel-inner-border ${step.hoverColor}`}>
               <span className="bg-reflex-accent/20 text-reflex-accent rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm shrink-0">{step.num}</span>
               <div>
                 <p className="font-medium text-reflex-text">{step.title}</p>
@@ -639,9 +822,9 @@ export default function About() {
       </div>
 
       {/* What Makes It Unique */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="✨">What Makes REFLEX Unique</SectionTitle>
-        <PixelCanvas draw={drawFeatures} height={60} />
+        <PixelCanvas draw={drawFeatures} height={120} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           {[
             { icon: '🤖', title: 'Mistral Function Calling', desc: 'Three distinct tool calls (classify_failure, generate_runbook, assess_impact) with validated typed outputs. Not free-form text.' },
@@ -651,7 +834,7 @@ export default function About() {
             { icon: '🌐', title: '18-Language Translation', desc: 'Translate runbooks while technical terms, commands, and variable names stay intact.' },
             { icon: '📁', title: 'Multi-File Analysis', desc: 'Correlate failure scenarios across service boundaries to find cross-service failure modes.' },
           ].map((item, i) => (
-            <div key={i} className="p-3 rounded-lg bg-reflex-border/30 hover:bg-reflex-accent/10 hover:border-reflex-accent/30 border border-transparent transition-all duration-300 hover:scale-[1.02]">
+            <div key={i} className="p-3 rounded-lg bg-reflex-border/30 hover:bg-reflex-accent/10 hover:border-reflex-accent/30 border border-transparent transition-all duration-300 hover:scale-[1.02] pixel-inner-border">
               <p className="font-medium text-reflex-text mb-1">{item.icon} {item.title}</p>
               <p className="text-reflex-text/60">{item.desc}</p>
             </div>
@@ -660,9 +843,9 @@ export default function About() {
       </div>
 
       {/* All Features */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="⚡">All Features</SectionTitle>
-        <PixelCanvas draw={drawAllFeatures} height={60} />
+        <PixelCanvas draw={drawAllFeatures} height={120} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
           {[
             'Failure Scenario Detection', 'Severity Reasoning', 'Structured Runbook Generation (5-phase)',
@@ -673,7 +856,7 @@ export default function About() {
             'Analysis Gallery & History', 'Interactive API Docs (Swagger)', 'Health Monitoring',
             'Copy-Pasteable Commands', 'Pixel Art Dashboard', 'Agent Triage Wizard',
           ].map((f, i) => (
-            <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-reflex-border/20 hover:bg-reflex-accent/10 transition-colors">
+            <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-reflex-border/20 hover:bg-reflex-accent/10 transition-colors pixel-inner-border">
               <span className="text-reflex-accent">✓</span>
               <span className="text-reflex-text/65">{f}</span>
             </div>
@@ -682,9 +865,9 @@ export default function About() {
       </div>
 
       {/* Tech Stack */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="🛠️">Tech Stack</SectionTitle>
-        <PixelCanvas draw={drawTechStack} height={60} />
+        <PixelCanvas draw={drawTechStack} height={120} />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'Mistral AI', desc: 'Function Calling', color: 'text-orange-400', hoverBg: 'hover:bg-orange-500/10', hoverBorder: 'hover:border-orange-500/30' },
@@ -696,7 +879,7 @@ export default function About() {
             { name: 'Pydantic', desc: 'Data Models', color: 'text-green-400', hoverBg: 'hover:bg-green-500/10', hoverBorder: 'hover:border-green-500/30' },
             { name: 'Zustand', desc: 'State Management', color: 'text-yellow-400', hoverBg: 'hover:bg-yellow-500/10', hoverBorder: 'hover:border-yellow-500/30' },
           ].map((t, i) => (
-            <div key={i} className={`text-center p-3 rounded-lg bg-reflex-border/30 border border-transparent transition-all duration-300 hover:scale-105 ${t.hoverBg} ${t.hoverBorder}`}>
+            <div key={i} className={`text-center p-3 rounded-lg bg-reflex-border/30 border border-transparent transition-all duration-300 hover:scale-105 pixel-inner-border ${t.hoverBg} ${t.hoverBorder}`}>
               <p className={`font-bold ${t.color}`}>{t.name}</p>
               <p className="text-xs text-reflex-text/50 mt-1">{t.desc}</p>
             </div>
@@ -705,9 +888,9 @@ export default function About() {
       </div>
 
       {/* Who Benefits */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="👥">Who Benefits</SectionTitle>
-        <PixelCanvas draw={drawPeople} height={60} />
+        <PixelCanvas draw={drawPeople} height={120} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           {[
             { title: 'SRE / Platform Engineers', desc: 'Generate and maintain runbooks automatically instead of spending weeks writing them by hand.', hoverColor: 'hover:bg-blue-500/15 hover:border-blue-400/40' },
@@ -715,7 +898,7 @@ export default function About() {
             { title: 'Engineering Managers', desc: 'Reduce MTTR, minimize blast radius, and ensure consistent incident response across the team.', hoverColor: 'hover:bg-purple-500/15 hover:border-purple-400/40' },
             { title: 'Startups & Scale-ups', desc: 'Get enterprise-grade incident documentation without a dedicated SRE team.', hoverColor: 'hover:bg-green-500/15 hover:border-green-400/40' },
           ].map((item, i) => (
-            <div key={i} className={`p-4 rounded-lg bg-reflex-border/30 border border-reflex-border/50 transition-all duration-300 cursor-default hover:scale-[1.03] hover:shadow-lg ${item.hoverColor}`}>
+            <div key={i} className={`p-4 rounded-lg bg-reflex-border/30 border border-reflex-border/50 transition-all duration-300 cursor-default hover:scale-[1.03] hover:shadow-lg pixel-inner-border ${item.hoverColor}`}>
               <p className="font-medium text-reflex-text">{item.title}</p>
               <p className="text-reflex-text/60 mt-1">{item.desc}</p>
             </div>
@@ -724,14 +907,22 @@ export default function About() {
       </div>
 
       {/* Why not ChatGPT? */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border overflow-hidden relative">
         <SectionTitle icon="🤔">Why not just ask ChatGPT?</SectionTitle>
-        {/* Pixel art */}
-        <div className="flex justify-center mb-4">
-          <img src="/pixel-chatgpt.svg" alt="ChatGPT vs REFLEX" className="w-full max-w-[480px] rounded-lg opacity-80" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-        </div>
-        <p className="text-reflex-text/60 text-sm mb-4">A fair question. Here is why REFLEX exists as a dedicated tool instead of a prompt.</p>
-        <div className="space-y-2">
+        <PixelCanvas draw={drawChatGPTvsReflex} height={120} />
+        
+        <p className="text-reflex-text/60 text-sm mb-6">A fair question. Here is why <span className="reflex-shimmer font-semibold">REFLEX</span> exists as a dedicated tool instead of a prompt.</p>
+
+        {/* Comparison table */}
+        <div className="rounded-xl border border-white/[0.03] overflow-hidden">
+          {/* Header */}
+          <div className="grid bg-white/[0.02] border-b border-white/[0.03]" style={{ gridTemplateColumns: '140px 1fr 1fr' }}>
+            <div className="p-3 text-xs font-bold uppercase tracking-wider text-reflex-accent">Criteria</div>
+            <div className="p-3 text-xs font-bold uppercase tracking-wider text-red-400/80 text-center border-x border-white/[0.02]">ChatGPT</div>
+            <div className="p-3 text-xs font-bold uppercase tracking-wider text-teal-400 text-center">REFLEX</div>
+          </div>
+
+          {/* Rows */}
           {[
             { label: 'Input', chatgpt: 'One question at a time', reflex: 'Entire codebase in one shot' },
             { label: 'Output', chatgpt: 'Free-form text you parse yourself', reflex: 'Structured 5-phase runbooks with typed schemas' },
@@ -740,21 +931,34 @@ export default function About() {
             { label: 'Dependencies', chatgpt: 'No graph', reflex: 'Interactive graph with failure modes' },
             { label: 'Tracking', chatgpt: 'Fresh each time', reflex: 'Gallery mode + analysis diff' },
             { label: 'Consistency', chatgpt: 'Format varies every time', reflex: 'Enforced via Mistral function calling' },
-          ].map(row => (
-            <div key={row.label} className="grid grid-cols-3 gap-3 text-xs items-start p-2 rounded-lg transition-all duration-300 hover:bg-reflex-accent/[0.04] hover:border-reflex-accent/10 border border-transparent cursor-default group">
-              <span className="text-reflex-accent font-bold group-hover:text-reflex-accent">{row.label}</span>
-              <span className="text-red-400/70 line-through decoration-red-500/30 group-hover:text-red-400/90">{row.chatgpt}</span>
-              <span className="text-teal-400 group-hover:text-teal-300">{row.reflex}</span>
+          ].map((row, i) => (
+            <div
+              key={row.label}
+              className={`grid text-sm items-center border-b border-white/[0.02] last:border-b-0 hover:bg-white/[0.015] transition-colors duration-300 cursor-default group ${i % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'}`}
+              style={{ gridTemplateColumns: '140px 1fr 1fr' }}
+            >
+              <div className="p-3 font-semibold text-reflex-text/90 group-hover:text-reflex-accent transition-colors duration-300">
+                {row.label}
+              </div>
+              <div className="p-3 text-red-400/50 text-center border-x border-white/[0.02] group-hover:text-red-400/80 transition-colors duration-300">
+                {row.chatgpt}
+              </div>
+              <div className="p-3 text-teal-400/80 text-center font-medium group-hover:text-teal-300 transition-colors duration-300">
+                {row.reflex}
+              </div>
             </div>
           ))}
         </div>
-        <p className="text-reflex-text/40 text-xs mt-4 italic">ChatGPT is a general-purpose assistant. REFLEX is a specialized pipeline that understands the difference between a detection step and a rollback procedure.</p>
+
+        <div className="mt-5 p-3 rounded-xl bg-gradient-to-r from-reflex-accent/5 to-teal-500/5 border border-white/[0.04] pixel-inner-border">
+          <p className="text-reflex-text/50 text-sm italic text-center">ChatGPT is a general-purpose assistant. <span className="reflex-shimmer font-semibold not-italic">REFLEX</span> is a specialized pipeline that understands the difference between a detection step and a rollback procedure.</p>
+        </div>
       </div>
 
       {/* Creator */}
-      <div className="card hover-card">
+      <div className="card hover-card pixel-card-border">
         <SectionTitle icon="👩‍💻">Built by</SectionTitle>
-        <PixelCanvas draw={drawBuilder} height={100} />
+        <PixelCanvas draw={drawBuilder} height={180} />
         <div className="flex gap-6 items-center mt-3">
           <div className="shrink-0 w-24 h-24 rounded-2xl overflow-hidden shadow-lg shadow-reflex-accent/10 avatar-float">
             <img
@@ -767,10 +971,12 @@ export default function About() {
               }}
             />
           </div>
-          <div>
+          <div className="flex-1">
             <h4 className="text-xl font-bold">Wiqi Lee</h4>
-            <p className="text-reflex-accent text-sm font-medium mt-1">Data Scientist · AI/ML Researcher · Software Engineer</p>
-            <p className="text-reflex-text/40 text-xs mt-0.5">Python · Java · Rust · Julia · Cellist 🎻</p>
+            <div className="mt-2 rounded-lg px-3 py-2 pixel-inner-border" style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.04), rgba(236,72,153,0.04), rgba(168,85,247,0.04))' }}>
+              <p className="text-reflex-accent text-sm font-medium">Data Scientist · AI/ML Researcher · Software Engineer</p>
+              <p className="text-reflex-text/40 text-xs mt-0.5">Python · Java · Rust · Julia · Cellist 🎻</p>
+            </div>
             <div className="flex gap-2 mt-3">
               <a href="https://x.com/wiqi_lee" target="_blank" rel="noopener noreferrer" className="social-btn social-btn-x">
                 <XIcon /> <span>@wiqi_lee</span>
