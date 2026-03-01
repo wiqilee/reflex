@@ -416,142 +416,164 @@ function drawBuilder(ctx: CanvasRenderingContext2D, f: number, W: number, H: num
   ctx.clearRect(0, 0, W, H);
   const pw = Math.floor(W / PX), ph = Math.floor(H / PX);
 
-  // === GAMEBOY-STYLE BORDER ===
-  const bc = '#2e2e3e';
-  const bh = '#3e3e5e';
-  // Outer frame
-  rect(ctx, 0, 0, pw, 2, bc);
-  rect(ctx, 0, ph - 2, pw, 2, bc);
-  rect(ctx, 0, 0, 2, ph, bc);
-  rect(ctx, pw - 2, 0, 2, ph, bc);
-  // Inner highlight
-  rect(ctx, 2, 2, pw - 4, 1, bh);
-  rect(ctx, 2, 2, 1, ph - 4, bh);
-  // Corner dots (gameboy aesthetic)
-  px(ctx, 3, 3, '#f97316');
-  px(ctx, pw - 4, 3, '#f97316');
-  px(ctx, 3, ph - 4, '#f97316');
-  px(ctx, pw - 4, ph - 4, '#f97316');
-  // Fill inside
-  rect(ctx, 3, 3, pw - 6, ph - 6, '#0a0a1a');
+  // === GAMEBOY SCREEN FRAME ===
+  // Outer shell (dark gray, rounded feel)
+  rect(ctx, 0, 0, pw, ph, '#1a1a2e');
+  // Screen bezel (lighter border)
+  rect(ctx, 2, 2, pw - 4, ph - 10, '#252540');
+  // Screen area (dark green-tinted like old LCD)
+  rect(ctx, 4, 4, pw - 8, ph - 14, '#0a0f0a');
+  // Screen inner glow
+  rect(ctx, 5, 5, pw - 10, ph - 16, '#0d120d');
 
-  const cx = pw / 2;
-  const baseY = ph - 5;
+  // === BOTTOM PANEL (buttons area) ===
+  rect(ctx, 2, ph - 8, pw - 4, 6, '#252540');
+  // D-pad (left side)
+  const bx = 12;
+  const by = ph - 5;
+  rect(ctx, bx - 1, by - 2, 3, 5, '#3a3a5c'); // vertical
+  rect(ctx, bx - 2, by - 1, 5, 3, '#3a3a5c'); // horizontal
+  px(ctx, bx, by, '#4a4a6c'); // center dot
+  // A B buttons (right side)
+  const abx = pw - 15;
+  px(ctx, abx, by - 1, '#ef4444'); px(ctx, abx + 1, by - 1, '#ef4444'); // A
+  px(ctx, abx - 3, by, '#3b82f6'); px(ctx, abx - 2, by, '#3b82f6'); // B
+  // Button labels
+  px(ctx, abx + 3, by - 1, '#6b7280'); // A label dot
+  px(ctx, abx - 4, by + 1, '#6b7280'); // B label dot
+  // Start/Select (center bottom)
+  const sx = Math.floor(pw / 2) - 4;
+  rect(ctx, sx, by, 3, 1, '#4a4a6c');     // SELECT
+  rect(ctx, sx + 5, by, 3, 1, '#4a4a6c'); // START
 
-  // === FLOOR ===
-  rect(ctx, 4, baseY, pw - 8, 1, '#1e1e2e');
+  const cx = Math.floor(pw / 2);
+  const screenTop = 7;
 
-  // === DESK ===
-  const deskX = cx - 2;
-  rect(ctx, deskX - 12, baseY - 6, 26, 2, '#4b5563'); // desk surface
-  rect(ctx, deskX - 10, baseY - 4, 3, 4, '#374151'); // left leg
-  rect(ctx, deskX + 11, baseY - 4, 3, 4, '#374151'); // right leg
-
-  // === LAPTOP ON DESK ===
-  const lx = deskX;
-  rect(ctx, lx - 6, baseY - 8, 14, 2, '#374151'); // laptop base
-  rect(ctx, lx - 5, baseY - 15, 12, 7, '#1e293b'); // screen frame
-  rect(ctx, lx - 4, baseY - 14, 10, 5, '#0f172a'); // screen inner
-  // Code typing animation
-  const colors = ['#f97316', '#22c55e', '#3b82f6', '#a855f7'];
-  for (let i = 0; i < 4; i++) {
-    const w = 2 + ((i * 3 + 1) % 5);
-    const t = Math.min(Math.max((f * 0.05 - i * 3), 0), w);
-    for (let c = 0; c < t; c++) px(ctx, lx - 3 + c, baseY - 13 + i, colors[i]);
+  // === CHARACTER (pixel person, left side of screen) ===
+  const px2 = cx - 20;
+  const py = screenTop + 18;
+  // Body (orange hoodie)
+  rect(ctx, px2 - 1, py - 4, 5, 4, '#f97316');
+  // Arms
+  px(ctx, px2 - 2, py - 3, '#f97316');
+  px(ctx, px2 + 4, py - 3, '#f97316');
+  // Waving hand (animated)
+  const wave = Math.sin(f * 0.08) > 0;
+  if (wave) {
+    px(ctx, px2 + 5, py - 4, '#fcd5b0');
+    px(ctx, px2 + 5, py - 5, '#fcd5b0');
+  } else {
+    px(ctx, px2 + 5, py - 3, '#fcd5b0');
   }
-
-  // === PERSON (sitting, right side of desk) ===
-  const px2 = deskX + 16;
-  const py = baseY;
-  // Chair
-  rect(ctx, px2 - 3, py - 2, 8, 2, '#374151'); // seat
-  rect(ctx, px2 + 4, py - 10, 2, 8, '#374151'); // back
-  rect(ctx, px2 - 2, py, 2, 1, '#374151'); // front leg
-  rect(ctx, px2 + 3, py, 2, 1, '#374151'); // back leg
-  // Body (sitting)
-  rect(ctx, px2 - 1, py - 7, 5, 5, '#f97316'); // torso (orange hoodie!)
-  // Arms reaching to desk
-  const typing = Math.sin(f * 0.08) > 0;
-  rect(ctx, px2 - 3, py - 6, 2, 1, '#f97316'); // left arm
-  px(ctx, px2 - 4, py - 6, '#fcd5b0'); // left hand
-  if (typing) px(ctx, px2 - 5, py - 7, '#fcd5b0'); // typing motion
+  px(ctx, px2 - 3, py - 2, '#fcd5b0'); // left hand
   // Head
-  rect(ctx, px2, py - 11, 4, 4, '#fcd5b0'); // face
-  rect(ctx, px2 - 1, py - 12, 6, 2, '#1a1a2e'); // hair
-  rect(ctx, px2 - 1, py - 11, 1, 3, '#1a1a2e'); // side hair
-  rect(ctx, px2 + 4, py - 11, 1, 3, '#1a1a2e'); // side hair
-  // Eyes
-  const blink2 = Math.sin(f * 0.025) > 0.93;
-  if (!blink2) {
-    px(ctx, px2 + 1, py - 10, '#0a0a1a');
-    px(ctx, px2 + 3, py - 10, '#0a0a1a');
+  rect(ctx, px2, py - 8, 3, 3, '#fcd5b0');
+  // Hair
+  rect(ctx, px2 - 1, py - 9, 5, 2, '#1a1a2e');
+  px(ctx, px2 - 1, py - 7, '#1a1a2e'); // side hair
+  px(ctx, px2 + 3, py - 7, '#1a1a2e');
+  // Eyes (blink)
+  const blink = Math.sin(f * 0.03) > 0.9;
+  if (!blink) {
+    px(ctx, px2, py - 6, '#0a0a0a');
+    px(ctx, px2 + 2, py - 6, '#0a0a0a');
   }
   // Smile
-  px(ctx, px2 + 2, py - 8, '#e8a87c');
-  // Legs (sitting)
-  rect(ctx, px2, py - 2, 2, 2, '#3b82f6'); // left leg (jeans)
-  rect(ctx, px2 + 3, py - 2, 2, 2, '#3b82f6'); // right leg
+  px(ctx, px2 + 1, py - 5, '#d4845a');
+  // Legs
+  rect(ctx, px2, py, 2, 2, '#3b82f6');
+  rect(ctx, px2 + 2, py, 2, 2, '#3b82f6');
+  // Shoes
+  px(ctx, px2, py + 2, '#374151');
+  px(ctx, px2 + 3, py + 2, '#374151');
 
-  // === CAT (sitting on floor, left of desk) ===
-  const catX = deskX - 18;
-  const catY = baseY;
-  // Body
-  rect(ctx, catX - 2, catY - 6, 7, 5, '#9ca3af');
-  rect(ctx, catX - 1, catY - 5, 5, 3, '#d1d5db'); // belly
-  // Head
-  rect(ctx, catX - 1, catY - 10, 6, 4, '#9ca3af');
-  // Ears
-  px(ctx, catX - 1, catY - 11, '#9ca3af');
-  px(ctx, catX + 4, catY - 11, '#9ca3af');
-  px(ctx, catX, catY - 11, '#f9a8d4'); // inner ear
-  px(ctx, catX + 3, catY - 11, '#f9a8d4');
-  // Eyes (blink)
-  const catBlink = Math.sin(f * 0.035) > 0.92;
+  // === CAT (sitting next to person) ===
+  const catX = px2 - 8;
+  const catY = py + 2;
+  rect(ctx, catX, catY - 4, 5, 3, '#9ca3af'); // body
+  rect(ctx, catX + 1, catY - 3, 3, 2, '#d1d5db'); // belly
+  rect(ctx, catX + 1, catY - 7, 4, 3, '#9ca3af'); // head
+  px(ctx, catX + 1, catY - 8, '#9ca3af'); // ear L
+  px(ctx, catX + 4, catY - 8, '#9ca3af'); // ear R
+  px(ctx, catX + 1, catY - 7, '#f9a8d4'); // inner ear
+  px(ctx, catX + 4, catY - 7, '#f9a8d4');
+  // Cat eyes
+  const catBlink = Math.sin(f * 0.04) > 0.92;
   if (!catBlink) {
-    px(ctx, catX, catY - 8, '#22c55e');
-    px(ctx, catX + 3, catY - 8, '#22c55e');
-    px(ctx, catX + 1, catY - 8, '#0a0a1a'); // pupil
-    px(ctx, catX + 2, catY - 8, '#0a0a1a');
+    px(ctx, catX + 2, catY - 5, '#22c55e');
+    px(ctx, catX + 3, catY - 5, '#22c55e');
   }
-  // Nose + mouth
-  px(ctx, catX + 1, catY - 7, '#f9a8d4');
   // Tail (wagging)
-  const wag = Math.sin(f * 0.06) * 2;
-  px(ctx, catX - 3, catY - 4, '#9ca3af');
-  px(ctx, catX - 4, catY - 5, '#9ca3af');
-  px(ctx, Math.floor(catX - 5 + wag), catY - 6, '#9ca3af');
-  // Front paws
-  rect(ctx, catX - 1, catY - 1, 2, 1, '#9ca3af');
-  rect(ctx, catX + 3, catY - 1, 2, 1, '#9ca3af');
+  const wag = Math.sin(f * 0.07) * 2;
+  px(ctx, catX - 1, catY - 2, '#9ca3af');
+  px(ctx, Math.floor(catX - 2 + wag), catY - 3, '#9ca3af');
 
-  // === COFFEE MUG on desk ===
-  const mx = deskX + 8;
-  rect(ctx, mx, baseY - 10, 3, 3, '#f5f5f4'); // mug
-  px(ctx, mx + 3, baseY - 9, '#f5f5f4'); // handle
-  // Steam
-  if (Math.sin(f * 0.05) > 0) px(ctx, mx + 1, baseY - 12, '#64748b');
-  if (Math.sin(f * 0.05 + 1) > 0) px(ctx, mx, baseY - 13, '#475569');
+  // === TEXT DIALOG BOX (right side) ===
+  const tbx = cx - 5;
+  const tby = screenTop + 4;
+  const tbw = cx - 2;
+  const tbh = 18;
+  // Box background
+  rect(ctx, tbx, tby, tbw, tbh, '#1a2a1a');
+  // Box border (double line like RPG dialog)
+  for (let i = 0; i < tbw; i++) {
+    px(ctx, tbx + i, tby, '#4ade80');
+    px(ctx, tbx + i, tby + tbh - 1, '#4ade80');
+  }
+  for (let i = 0; i < tbh; i++) {
+    px(ctx, tbx, tby + i, '#4ade80');
+    px(ctx, tbx + tbw - 1, tby + i, '#4ade80');
+  }
+  // Inner border
+  for (let i = 0; i < tbw - 2; i++) {
+    px(ctx, tbx + 1 + i, tby + 1, '#22c55e');
+    px(ctx, tbx + 1 + i, tby + tbh - 2, '#22c55e');
+  }
+  for (let i = 0; i < tbh - 2; i++) {
+    px(ctx, tbx + 1, tby + 1 + i, '#22c55e');
+    px(ctx, tbx + tbw - 2, tby + 1 + i, '#22c55e');
+  }
 
-  // === LIGHTNING BOLT floating above ===
-  const ly = 7 + Math.sin(f * 0.04) * 1.5;
-  [[0,-2],[1,-2],[0,-1],[-1,0],[0,0],[0,1],[-1,2]].forEach(([dx,dy]) => {
-    px(ctx, Math.floor(cx + dx), Math.floor(ly + dy), '#f97316');
-  });
+  // === TYPEWRITER TEXT ===
+  const text1 = 'Hi, I\'m Wiqi Lee!';
+  const text2 = 'Data Scientist';
+  const text3 = 'AI/ML Researcher';
+  const text4 = 'Press START...';
+
+  const charSpeed = 0.12;
+  const line1Len = Math.min(Math.floor(f * charSpeed), text1.length);
+  const line2Len = Math.min(Math.max(Math.floor((f - text1.length / charSpeed - 8) * charSpeed), 0), text2.length);
+  const line3Len = Math.min(Math.max(Math.floor((f - (text1.length + text2.length) / charSpeed - 16) * charSpeed), 0), text3.length);
+  const line4Visible = f > (text1.length + text2.length + text3.length) / charSpeed + 24;
+
+  // Render pixel text (using tiny font simulation — 1px per char width)
+  const drawText = (str: string, len: number, tx: number, ty: number, color: string) => {
+    for (let i = 0; i < len; i++) {
+      if (str[i] !== ' ') px(ctx, tx + i, ty, color);
+      if (str[i] === 'I' || str[i] === 'i' || str[i] === 'l' || str[i] === '!' || str[i] === '\'') px(ctx, tx + i, ty + 1, color);
+      if (str[i] === 'm' || str[i] === 'W' || str[i] === 'M') { px(ctx, tx + i, ty, color); px(ctx, tx + i, ty + 1, color); }
+    }
+  };
+
+  drawText(text1, line1Len, tbx + 3, tby + 4, '#4ade80');
+  drawText(text2, line2Len, tbx + 3, tby + 8, '#f97316');
+  drawText(text3, line3Len, tbx + 3, tby + 11, '#f97316');
+
+  // Blinking "Press START..." cursor
+  if (line4Visible && Math.sin(f * 0.06) > 0) {
+    drawText(text4, text4.length, tbx + 3, tby + 15, '#6b7280');
+  }
 
   // === SPARKLE STARS ===
-  const stars = [
-    [cx - 30, 8, 0], [cx + 28, 10, 2], [cx - 20, 6, 4], [cx + 22, 7, 3],
-    [cx - 35, 12, 1], [cx + 33, 14, 5],
-  ];
-  stars.forEach(([sx, sy, d]) => {
-    if (Math.sin(f * 0.04 + (d as number)) > 0.2) px(ctx, sx as number, sy as number, '#fbbf24');
+  [[cx - 28, screenTop + 3, 0], [cx + 25, screenTop + 2, 2], [tbx + tbw + 2, tby + 5, 3]].forEach(([sx2, sy, d]) => {
+    if (Math.sin(f * 0.04 + (d as number)) > 0.3) px(ctx, sx2 as number, sy as number, '#fbbf24');
   });
 
-  // === MUSIC NOTES floating (cellist vibes) ===
-  const noteY = 10 + Math.sin(f * 0.03) * 2;
-  px(ctx, cx - 10, Math.floor(noteY), '#f9a8d4');
-  px(ctx, cx - 10, Math.floor(noteY) - 1, '#f9a8d4');
-  px(ctx, cx - 9, Math.floor(noteY) - 2, '#f9a8d4');
+  // === LIGHTNING BOLT (floating) ===
+  const ly = screenTop + 2 + Math.sin(f * 0.04) * 1.5;
+  [[0,-1],[1,-1],[0,0],[-1,1],[0,1]].forEach(([dx,dy]) => {
+    px(ctx, Math.floor(tbx - 4 + dx), Math.floor(ly + dy), '#f97316');
+  });
 }
 
 function SectionTitle({ icon, children }: { icon: string; children: React.ReactNode }) {
@@ -718,7 +740,7 @@ export default function About() {
       {/* Creator */}
       <div className="card hover-card">
         <SectionTitle icon="👩‍💻">Built by</SectionTitle>
-        <PixelCanvas draw={drawBuilder} height={120} />
+        <PixelCanvas draw={drawBuilder} height={140} />
         <div className="flex gap-6 items-center mt-3">
           <div className="shrink-0 w-24 h-24 rounded-2xl overflow-hidden shadow-lg shadow-reflex-accent/10 avatar-float">
             <img

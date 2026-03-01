@@ -30,24 +30,24 @@
 
 ---
 
-## For Judges — Quick Walkthrough (2 minutes)
+## For Judges - Quick Walkthrough (2 minutes)
 
-1. **Open the app** → Dashboard with pixel art animation
-2. **Click "Try Demo"** → Choose one of **6 languages** (Python, Go, Rust, Java, TypeScript, YAML)
-3. **Wait ~15s** → Mistral Large 3 analyzes via function calling (not free-form text)
-4. **Dashboard** → Severity breakdown, failure scenarios with severity reasoning
-5. **🔍 Code View** → Source code with line-by-line severity highlighting — click any red line to jump to its runbook
-6. **📋 Runbooks** → 5-phase structure with copy-paste commands, L1/L2/L3 tooltips
-7. **🕸️ Dependencies** → Click any node to see related runbooks in a side panel
-8. **💥 Blast Radius** → Cascading failure simulation (Rust WASM, sub-ms, client-side)
-9. **📊 Diff** → Compare two analyses: see fixed issues, new issues, risk score change
-10. **Export/Translate** → Markdown export, 18-language translation
+1. **Open the app** - Dashboard with pixel art animation
+2. **Click "Try Demo"** - Choose one of **6 languages** (Python, Go, Rust, Java, TypeScript, YAML)
+3. **Wait ~15s** - Mistral Large 3 analyzes via function calling (not free-form text)
+4. **Dashboard** - Severity breakdown, failure scenarios with severity reasoning
+5. **🔍 Code View** - Source code with line-by-line severity highlighting - click any red line to jump to its runbook
+6. **📋 Runbooks** - 5-phase structure with copy-paste commands, L1/L2/L3 tooltips
+7. **🕸️ Dependencies** - Click any node to see related runbooks in a side panel
+8. **💥 Blast Radius** - Cascading failure simulation (Rust WASM, sub-ms, client-side)
+9. **📊 Diff** - Compare two analyses: see fixed issues, new issues, risk score change
+10. **Export/Translate** - Markdown export, 18-language translation
 
 **Key differentiators:** Mistral function calling with 3 typed tools · Multi-pass runbook validation · Rust WASM simulation · Code-to-runbook line mapping · Analysis diff tracking · 20 features total.
 
 ---
 
-## Before / After — 30-Second Proof
+## Before / After - 30-Second Proof
 
 **Input:** A 50-line Python payment service with SQL injection, missing timeouts, and no connection pooling.
 
@@ -75,7 +75,7 @@
 └─────────────────────────────────────────────────┘
 ```
 
-**After fixing and re-analyzing:** Diff view shows ↓38% risk reduction, 3 critical → 0.
+**After fixing and re-analyzing:** Diff view shows ↓38% risk reduction, 3 critical - 0.
 
 ---
 
@@ -95,7 +95,7 @@ REFLEX reads your actual code and generates production-ready incident runbooks a
 
 Paste your infrastructure code. REFLEX identifies many common high-impact failure modes your system can produce and generates structured, step-by-step runbooks with exact commands to run, expected output at each stage, rollback procedures, and prevention measures.
 
-**How it works:** Mistral Large 3 (`mistral-large-latest`) powers the failure analysis through structured function calling — not free-form text generation. Each analysis goes through 3 typed tool calls with validated outputs, plus a second validation pass for critical/high severity runbooks. Rust compiled to WebAssembly handles dependency graph simulation directly in the browser.
+**How it works:** Mistral Large 3 (`mistral-large-latest`) powers the failure analysis through structured function calling - not free-form text generation. Each analysis goes through 3 typed tool calls with validated outputs, plus a second validation pass for critical/high severity runbooks. Rust compiled to WebAssembly handles dependency graph simulation directly in the browser.
 
 ---
 
@@ -103,7 +103,7 @@ Paste your infrastructure code. REFLEX identifies many common high-impact failur
 
 Incident response runs on some of the worst documentation in the industry. According to Gartner, the average cost of IT downtime is $5,600 per minute. PagerDuty's 2024 report found that 69% of organizations take more than an hour to resolve incidents, often because responders lack clear, actionable guidance.
 
-REFLEX exists because runbooks should be generated from the source of truth — the code itself.
+REFLEX exists because runbooks should be generated from the source of truth - the code itself.
 
 ---
 
@@ -111,7 +111,7 @@ REFLEX exists because runbooks should be generated from the source of truth — 
 
 | Role | How REFLEX Helps | Time Saved |
 |---|---|---|
-| 🔧 **SRE / Platform Engineers** | Auto-generate and maintain runbooks from actual code. Every code change produces updated documentation instantly — no more stale runbooks. | Weeks → minutes |
+| 🔧 **SRE / Platform Engineers** | Auto-generate and maintain runbooks from actual code. Every code change produces updated documentation instantly - no more stale runbooks. | Weeks → minutes |
 | 🌙 **On-Call Engineers** | Step-by-step guidance at 3 AM with exact commands, expected outputs, and clear escalation paths. No more guessing or scrolling through Slack. | Hours → minutes per incident |
 | 📊 **Engineering Managers** | Reduce MTTR, minimize blast radius, and ensure consistent incident response across the entire team regardless of experience level. | Measurable risk reduction |
 | 🚀 **Startups & Scale-ups** | Enterprise-grade incident documentation without a dedicated SRE team. One developer gets the same quality that large orgs spend months building. | $0 vs $50k+ consulting |
@@ -122,12 +122,12 @@ REFLEX exists because runbooks should be generated from the source of truth — 
 
 ## Responsible Use
 
-REFLEX is designed to support — not replace — human judgment in incident response.
+REFLEX is designed to support - not replace - human judgment in incident response.
 
 - **Runbooks are starting points.** Always review generated commands before running them in production. REFLEX provides structured guidance, but every environment is unique.
 - **No sensitive data stored.** Code you paste is sent to Mistral's API for analysis and is not stored by REFLEX. Check Mistral's data policy for API-level details.
 - **Not a security scanner.** REFLEX identifies failure modes and operational risks, not CVEs or vulnerability databases. Use dedicated security tools for penetration testing.
-- **Human in the loop.** Critical decisions — rollbacks, data migrations, permission escalations — should always involve a qualified engineer reviewing the suggested steps.
+- **Human in the loop.** Critical decisions - rollbacks, data migrations, permission escalations - should always involve a qualified engineer reviewing the suggested steps.
 
 ---
 
@@ -284,12 +284,15 @@ pytest tests/ -v
 
 ```
 reflex/
+├── .github/
+│   └── workflows/
+│       └── ci.yml                 # Lint, test, and typecheck pipeline
 ├── backend/
-│   ├── main.py                    # FastAPI app + routing
+│   ├── main.py                    # FastAPI app and routing
 │   ├── models.py                  # Pydantic models (with severity_reasoning)
 │   └── services/
 │       ├── mistral_client.py      # 3 function calling tools + validate_runbook
-│       ├── analyzer.py            # Pipeline: detect → generate → validate → graph
+│       ├── analyzer.py            # Pipeline: detect, generate, validate, graph
 │       ├── exporter.py            # Markdown export
 │       └── multilingual.py        # 18-language translation
 ├── engine/
@@ -314,11 +317,8 @@ reflex/
 │       ├── demo.ts                # Offline fallback
 │       └── demoSnippets.ts        # 6-language demo samples
 ├── tests/
-│   └── test_reflex.py             # Model + pipeline + edge case tests
-├── .github/
-│   └── workflows/
-│       └── ci.yml                 # Lint → Test → TypeCheck pipeline
-├── README.md
+│   └── test_reflex.py             # Model, pipeline, and edge case tests
+└── README.md
 ```
 
 ---
@@ -374,7 +374,7 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 
 | Platform | Handle |
 |---|---|
-| 🐦 X (Twitter) | [@wiqi_lee](https://x.com/wiqi_lee) |
+| 🐦 Twitter | [@wiqi_lee](https://x.com/wiqi_lee) |
 | 💻 GitHub | [wiqilee](https://github.com/wiqilee) |
 | 💬 Discord | [wiqi_lee](https://discord.com/users/209385020912173066) |
 

@@ -274,7 +274,7 @@ export default function BlastRadiusView() {
 
         {/* Heatmap interpretation */}
         {mostDangerous && mostDangerous.affected.length > 0 && (
-          <div className="mt-4 p-3 rounded-lg bg-reflex-border/20 border border-reflex-border">
+          <div className="mt-4 p-3 rounded-lg bg-reflex-border/20 border border-reflex-border transition-all duration-300 hover:border-red-500/30 hover:bg-red-500/[0.04] hover:shadow-lg hover:shadow-red-500/5 cursor-default">
             <p className="text-xs text-reflex-text/65">
               <strong className="text-reflex-accent">{mostDangerous.origin}</strong> has the largest blast radius at{' '}
               <strong>{((mostDangerous.affected.length / Math.max(totalNodes - 1, 1)) * 100).toFixed(0)}%</strong> system coverage.

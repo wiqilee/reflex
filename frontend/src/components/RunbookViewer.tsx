@@ -24,8 +24,8 @@ function OnCallBadge({ level }: { level: string }) {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
       setPos({
-        top: rect.top - 8,
-        left: Math.min(rect.left, window.innerWidth - 310),
+        top: rect.top,
+        left: Math.max(8, Math.min(rect.left + rect.width / 2 - 144, window.innerWidth - 296)),
       });
     }
     setShow(true);
@@ -43,8 +43,8 @@ function OnCallBadge({ level }: { level: string }) {
       </span>
       {show && (
         <span
-          className="fixed px-3 py-2.5 bg-reflex-surface border border-reflex-border rounded-lg shadow-2xl text-xs text-reflex-text/80 w-72 z-[9999] pointer-events-none"
-          style={{ top: pos.top, left: pos.left, transform: 'translateY(-100%)' }}
+          className="fixed px-3 py-2 bg-reflex-surface border border-reflex-border rounded-lg shadow-2xl text-xs text-reflex-text/80 w-72 z-[9999] pointer-events-none"
+          style={{ top: pos.top - 4, left: pos.left, transform: 'translateY(-100%)' }}
         >
           {tooltip}
         </span>
