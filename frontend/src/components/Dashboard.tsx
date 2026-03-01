@@ -230,12 +230,19 @@ export default function Dashboard() {
     <div className="space-y-6 view-enter">
       {/* Action bar */}
       <div className="flex items-center justify-between">
-        <div />
+        <button
+          onClick={() => { exitGalleryMode?.(); useStore.getState().clearAnalysis?.(); setView('dashboard'); window.location.reload(); }}
+          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-border/50 text-reflex-muted hover:border-white/30 hover:text-white hover:bg-white/5 transition-all duration-300"
+        >
+          <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" /></svg>
+          Start Fresh
+        </button>
         <button
           onClick={() => setView('editor')}
-          className="btn-ghost text-sm border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 flex items-center gap-1.5"
+          className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm text-black bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 hover:scale-105 transition-all duration-300 overflow-hidden"
         >
-          ⚡ New Analysis
+          <span className="relative z-10 flex items-center gap-2">⚡ New Analysis</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
         </button>
       </div>
 
@@ -278,9 +285,9 @@ export default function Dashboard() {
           <h3 className="font-semibold">Failure Scenarios</h3>
           <div className="flex items-center gap-3">
             {useStore.getState().analyzedCode && (
-              <button onClick={() => setView('code-view')} className="text-reflex-accent text-sm hover:underline flex items-center gap-1">🔍 View in Code</button>
+              <button onClick={() => setView('code-view')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/50 transition-all">🔍 View in Code</button>
             )}
-            <button onClick={() => setView('runbooks')} className="text-reflex-accent text-sm hover:underline">View all runbooks →</button>
+            <button onClick={() => setView('runbooks')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-reflex-accent/30 text-reflex-accent hover:bg-reflex-accent/10 hover:border-reflex-accent/50 transition-all">📋 View All Runbooks</button>
           </div>
         </div>
         <div className="space-y-3 stagger-children">

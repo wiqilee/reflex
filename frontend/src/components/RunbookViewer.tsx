@@ -64,7 +64,7 @@ function OnCallBadge({ level }: { level: string }) {
       {show && (
         <span
           className="fixed px-3 py-2 bg-reflex-surface/95 backdrop-blur-sm border border-white/15 rounded-lg shadow-2xl shadow-black/50 text-xs text-reflex-text/80 w-72 z-[9999] pointer-events-none"
-          style={{ top: pos.top, left: Math.max(8, pos.left), transform: 'translateY(-50%)' }}
+          style={{ top: Math.max(40, Math.min(pos.top, window.innerHeight - 60)), left: Math.max(8, pos.left), transform: 'translateY(-50%)' }}
         >
           {tooltip}
         </span>
@@ -249,18 +249,24 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
       </div>
 
       {/* Phase Tabs */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 p-1 bg-reflex-border/20 rounded-xl border border-reflex-border/40">
         {(Object.keys(PHASE_CONFIG) as Array<keyof typeof PHASE_CONFIG>).map(phase => {
           const conf = PHASE_CONFIG[phase];
           const count = (runbook[phase] as RunbookStep[]).length;
+          const phaseColors: Record<string, string> = {
+            detection: 'border-blue-500/50 bg-blue-500/10 text-blue-400 shadow-blue-500/10',
+            diagnosis: 'border-purple-500/50 bg-purple-500/10 text-purple-400 shadow-purple-500/10',
+            fix: 'border-green-500/50 bg-green-500/10 text-green-400 shadow-green-500/10',
+            rollback: 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-orange-500/10',
+          };
           return (
             <button
               key={phase}
               onClick={() => setActivePhase(phase)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
                 activePhase === phase
-                  ? 'bg-reflex-accent/15 text-reflex-accent font-medium'
-                  : 'text-reflex-muted hover:text-reflex-text hover:bg-reflex-border/50'
+                  ? `border ${phaseColors[phase]} shadow-lg`
+                  : 'text-reflex-text/40 hover:text-reflex-text/70 hover:bg-white/[0.03]'
               }`}
             >
               {conf.icon} {conf.label} <span className="text-xs opacity-60">({count})</span>
@@ -298,17 +304,45 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
 }
 
 export default function RunbookViewer() {
-  const { analysis, selectedRunbook, setSelectedRunbook } = useStore();
+  const { analysis, selectedRunbook, setSelectedRunbook, setView } = useStore();
   if (!analysis) return null;
 
   const { runbooks } = analysis;
 
   if (selectedRunbook) {
+    const currentIdx = runbooks.findIndex(r => r.id === selectedRunbook.id);
+    const hasPrev = currentIdx > 0;
+    const hasNext = currentIdx < runbooks.length - 1;
+
     return (
-      <div>
-        <button onClick={() => setSelectedRunbook(null)} className="text-sm mb-4 font-medium text-reflex-accent border border-reflex-accent/40 hover:border-reflex-accent hover:bg-reflex-accent/15 px-4 py-2 rounded-lg transition-all">
-          ← Back to all runbooks
-        </button>
+      <div className="space-y-4">
+        {/* Navigation bar */}
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => setSelectedRunbook(null)}
+            className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-accent/40 text-reflex-accent font-medium hover:bg-reflex-accent/10 hover:border-reflex-accent hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
+          >
+            <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            All Runbooks
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-reflex-text/40 mr-2">{currentIdx + 1} of {runbooks.length}</span>
+            <button
+              onClick={() => hasPrev && setSelectedRunbook(runbooks[currentIdx - 1])}
+              disabled={!hasPrev}
+              className={`p-2 rounded-lg border transition-all ${hasPrev ? 'border-reflex-border/50 text-reflex-text/60 hover:border-reflex-accent/50 hover:text-reflex-accent hover:bg-reflex-accent/5' : 'border-reflex-border/20 text-reflex-text/15 cursor-not-allowed'}`}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button
+              onClick={() => hasNext && setSelectedRunbook(runbooks[currentIdx + 1])}
+              disabled={!hasNext}
+              className={`p-2 rounded-lg border transition-all ${hasNext ? 'border-reflex-border/50 text-reflex-text/60 hover:border-reflex-accent/50 hover:text-reflex-accent hover:bg-reflex-accent/5' : 'border-reflex-border/20 text-reflex-text/15 cursor-not-allowed'}`}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
         <RunbookDetail runbook={selectedRunbook} />
       </div>
     );

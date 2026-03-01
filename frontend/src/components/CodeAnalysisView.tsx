@@ -293,7 +293,7 @@ export default function CodeAnalysisView() {
                     );
                   })}
               </div>
-              <p className="text-xs text-reflex-accent mt-2 text-center">Click to view runbook →</p>
+              <p className="text-xs text-center mt-2.5"><span className="inline-block px-3 py-1 rounded-full bg-reflex-accent/15 text-reflex-accent font-medium border border-reflex-accent/25 hover:bg-reflex-accent/25 transition-colors">View Runbook</span></p>
             </div>
           </div>
         )}
@@ -304,10 +304,17 @@ export default function CodeAnalysisView() {
         {(['critical', 'high', 'medium', 'low'] as Severity[]).map(sev => {
           const count = analysis.scenarios.filter(s => s.severity === sev).length;
           const c = SEV_COLORS[sev];
+          const gradients: Record<string, string> = {
+            critical: 'from-red-500/20 via-red-600/5 to-transparent border-red-500/40 shadow-red-500/10',
+            high: 'from-orange-500/20 via-orange-600/5 to-transparent border-orange-500/40 shadow-orange-500/10',
+            medium: 'from-yellow-500/20 via-yellow-600/5 to-transparent border-yellow-500/40 shadow-yellow-500/10',
+            low: 'from-green-500/20 via-green-600/5 to-transparent border-green-500/40 shadow-green-500/10',
+          };
           return (
-            <div key={sev} className={`card ${c.bg} ${c.border} border text-center py-3`}>
-              <p className={`text-2xl font-bold ${c.text}`}>{count}</p>
-              <p className="text-xs text-reflex-text/50 uppercase tracking-wider mt-0.5">{sev}</p>
+            <div key={sev} className={`relative overflow-hidden rounded-xl border bg-gradient-to-br ${gradients[sev]} shadow-lg text-center py-4 transition-all duration-300 hover:scale-[1.03] cursor-default`}>
+              <p className={`text-3xl font-black ${c.text}`}>{count}</p>
+              <p className="text-xs text-reflex-text/50 uppercase tracking-wider mt-1 font-bold">{sev}</p>
+              {count > 0 && <div className={`absolute top-0 left-0 w-full h-0.5 ${c.gutter}`} />}
             </div>
           );
         })}

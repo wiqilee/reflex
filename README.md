@@ -61,8 +61,8 @@
 
 ```
 ┌─────────────────────────────────────────────────┐
-│        8 failure scenarios detected             │
-│    3 critical · 2 high · 2 medium · 1 low       │
+│ 8 failure scenarios detected                    │
+│ 3 critical · 2 high · 2 medium · 1 low          │
 │                                                 │
 │ FS-001 SQL Injection in process_payment         │
 │ Severity: CRITICAL                              │
@@ -91,7 +91,7 @@
 <img src="docs/pixel-problem.svg" alt="The Problem" width="480" />
 </div>
 
-> I built REFLEX to solve a problem I’ve lived. As a software engineer, I’ve dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
+> I built REFLEX to solve a problem I've lived. As a software engineer, I've dealt with stale runbooks, broken commands, and 3 a.m. incidents where the documentation made things worse, not better. Nearly every team has a story like this. An outdated runbook turns a quick fix into a prolonged outage. REFLEX is more than a hackathon project to me. I believe automated runbook generation can save teams significant time and help prevent avoidable production incidents. If REFLEX helps even one on-call engineer sleep better at night, it was worth building.
 
 It is 3 AM. PagerDuty goes off. Production is down.
 
@@ -104,13 +104,12 @@ The on-call engineer opens the runbook. It was written six months ago for a syst
 ## The Solution
 
 <div align="center">
-  <img src="docs/pixel-solution.svg" alt="The Solution" width="480" />
-  <br /><br />
+<img src="docs/pixel-solution.svg" alt="The Solution" width="480" />
 
-  <img src="docs/screenshot.png" alt="REFLEX Dashboard" width="900" />
-  <br /><br />
+![REFLEX Dashboard](docs/screenshot.png)
 
-  <em>"REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph."</em>
+*"REFLEX analyzing a Rust cache service: failure scenarios, severity breakdown, and interactive dependency graph."*
+
 </div>
 
 REFLEX reads your actual code and generates production-ready incident runbooks automatically.
@@ -374,7 +373,7 @@ reflex/
 │   │   ├── BlastRadiusView.tsx    # Cascade sim + heatmap
 │   │   ├── AnalysisDiff.tsx       # Before/after comparison
 │   │   ├── Gallery.tsx            # Saved analyses
-│   │   └── About.tsx              # Pixel art + feature showcase + ChatGPT comparison
+│   │   └── About.tsx              # Built by + pixel art + feature showcase + ChatGPT comparison
 │   ├── hooks/
 │   │   ├── useStore.ts            # Zustand (analyzedCode, gallery, diff)
 │   │   └── useAnalysis.ts         # API client + demo loader + triage context
@@ -385,7 +384,13 @@ reflex/
 │   └── test_reflex.py             # Model, pipeline, and edge case tests
 ├── docs/
 │   ├── screenshot.png             # App screenshot for README
-│   └── pixel-scene.svg            # Animated pixel art for README
+│   ├── pixel-scene.svg            # Animated pixel art hero banner
+│   ├── pixel-problem.svg          # The Problem section art
+│   ├── pixel-solution.svg         # The Solution section art
+│   ├── pixel-chatgpt.svg          # ChatGPT comparison section art
+│   ├── pixel-who.svg              # Who Benefits section art
+│   ├── pixel-features.svg         # Features section art
+│   └── pixel-architecture.svg     # Architecture section art
 └── README.md
 ```
 
@@ -454,6 +459,6 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 [![Powered by](https://img.shields.io/badge/Powered_by-Mistral_Large_3-FF7000?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkw0IDdWMTdMMTIgMjJMMjAgMTdWN0wxMiAyWiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+)](https://mistral.ai)
 [![Mistral AI Hackathon](https://img.shields.io/badge/Mistral_AI-Worldwide_Hackathon_2026-FF7000?style=flat-square)](https://mistral.ai)
 
-🏆 **Built for the Mistral AI Worldwide Hackathon 2026**
+🏆 **Built for the Mistral Worldwide Hackathon 2026**
 
 </div>
