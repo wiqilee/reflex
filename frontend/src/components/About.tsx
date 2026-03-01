@@ -907,8 +907,11 @@ export default function About() {
       </div>
 
       {/* Why not ChatGPT? */}
-      <div className="card hover-card pixel-card-border overflow-hidden relative">
-        <SectionTitle icon="🤔">Why not just ask ChatGPT?</SectionTitle>
+      <div className="card hover-card pixel-card-border overflow-hidden relative group/chatgpt">
+        <h3 className="font-semibold text-xl mb-3 flex items-center gap-2">
+          <span>🤔</span>
+          <span className="text-reflex-text/70 group-hover/chatgpt:text-pink-300 transition-colors duration-300">Why not just ask ChatGPT?</span>
+        </h3>
         <PixelCanvas draw={drawChatGPTvsReflex} height={120} />
         
         <p className="text-reflex-text/60 text-sm mb-6">A fair question. Here is why <span className="reflex-shimmer font-semibold">REFLEX</span> exists as a dedicated tool instead of a prompt.</p>

@@ -148,6 +148,20 @@ export default function DependencyGraph() {
         <div className={`card p-0 overflow-hidden ${clickedNode ? 'flex-1' : 'w-full'} transition-all duration-300`}>
           <svg viewBox="0 0 800 500" className="w-full h-[500px]">
             <defs>
+              <style>{`
+                @keyframes dep-node-pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+                @keyframes dep-ring-spin { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 30; } }
+                @keyframes dep-glow-cycle {
+                  0% { stroke: #f97316; }
+                  20% { stroke: #ec4899; }
+                  40% { stroke: #a855f7; }
+                  60% { stroke: #3b82f6; }
+                  80% { stroke: #22c55e; }
+                  100% { stroke: #f97316; }
+                }
+                .dep-hover-ring { animation: dep-glow-cycle 3s linear infinite, dep-ring-spin 4s linear infinite; }
+                .dep-node-idle { animation: dep-node-pulse 3s ease-in-out infinite; }
+              `}</style>
               <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
                 <polygon points="0 0, 8 3, 0 6" fill="#64748b" />
               </marker>
@@ -237,6 +251,15 @@ export default function DependencyGraph() {
                   onMouseLeave={() => setHoveredNode(null)}
                   onClick={(e) => { e.stopPropagation(); setClickedNode(isClicked ? null : node.name); }}
                 >
+                  {/* Hover glow ring — rainbow color cycle */}
+                  {isActive && !isClicked && (
+                    <circle
+                      cx={node.x} cy={node.y} r={36}
+                      fill="none" strokeWidth="2"
+                      strokeDasharray="5 3"
+                      className="dep-hover-ring"
+                    />
+                  )}
                   {/* Selection ring */}
                   {isClicked && (
                     <circle
@@ -246,8 +269,17 @@ export default function DependencyGraph() {
                       style={{ transformOrigin: `${node.x}px ${node.y}px`, animation: 'spin 8s linear infinite' }}
                     />
                   )}
+                  {/* Idle pulse ring — subtle breathing */}
+                  {!isActive && !isClicked && (
+                    <circle
+                      cx={node.x} cy={node.y} r={32}
+                      fill="none" stroke={tc.stroke} strokeWidth="0.5"
+                      className="dep-node-idle"
+                      style={{ animationDelay: `${Math.random() * 3}s` }}
+                    />
+                  )}
                   {/* Runbook indicator ring */}
-                  {hasRunbooks && !isClicked && (
+                  {hasRunbooks && !isClicked && !isActive && (
                     <circle
                       cx={node.x} cy={node.y} r={33}
                       fill="none" stroke="#f97316" strokeWidth="1" opacity="0.3"
@@ -482,30 +514,42 @@ export default function DependencyGraph() {
       </div>
 
       {/* Interpretation */}
-      <div className="card hover:border-transparent transition-all cursor-default group" style={{ transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.borderImage = 'linear-gradient(135deg, #f97316, #ec4899, #a855f7, #3b82f6, #22c55e) 1'; e.currentTarget.style.borderImageSlice = '1'; e.currentTarget.style.boxShadow = '0 0 20px rgba(249,115,22,0.1), 0 0 40px rgba(168,85,247,0.05)'; }} onMouseLeave={(e) => { e.currentTarget.style.borderImage = 'none'; e.currentTarget.style.border = '1px solid rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none'; }}>
+      <div className="card transition-all duration-500 cursor-default group hover:shadow-[0_0_0_1px_rgba(249,115,22,0.5),0_0_20px_rgba(249,115,22,0.1),0_0_40px_rgba(168,85,247,0.06)]" style={{ transition: 'all 0.4s ease' }}>
         <h3 className="font-semibold mb-3 flex items-center gap-2">📊 Graph Interpretation</h3>
-        <div className="space-y-3 text-sm text-reflex-text/70 leading-relaxed">
-          <p>
-            This service architecture consists of <strong className="text-reflex-text">{nodes.length} components</strong> connected by <strong className="text-reflex-text">{edges.length} dependencies</strong>.
-            {serviceNodes > 0 && <> It includes <strong className="text-reflex-text">{serviceNodes}</strong> service(s)</>}
-            {apiNodes > 0 && <>, <strong className="text-reflex-text">{apiNodes}</strong> external API(s)</>}
-            {dbNodes > 0 && <>, and <strong className="text-reflex-text">{dbNodes}</strong> database(s)</>}
-            .
-          </p>
-          {mostConnected && (
+        <div className="space-y-2.5 text-sm text-reflex-text/70 leading-relaxed">
+          <div className="flex items-start gap-2.5">
+            <span className="text-reflex-accent mt-0.5 shrink-0">•</span>
             <p>
-              <strong className="text-reflex-accent">{mostConnected.name}</strong> is the most connected node with <strong className="text-reflex-text">{mostConnected.total}</strong> total connections ({mostConnected.outgoing} outgoing, {mostConnected.incoming} incoming).
-              {mostConnected.total >= 3 && <> This makes it a potential <strong className="text-yellow-400">single point of failure</strong>. Consider adding redundancy or circuit breakers.</>}
+              This service architecture consists of <strong className="text-reflex-text">{nodes.length} components</strong> connected by <strong className="text-reflex-text">{edges.length} dependencies</strong>.
+              {serviceNodes > 0 && <> It includes <strong className="text-reflex-text">{serviceNodes}</strong> service(s)</>}
+              {apiNodes > 0 && <>, <strong className="text-reflex-text">{apiNodes}</strong> external API(s)</>}
+              {dbNodes > 0 && <>, and <strong className="text-reflex-text">{dbNodes}</strong> database(s)</>}
+              .
             </p>
+          </div>
+          {mostConnected && (
+            <div className="flex items-start gap-2.5">
+              <span className="text-yellow-400 mt-0.5 shrink-0">•</span>
+              <p>
+                <strong className="text-reflex-accent">{mostConnected.name}</strong> is the most connected node with <strong className="text-reflex-text">{mostConnected.total}</strong> total connections ({mostConnected.outgoing} outgoing, {mostConnected.incoming} incoming).
+                {mostConnected.total >= 3 && <> This makes it a potential <strong className="text-yellow-400">single point of failure</strong>. Consider adding redundancy or circuit breakers.</>}
+              </p>
+            </div>
           )}
           {leastConnected && leastConnected.name !== mostConnected?.name && leastConnected.total <= 1 && (
-            <p>
-              <strong className="text-green-400">{leastConnected.name}</strong> has the fewest connections ({leastConnected.total}), making it relatively isolated with low cascade risk.
-            </p>
+            <div className="flex items-start gap-2.5">
+              <span className="text-green-400 mt-0.5 shrink-0">•</span>
+              <p>
+                <strong className="text-green-400">{leastConnected.name}</strong> has the fewest connections ({leastConnected.total}), making it relatively isolated with low cascade risk.
+              </p>
+            </div>
           )}
-          <p className="text-xs text-reflex-muted">
-            Click any node to see related runbooks and connections. Use the Blast Radius view for cascade simulation.
-          </p>
+          <div className="flex items-start gap-2.5">
+            <span className="text-reflex-text/30 mt-0.5 shrink-0">•</span>
+            <p className="text-xs text-reflex-muted">
+              Click any node to see related runbooks and connections. Use the Blast Radius view for cascade simulation.
+            </p>
+          </div>
         </div>
       </div>
     </div>

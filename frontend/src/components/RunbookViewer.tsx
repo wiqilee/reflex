@@ -12,10 +12,15 @@ const ON_CALL_TOOLTIPS: Record<string, string> = {
   L1: 'L1 — Front-line support: monitoring dashboards, restart services, follow documented procedures',
   L2: 'L2 — Platform engineer: server SSH access, database queries, config changes, deploy rollbacks',
   L3: 'L3 — Infrastructure lead: database admin, network config, DNS changes, cloud IAM, architecture decisions',
-  'codebase access': 'Codebase Access — Requires read access to the source code repository to inspect affected files',
-  'database access': 'Database Access — Requires read/write access to production database for queries and migrations',
-  'admin access': 'Admin Access — Requires administrative privileges on the target infrastructure',
-  'read-only': 'Read-Only — Can be performed with read-only access to monitoring and logging systems',
+  'codebase access': 'Codebase Access — Requires read access to the source code repository to inspect affected files and trace the issue in version control',
+  'database access': 'Database Access — Requires read/write access to production database for queries, migrations, and data integrity checks',
+  'admin access': 'Admin Access — Requires administrative privileges on the target infrastructure for system-level changes',
+  'read-only': 'Read-Only — Can be performed with read-only access to monitoring and logging systems, no write permissions needed',
+  'code deploy access': 'Code Deploy Access — Requires permissions to trigger deployments: CI/CD pipeline access, container registry push, or direct deploy rights to staging/production',
+  'deploy access': 'Deploy Access — Requires permissions to deploy code or config changes to the target environment (e.g. Kubernetes rollout, AWS CodeDeploy, Vercel deploy)',
+  'config access': 'Config Access — Requires access to configuration management: environment variables, feature flags, secrets manager, or config files',
+  'network access': 'Network Access — Requires access to network infrastructure: firewall rules, load balancer config, DNS records, or VPN settings',
+  'monitoring access': 'Monitoring Access — Requires access to observability tools: dashboards, log aggregation, APM, or alerting systems (Datadog, Grafana, PagerDuty)',
 };
 
 function OnCallBadge({ level }: { level: string }) {
@@ -24,7 +29,9 @@ function OnCallBadge({ level }: { level: string }) {
   const normalizedLevel = level.trim();
   const tooltip = ON_CALL_TOOLTIPS[normalizedLevel]
     || ON_CALL_TOOLTIPS[normalizedLevel.toLowerCase()]
-    || (normalizedLevel.match(/^L\d/i) ? `${normalizedLevel} — Access level: ${normalizedLevel}` : `🔑 ${normalizedLevel}`);
+    || (normalizedLevel.match(/^L\d/i)
+      ? `${normalizedLevel} — Access level: ${normalizedLevel}`
+      : `🔑 ${normalizedLevel} — Requires ${normalizedLevel.toLowerCase()} permissions to perform this step. Verify your access before proceeding.`);
 
   const isOnCall = /^L\d/i.test(normalizedLevel);
   const icon = isOnCall ? '🔑' : '🔐';

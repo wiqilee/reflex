@@ -86,7 +86,7 @@
 └─────────────────────────────────────────────────┘
 ```
 
-**After fixing and re-analyzing:** Diff view shows ↓38% risk reduction, 3 critical - 0.
+**After fixing and re-analyzing:** Diff view shows ↓38% risk reduction, 3 critical → 0.
 
 ---
 
@@ -155,6 +155,11 @@ ChatGPT is a general-purpose assistant. REFLEX is a specialized pipeline that un
 
 ## Why This Matters
 
+<div align="center">
+<img src="docs/pixel-matters.svg" alt="Why This Matters" width="640" />
+<br>
+</div>
+
 Incident response runs on some of the worst documentation in the industry. According to Gartner, the average cost of IT downtime is $5,600 per minute. PagerDuty's 2024 report found that 69% of organizations take more than an hour to resolve incidents, often because responders lack clear, actionable guidance.
 
 REFLEX exists because runbooks should be generated from the source of truth - the code itself.
@@ -180,6 +185,11 @@ REFLEX exists because runbooks should be generated from the source of truth - th
 ---
 
 ## Responsible Use
+
+<div align="center">
+<img src="docs/pixel-responsible.svg" alt="Responsible Use" width="640" />
+<br>
+</div>
 
 REFLEX is designed to support - not replace - human judgment in incident response.
 
@@ -241,7 +251,7 @@ REFLEX is designed to support - not replace - human judgment in incident respons
 
 19. **Health Monitoring.** Built-in health check endpoint for deployment verification.
 
-20. **Pixel Art Dashboard.** Custom animated pixel art scenes with 7 frames for a distinctive visual identity.
+20. **Pixel Art Dashboard.** Custom animated pixel art scenes with 8 frames for a distinctive visual identity.
 
 ### Agent Skills
 
@@ -302,6 +312,11 @@ Output is guaranteed machine-parseable. No brittle regex parsing.
 
 ## Quick Start
 
+<div align="center">
+<img src="docs/pixel-quickstart.svg" alt="Quick Start" width="640" />
+<br>
+</div>
+
 ### Prerequisites
 
 - Python 3.10+, Node.js 18+
@@ -339,6 +354,11 @@ pytest tests/ -v
 
 ## API Reference
 
+<div align="center">
+<img src="docs/pixel-api.svg" alt="API Reference" width="640" />
+<br>
+</div>
+
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/` | Service info |
@@ -355,6 +375,11 @@ pytest tests/ -v
 ---
 
 ## Project Structure
+
+<div align="center">
+<img src="docs/pixel-structure.svg" alt="Project Structure" width="640" />
+<br>
+</div>
 
 ```
 reflex/
@@ -374,23 +399,25 @@ reflex/
 │   │   └── lib.rs                 # Rust WASM: failure sim, blast radius, cyclomatic complexity
 │   └── Cargo.toml
 ├── frontend/src/
-│   ├── App.tsx                    # Router with 9 views
+│   ├── App.tsx                    # Router with 9 views + nav state
 │   ├── components/
 │   │   ├── Dashboard.tsx          # Stats, severity breakdown, 6-lang demo
 │   │   ├── CodeEditor.tsx         # Code input + Agent Triage Wizard
-│   │   ├── CodeAnalysisView.tsx   # Line-by-line severity highlighting
-│   │   ├── RunbookViewer.tsx      # 5-phase viewer with L1/L2/L3 tooltips
+│   │   ├── CodeAnalysisView.tsx   # Line-by-line severity highlighting + complexity metrics
+│   │   ├── RunbookViewer.tsx      # 5-phase viewer with L1/L2/L3 tooltips + translation
 │   │   ├── DependencyGraph.tsx    # Interactive graph + related runbooks panel
-│   │   ├── BlastRadiusView.tsx    # Cascade sim + heatmap
-│   │   ├── AnalysisDiff.tsx       # Before/after comparison
-│   │   ├── Gallery.tsx            # Saved analyses
-│   │   └── About.tsx              # Built by + pixel art + feature showcase + ChatGPT comparison
+│   │   ├── BlastRadiusView.tsx    # Cascade sim + impact stats + animated SVG
+│   │   ├── AnalysisDiff.tsx       # Before/after comparison with pixel art
+│   │   ├── Gallery.tsx            # Saved analyses with gallery mode
+│   │   ├── About.tsx              # Built by + pixel art + feature showcase + ChatGPT comparison
+│   │   └── LightningBg.tsx        # Animated code rain background effect
 │   ├── hooks/
-│   │   ├── useStore.ts            # Zustand (analyzedCode, gallery, diff)
+│   │   ├── useStore.ts            # Zustand (analyzedCode, gallery, diff, view nav)
 │   │   └── useAnalysis.ts         # API client + demo loader + triage context
-│   └── data/
-│       ├── demo.ts                # Offline fallback
-│       └── demoSnippets.ts        # 6-language demo samples
+│   ├── data/
+│   │   ├── demo.ts                # Offline fallback
+│   │   └── demoSnippets.ts        # 6-language demo samples
+│   └── index.css                  # globals.css — Tailwind config + custom animations
 ├── tests/
 │   └── test_reflex.py             # Model, pipeline, and edge case tests
 ├── docs/
@@ -400,15 +427,30 @@ reflex/
 │   ├── pixel-solution.svg         # The Solution section art
 │   ├── pixel-beforeafter.svg      # Before/After proof section art
 │   ├── pixel-chatgpt.svg          # ChatGPT comparison section art
+│   ├── pixel-matters.svg          # Why This Matters section art
 │   ├── pixel-who.svg              # Who Benefits section art
+│   ├── pixel-responsible.svg      # Responsible Use section art
 │   ├── pixel-features.svg         # Features section art
-│   └── pixel-architecture.svg     # Architecture section art
+│   ├── pixel-architecture.svg     # Architecture section art
+│   ├── pixel-quickstart.svg       # Quick Start section art
+│   ├── pixel-api.svg              # API Reference section art
+│   ├── pixel-structure.svg        # Project Structure section art
+│   ├── pixel-languages.svg        # Supported Languages section art
+│   ├── pixel-limitations.svg      # Limitations section art
+│   ├── pixel-future.svg           # Future Work section art
+│   ├── pixel-builtby.svg          # Built By section art
+│   └── pixel-contributing.svg     # Contributing section art
 └── README.md
 ```
 
 ---
 
 ## Supported Languages
+
+<div align="center">
+<img src="docs/pixel-languages.svg" alt="Supported Languages" width="640" />
+<br>
+</div>
 
 **Code Analysis:** Python, Go, Rust, Java, TypeScript, YAML/Docker (with built-in demo samples for each).
 
@@ -418,6 +460,11 @@ reflex/
 
 ## Limitations
 
+<div align="center">
+<img src="docs/pixel-limitations.svg" alt="Limitations" width="640" />
+<br>
+</div>
+
 - **Model dependency.** Analysis quality depends entirely on Mistral Large 3's understanding of the submitted code. Complex multi-file architectures with indirect dependencies may produce incomplete scenario coverage.
 - **Single-pass code parsing.** The current pipeline sends code as raw text. There is no AST-level parsing, which means some language-specific patterns (e.g. Rust lifetimes, Go goroutine leaks) may be under-reported.
 - **No persistent storage.** Gallery saves to `localStorage`. Clearing browser data removes all saved analyses.
@@ -425,6 +472,11 @@ reflex/
 - **Translation fidelity.** Runbook translation preserves command syntax but may occasionally localize technical terms that should remain in English.
 
 ## Future Work
+
+<div align="center">
+<img src="docs/pixel-future.svg" alt="Future Work" width="640" />
+<br>
+</div>
 
 - **CI/CD integration.** GitHub Action that auto-regenerates runbooks on merge to main, with diff against previous version committed as PR comment.
 - **AST-aware analysis.** Integrate `tree-sitter` for language-specific parsing. Extract call graphs, type annotations, and dependency injection patterns before sending to Mistral.
@@ -435,6 +487,11 @@ reflex/
 ---
 
 ## Contributing
+
+<div align="center">
+<img src="docs/pixel-contributing.svg" alt="Contributing" width="640" />
+<br>
+</div>
 
 Contributions welcome. Open an issue first to discuss your proposed change. For major features, a short design note in the issue thread helps align on approach before implementation.
 
@@ -453,6 +510,9 @@ REFLEX is an AI-assisted tool designed to support, not replace, human judgment. 
 ---
 
 <div align="center">
+
+<img src="docs/pixel-builtby.svg" alt="Built By" width="640" />
+<br>
 
 ### 🧑‍💻 Built by [Wiqi Lee](https://x.com/wiqi_lee)
 

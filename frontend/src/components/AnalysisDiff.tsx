@@ -266,6 +266,9 @@ function DiffBadge({ before, after, label }: { before: number; after: number; la
   const textMap: Record<string, string> = {
     'Total Issues': 'text-blue-300/80', 'Critical': 'text-red-300/80', 'High': 'text-orange-300/80', 'Medium': 'text-yellow-300/80', 'Runbooks': 'text-purple-300/80',
   };
+  const afterColorMap: Record<string, string> = {
+    'Total Issues': 'group-hover:text-blue-400', 'Critical': 'group-hover:text-red-400', 'High': 'group-hover:text-orange-400', 'Medium': 'group-hover:text-yellow-400', 'Runbooks': 'group-hover:text-purple-400',
+  };
   return (
     <div className={`relative overflow-hidden rounded-xl border bg-gradient-to-br ${colorMap[label] || colorMap['Total Issues']} shadow-lg text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group`}>
       <div className={`absolute top-0 left-0 w-full h-0.5 ${topBarMap[label] || 'bg-blue-500'} group-hover:h-1 transition-all duration-300`} />
@@ -273,7 +276,7 @@ function DiffBadge({ before, after, label }: { before: number; after: number; la
       <div className="flex items-center justify-center gap-2">
         <span className="text-lg text-reflex-text/40 font-mono">{before}</span>
         <span className="text-pink-300/30 font-bold">→</span>
-        <span className={`text-lg font-bold font-mono ${better ? 'text-green-400' : worse ? 'text-red-400' : 'text-reflex-text/60'}`}>{after}</span>
+        <span className={`text-lg font-bold font-mono transition-all duration-300 group-hover:text-2xl ${better ? 'text-green-400' : worse ? 'text-red-400' : 'text-reflex-text/60'} ${afterColorMap[label] || ''}`}>{after}</span>
       </div>
       {diff !== 0 && (
         <p className={`text-xs mt-1.5 font-medium ${better ? 'text-green-400' : 'text-red-400'}`}>
@@ -422,9 +425,9 @@ export default function AnalysisDiff() {
                   <h4 className="text-sm font-semibold text-green-400 mb-2">✅ Fixed ({fixed.length})</h4>
                   <div className="space-y-1.5">
                     {fixed.sort((a, b) => SEV_ORDER[a.severity] - SEV_ORDER[b.severity]).map(s => (
-                      <div key={s.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-green-500/5 border border-green-500/15 transition-all duration-200 hover:bg-green-500/10 hover:border-green-500/25 hover:scale-[1.01] diff-item">
+                      <div key={s.id} className="group flex items-center gap-3 p-2.5 rounded-lg bg-green-500/5 border border-green-500/15 transition-all duration-200 hover:bg-green-500/10 hover:border-green-500/30 diff-item">
                         <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${SEV_COLORS[s.severity].bg} ${SEV_COLORS[s.severity].text} border ${SEV_COLORS[s.severity].border} line-through opacity-60`}>{s.severity}</span>
-                        <span className="text-xs text-reflex-text/50 line-through flex-1">{s.title}</span>
+                        <span className="text-xs text-reflex-text/50 line-through flex-1 group-hover:text-reflex-text/70 transition-colors">{s.title}</span>
                         <span className="text-green-400 text-xs shrink-0 font-bold">RESOLVED</span>
                       </div>
                     ))}
@@ -437,9 +440,9 @@ export default function AnalysisDiff() {
                   <h4 className="text-sm font-semibold text-red-400 mb-2">🆕 New Issues ({newIssues.length})</h4>
                   <div className="space-y-1.5">
                     {newIssues.sort((a, b) => SEV_ORDER[a.severity] - SEV_ORDER[b.severity]).map(s => (
-                      <div key={s.id} className={`flex items-center gap-3 p-2.5 rounded-lg ${SEV_COLORS[s.severity].bg} border ${SEV_COLORS[s.severity].border} transition-all duration-200 hover:brightness-125 hover:scale-[1.01] diff-item`}>
+                      <div key={s.id} className={`group flex items-center gap-3 p-2.5 rounded-lg ${SEV_COLORS[s.severity].bg} border ${SEV_COLORS[s.severity].border} transition-all duration-200 hover:brightness-125 diff-item`}>
                         <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${SEV_COLORS[s.severity].bg} ${SEV_COLORS[s.severity].text} border ${SEV_COLORS[s.severity].border}`}>{s.severity}</span>
-                        <span className="text-xs text-reflex-text/80 flex-1">{s.title}</span>
+                        <span className="text-xs text-reflex-text/80 flex-1 group-hover:text-white/85 transition-colors">{s.title}</span>
                         <span className="text-red-400 text-xs shrink-0 font-bold">NEW</span>
                       </div>
                     ))}
@@ -455,7 +458,7 @@ export default function AnalysisDiff() {
                       const prev = before.scenarios.find(bs => bs.title.toLowerCase() === s.title.toLowerCase());
                       const changed = prev && prev.severity !== s.severity;
                       return (
-                        <div key={s.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-reflex-border/20 border border-reflex-border/30 transition-all duration-200 hover:bg-reflex-border/35 hover:border-reflex-border/50 hover:scale-[1.01] diff-item">
+                        <div key={s.id} className="group flex items-center gap-3 p-2.5 rounded-lg bg-reflex-border/20 border border-reflex-border/30 transition-all duration-200 hover:bg-reflex-border/35 hover:border-reflex-border/50 diff-item">
                           {changed ? (
                             <div className="flex items-center gap-1">
                               <span className={`text-[10px] font-bold uppercase ${SEV_COLORS[prev!.severity].text} line-through opacity-50`}>{prev!.severity}</span>
@@ -465,7 +468,7 @@ export default function AnalysisDiff() {
                           ) : (
                             <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${SEV_COLORS[s.severity].bg} ${SEV_COLORS[s.severity].text} border ${SEV_COLORS[s.severity].border}`}>{s.severity}</span>
                           )}
-                          <span className="text-xs text-reflex-text/60 flex-1">{s.title}</span>
+                          <span className="text-xs text-reflex-text/60 flex-1 group-hover:text-white/75 transition-colors">{s.title}</span>
                         </div>
                       );
                     })}
