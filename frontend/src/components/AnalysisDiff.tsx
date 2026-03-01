@@ -76,121 +76,137 @@ function drawDiffScene(ctx: CanvasRenderingContext2D, f: number, W: number, H: n
   rect(ctx, 0, 0, pw, ph, '#0a0a1a');
 
   const midX = Math.floor(pw / 2);
+  const groundY = ph - 5;
 
-  // ── LEFT: "Before" document with red issues ──
-  const leftX = Math.floor(pw * 0.22);
-  const docY = 4;
+  // ── LEFT: Worried person at desk with red doc ──
+  const lx = Math.floor(pw * 0.2);
+  const ly = groundY - 16;
 
-  // Document frame
-  rect(ctx, leftX - 10, docY, 20, 22, '#1e293b');
-  rect(ctx, leftX - 9, docY + 1, 18, 20, '#0a0a1a');
+  // Desk
+  rect(ctx, lx - 8, ly + 10, 16, 2, '#4a3728');
+  rect(ctx, lx - 7, ly + 12, 2, 4, '#3d2e21');
+  rect(ctx, lx + 5, ly + 12, 2, 4, '#3d2e21');
 
-  // Title bar
-  rect(ctx, leftX - 9, docY + 1, 18, 2, '#ef4444' + '44');
+  // Red document on desk
+  rect(ctx, lx - 4, ly + 7, 8, 3, '#1e293b');
+  rect(ctx, lx - 3, ly + 8, 3, 1, '#ef4444');
+  rect(ctx, lx + 1, ly + 8, 2, 1, '#ef4444');
 
-  // Code lines with red markers
-  for (let i = 0; i < 6; i++) {
-    const lw = 6 + ((i * 5 + 3) % 10);
-    const ly = docY + 5 + i * 3;
-    const isBad = i === 1 || i === 3 || i === 5;
-    // Severity dot
-    if (isBad) {
-      px(ctx, leftX - 8, ly, '#ef4444');
-      rect(ctx, leftX - 6, ly, lw, 1, '#ef4444' + '55');
-    } else {
-      rect(ctx, leftX - 6, ly, lw, 1, '#374151');
+  // Red X marks on document
+  if (Math.sin(f * 0.06) > -0.3) {
+    px(ctx, lx - 2, ly + 7, '#ef4444');
+    px(ctx, lx + 3, ly + 7, '#ef4444');
+  }
+
+  // Person body (sitting)
+  rect(ctx, lx - 1, ly + 3, 3, 4, '#3b82f6'); // shirt
+  rect(ctx, lx - 2, ly + 5, 1, 3, '#3b82f6'); // left arm reaching to doc
+  rect(ctx, lx + 2, ly + 5, 1, 3, '#3b82f6'); // right arm
+
+  // Head
+  rect(ctx, lx - 1, ly, 3, 3, '#fbbf24'); // face
+  px(ctx, lx - 1, ly + 1, '#1a1a2e'); // eye left
+  px(ctx, lx + 1, ly + 1, '#1a1a2e'); // eye right
+  // Frown - animated
+  if (Math.sin(f * 0.04) > 0) {
+    px(ctx, lx, ly + 2, '#ef4444'); // worried mouth
+  }
+
+  // Sweat drop
+  if (Math.sin(f * 0.05) > 0.3) {
+    px(ctx, lx + 2, ly - 1, '#60a5fa');
+  }
+
+  // Red warning bubble
+  const bubbleY = ly - 5 + Math.sin(f * 0.04) * 0.8;
+  px(ctx, lx + 5, Math.floor(bubbleY), '#ef4444');
+  px(ctx, lx + 6, Math.floor(bubbleY) - 1, '#ef4444');
+  px(ctx, lx + 6, Math.floor(bubbleY), '#ef4444');
+  px(ctx, lx + 7, Math.floor(bubbleY), '#ef4444');
+
+  // ── CENTER: Sparkle transformation ──
+  // Arrow made of particles
+  for (let p = 0; p < 5; p++) {
+    const t = ((f * 0.04 + p * 1.8) % 10) / 10;
+    const sx = midX - 8 + t * 16;
+    const sy = ph / 2 + Math.sin(t * Math.PI) * -3;
+    const colors = ['#f97316', '#fbbf24', '#22c55e', '#60a5fa', '#a855f7'];
+    px(ctx, Math.floor(sx), Math.floor(sy), colors[p]);
+  }
+
+  // Center sparkle burst
+  const sparkR = 2 + Math.sin(f * 0.06) * 1;
+  for (let a = 0; a < 6; a++) {
+    const angle = (a / 6) * Math.PI * 2 + f * 0.03;
+    const spx = midX + Math.cos(angle) * sparkR;
+    const spy = ph / 2 + Math.sin(angle) * sparkR;
+    px(ctx, Math.floor(spx), Math.floor(spy), '#fbbf24');
+  }
+
+  // ── RIGHT: Happy person at desk with green doc ──
+  const rx = Math.floor(pw * 0.8);
+  const ry = groundY - 16;
+
+  // Desk
+  rect(ctx, rx - 8, ry + 10, 16, 2, '#4a3728');
+  rect(ctx, rx - 7, ry + 12, 2, 4, '#3d2e21');
+  rect(ctx, rx + 5, ry + 12, 2, 4, '#3d2e21');
+
+  // Green document on desk
+  rect(ctx, rx - 4, ry + 7, 8, 3, '#1e293b');
+  rect(ctx, rx - 3, ry + 8, 3, 1, '#22c55e');
+  rect(ctx, rx + 1, ry + 8, 2, 1, '#22c55e');
+
+  // Green checkmarks on document
+  px(ctx, rx - 2, ry + 7, '#22c55e');
+  px(ctx, rx + 3, ry + 7, '#22c55e');
+
+  // Person body (sitting, arms up celebrating)
+  rect(ctx, rx - 1, ry + 3, 3, 4, '#22c55e'); // shirt green = success!
+  // Arms raised in celebration
+  const armUp = Math.sin(f * 0.08) > 0 ? -1 : 0;
+  px(ctx, rx - 2, ry + 3 + armUp, '#22c55e');
+  px(ctx, rx - 2, ry + 2 + armUp, '#fbbf24');
+  px(ctx, rx + 2, ry + 3 + armUp, '#22c55e');
+  px(ctx, rx + 2, ry + 2 + armUp, '#fbbf24');
+
+  // Head
+  rect(ctx, rx - 1, ry, 3, 3, '#fbbf24');
+  px(ctx, rx - 1, ry + 1, '#1a1a2e');
+  px(ctx, rx + 1, ry + 1, '#1a1a2e');
+  // Smile
+  px(ctx, rx - 1, ry + 2, '#22c55e');
+  px(ctx, rx, ry + 2, '#22c55e');
+  px(ctx, rx + 1, ry + 2, '#22c55e');
+
+  // Floating hearts
+  for (let h = 0; h < 3; h++) {
+    const hy = ry - 3 - ((f * 0.03 + h * 3) % 8);
+    const hx = rx - 2 + h * 3 + Math.sin(f * 0.04 + h) * 1;
+    if (hy > ry - 8) {
+      px(ctx, Math.floor(hx), Math.floor(hy), '#ec4899');
+      px(ctx, Math.floor(hx) + 1, Math.floor(hy), '#ec4899');
     }
   }
 
-  // "BEFORE" label
-  const beforeLabel = 'BEFORE';
-  for (let c = 0; c < beforeLabel.length; c++) {
-    px(ctx, leftX - Math.floor(beforeLabel.length / 2) + c, docY + 25, '#ef4444');
-  }
-
-  // ── CENTER: Arrow with transformation effect ──
-  const arrowPhase = Math.sin(f * 0.04);
-  const arrowColor = arrowPhase > 0 ? '#f97316' : '#22c55e';
-  rect(ctx, midX - 4, ph / 2 - 1, 8, 2, arrowColor);
-  px(ctx, midX + 4, ph / 2 - 2, arrowColor);
-  px(ctx, midX + 4, ph / 2 + 1, arrowColor);
-  px(ctx, midX + 5, ph / 2 - 1, arrowColor);
-  px(ctx, midX + 5, ph / 2, arrowColor);
-
-  // Sparkle particles moving along arrow
-  for (let p = 0; p < 3; p++) {
-    const t = ((f * 0.05 + p * 2.5) % 8) / 8;
-    const sx = midX - 4 + t * 10;
-    const sy = ph / 2 - 1 + Math.sin(t * Math.PI * 2) * 1.5;
-    px(ctx, Math.floor(sx), Math.floor(sy), '#fbbf24');
-  }
-
-  // ── RIGHT: "After" document with green checks ──
-  const rightX = Math.floor(pw * 0.78);
-
-  // Document frame
-  rect(ctx, rightX - 10, docY, 20, 22, '#1e293b');
-  rect(ctx, rightX - 9, docY + 1, 18, 20, '#0a0a1a');
-
-  // Title bar
-  rect(ctx, rightX - 9, docY + 1, 18, 2, '#22c55e' + '44');
-
-  // Code lines with green checks
-  for (let i = 0; i < 6; i++) {
-    const lw = 6 + ((i * 5 + 3) % 10);
-    const ly = docY + 5 + i * 3;
-    const wasFixed = i === 1 || i === 3 || i === 5;
-    if (wasFixed) {
-      px(ctx, rightX - 8, ly, '#22c55e');
-      rect(ctx, rightX - 6, ly, lw, 1, '#22c55e' + '55');
-      // Checkmark
-      const checkAppear = (f * 0.02) % 6 > i;
-      if (checkAppear) {
-        px(ctx, rightX + lw - 4, ly, '#22c55e');
-        px(ctx, rightX + lw - 3, ly - 1, '#22c55e');
-      }
-    } else {
-      rect(ctx, rightX - 6, ly, lw, 1, '#374151');
-    }
-  }
-
-  // "AFTER" label
-  const afterLabel = 'AFTER';
-  for (let c = 0; c < afterLabel.length; c++) {
-    px(ctx, rightX - Math.floor(afterLabel.length / 2) + c, docY + 25, '#22c55e');
-  }
-
-  // ── Floating metrics ──
-  // Risk score going down
-  const riskY = 3 + Math.sin(f * 0.03) * 1;
-  const downArrow = [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [1, 2]];
-  downArrow.forEach(([dx, dy]) => {
-    px(ctx, midX - 1 + dx, Math.floor(riskY) + dy + ph / 2 + 4, '#22c55e');
-  });
-
-  // Percentage floating
-  if (Math.sin(f * 0.035) > 0) {
-    const pctDots = [[0,0],[1,0],[2,0],[3,0]]; // "38%"
-    pctDots.forEach(([dx]) => {
-      px(ctx, midX - 2 + dx, Math.floor(riskY) + ph / 2 + 8, '#22c55e');
-    });
-  }
-
-  // Stars
+  // ── Floating stars everywhere ──
   const stars = [
-    [6, 4, 0], [pw - 8, 6, 1], [12, ph - 6, 2],
-    [pw - 12, ph - 5, 3], [midX - 15, 3, 4], [midX + 15, 5, 5],
+    [8, 5, 0], [pw - 10, 4, 1], [15, ph - 8, 2],
+    [pw - 15, ph - 7, 3], [midX - 18, 6, 4], [midX + 18, 4, 5],
+    [midX, 3, 6], [25, 10, 7], [pw - 25, 10, 8],
   ];
   stars.forEach(([sx, sy, d]) => {
-    if (Math.sin(f * 0.04 + (d as number) * 1.3) > 0.4)
-      px(ctx, sx as number, sy as number, '#fbbf24');
+    const twinkle = Math.sin(f * 0.05 + (d as number) * 1.5);
+    if (twinkle > 0.2) {
+      const col = twinkle > 0.7 ? '#fbbf24' : '#6b7280';
+      px(ctx, sx as number, sy as number, col);
+    }
   });
 
-  // Bottom label
-  ctx.font = 'bold 14px "JetBrains Mono", monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#6b7280';
-  ctx.fillText('Track Risk Reduction Over Time', W / 2, H - 5);
+  // Ground line
+  for (let x = 0; x < pw; x += 3) {
+    px(ctx, x, groundY, '#1e293b');
+  }
 }
 
 function PixelCanvas({ draw, width = 800, height = 120 }: { draw: (ctx: CanvasRenderingContext2D, f: number, w: number, h: number) => void; width?: number; height?: number }) {
@@ -237,9 +253,23 @@ function DiffBadge({ before, after, label }: { before: number; after: number; la
   const diff = after - before;
   const better = diff < 0;
   const worse = diff > 0;
+  const colorMap: Record<string, string> = {
+    'Total Issues': 'from-blue-500/20 via-blue-600/5 to-transparent border-blue-500/40 shadow-blue-500/10',
+    'Critical': 'from-red-500/20 via-red-600/5 to-transparent border-red-500/40 shadow-red-500/10',
+    'High': 'from-orange-500/20 via-orange-600/5 to-transparent border-orange-500/40 shadow-orange-500/10',
+    'Medium': 'from-yellow-500/20 via-yellow-600/5 to-transparent border-yellow-500/40 shadow-yellow-500/10',
+    'Runbooks': 'from-purple-500/20 via-purple-600/5 to-transparent border-purple-500/40 shadow-purple-500/10',
+  };
+  const topBarMap: Record<string, string> = {
+    'Total Issues': 'bg-blue-500', 'Critical': 'bg-red-500', 'High': 'bg-orange-500', 'Medium': 'bg-yellow-500', 'Runbooks': 'bg-purple-500',
+  };
+  const textMap: Record<string, string> = {
+    'Total Issues': 'text-blue-300/80', 'Critical': 'text-red-300/80', 'High': 'text-orange-300/80', 'Medium': 'text-yellow-300/80', 'Runbooks': 'text-purple-300/80',
+  };
   return (
-    <div className="card text-center py-4 transition-all duration-300 hover:scale-[1.03] diff-card group">
-      <p className="text-xs text-pink-300/80 uppercase tracking-wider mb-1.5 font-bold">{label}</p>
+    <div className={`relative overflow-hidden rounded-xl border bg-gradient-to-br ${colorMap[label] || colorMap['Total Issues']} shadow-lg text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group`}>
+      <div className={`absolute top-0 left-0 w-full h-0.5 ${topBarMap[label] || 'bg-blue-500'} group-hover:h-1 transition-all duration-300`} />
+      <p className={`text-xs ${textMap[label] || 'text-blue-300/80'} uppercase tracking-wider mb-1.5 font-bold`}>{label}</p>
       <div className="flex items-center justify-center gap-2">
         <span className="text-lg text-reflex-text/40 font-mono">{before}</span>
         <span className="text-pink-300/30 font-bold">→</span>

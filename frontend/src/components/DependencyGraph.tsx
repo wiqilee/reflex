@@ -130,10 +130,7 @@ export default function DependencyGraph() {
     <div className="space-y-4 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => useStore.getState().goBack()} className="text-reflex-muted hover:text-reflex-text text-sm transition-colors">← Back</button>
-            <h2 className="text-xl font-bold">Dependency Graph</h2>
-          </div>
+          <h2 className="text-xl font-bold">Dependency Graph</h2>
           <p className="text-reflex-muted text-sm">
             {nodes.length} nodes, {edges.length} connections — hover to explore, click to see related runbooks
           </p>
@@ -416,7 +413,7 @@ export default function DependencyGraph() {
                       <div
                         key={rb.id}
                         onClick={() => viewRunbook(rb)}
-                        className={`p-2.5 rounded-lg border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${SEV_BADGE[rb.scenario.severity] || ''} ${HOVER_GLOW_COLORS[idx % HOVER_GLOW_COLORS.length]}`}
+                        className={`p-2.5 rounded-lg border cursor-pointer transition-all duration-300 hover:shadow-lg ${SEV_BADGE[rb.scenario.severity] || ''} ${HOVER_GLOW_COLORS[idx % HOVER_GLOW_COLORS.length]}`}
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${SEV_BADGE[rb.scenario.severity]}`}>
@@ -485,7 +482,7 @@ export default function DependencyGraph() {
       </div>
 
       {/* Interpretation */}
-      <div className="card hover:border-reflex-accent/20 hover:bg-reflex-accent/5 transition-all cursor-default">
+      <div className="card hover:border-transparent transition-all cursor-default group" style={{ transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.borderImage = 'linear-gradient(135deg, #f97316, #ec4899, #a855f7, #3b82f6, #22c55e) 1'; e.currentTarget.style.borderImageSlice = '1'; e.currentTarget.style.boxShadow = '0 0 20px rgba(249,115,22,0.1), 0 0 40px rgba(168,85,247,0.05)'; }} onMouseLeave={(e) => { e.currentTarget.style.borderImage = 'none'; e.currentTarget.style.border = '1px solid rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none'; }}>
         <h3 className="font-semibold mb-3 flex items-center gap-2">📊 Graph Interpretation</h3>
         <div className="space-y-3 text-sm text-reflex-text/70 leading-relaxed">
           <p>

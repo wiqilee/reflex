@@ -914,12 +914,12 @@ export default function About() {
         <p className="text-reflex-text/60 text-sm mb-6">A fair question. Here is why <span className="reflex-shimmer font-semibold">REFLEX</span> exists as a dedicated tool instead of a prompt.</p>
 
         {/* Comparison table */}
-        <div className="rounded-xl border border-white/[0.03] overflow-hidden">
+        <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.025)' }}>
           {/* Header */}
-          <div className="grid bg-white/[0.02] border-b border-white/[0.03]" style={{ gridTemplateColumns: '140px 1fr 1fr' }}>
-            <div className="p-3 text-xs font-bold uppercase tracking-wider text-reflex-accent">Criteria</div>
-            <div className="p-3 text-xs font-bold uppercase tracking-wider text-red-400/80 text-center border-x border-white/[0.02]">ChatGPT</div>
-            <div className="p-3 text-xs font-bold uppercase tracking-wider text-teal-400 text-center">REFLEX</div>
+          <div className="grid" style={{ gridTemplateColumns: '150px 1fr 1fr', borderBottom: '1px solid rgba(255,255,255,0.025)', background: 'rgba(255,255,255,0.015)' }}>
+            <div className="px-5 py-4 text-xs font-bold uppercase tracking-wider text-reflex-accent">Criteria</div>
+            <div className="px-5 py-4 text-xs font-bold uppercase tracking-wider text-red-400/80 text-center" style={{ borderLeft: '1px solid rgba(255,255,255,0.02)', borderRight: '1px solid rgba(255,255,255,0.02)' }}>ChatGPT</div>
+            <div className="px-5 py-4 text-xs font-bold uppercase tracking-wider text-teal-400 text-center">REFLEX</div>
           </div>
 
           {/* Rows */}
@@ -934,16 +934,16 @@ export default function About() {
           ].map((row, i) => (
             <div
               key={row.label}
-              className={`grid text-sm items-center border-b border-white/[0.02] last:border-b-0 hover:bg-white/[0.015] transition-colors duration-300 cursor-default group ${i % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'}`}
-              style={{ gridTemplateColumns: '140px 1fr 1fr' }}
+              className="grid text-sm items-center hover:bg-white/[0.015] transition-colors duration-300 cursor-default group"
+              style={{ gridTemplateColumns: '150px 1fr 1fr', borderBottom: i < 6 ? '1px solid rgba(255,255,255,0.02)' : 'none', background: i % 2 !== 0 ? 'rgba(255,255,255,0.008)' : 'transparent' }}
             >
-              <div className="p-3 font-semibold text-reflex-text/90 group-hover:text-reflex-accent transition-colors duration-300">
+              <div className="px-5 py-4 font-semibold text-reflex-text/90 group-hover:text-reflex-accent transition-colors duration-300">
                 {row.label}
               </div>
-              <div className="p-3 text-red-400/50 text-center border-x border-white/[0.02] group-hover:text-red-400/80 transition-colors duration-300">
+              <div className="px-5 py-4 text-red-400/50 text-center group-hover:text-red-400/80 transition-colors duration-300" style={{ borderLeft: '1px solid rgba(255,255,255,0.015)', borderRight: '1px solid rgba(255,255,255,0.015)' }}>
                 {row.chatgpt}
               </div>
-              <div className="p-3 text-teal-400/80 text-center font-medium group-hover:text-teal-300 transition-colors duration-300">
+              <div className="px-5 py-4 text-teal-400/80 text-center font-medium group-hover:text-teal-300 transition-colors duration-300">
                 {row.reflex}
               </div>
             </div>

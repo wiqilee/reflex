@@ -210,7 +210,7 @@ function ComplexityPanel({ code, language }: { code: string; language: string })
             <div key={m.label} className={`group relative rounded-xl border ${m.borderColor} bg-reflex-border/10 p-3 text-center transition-all duration-300 hover:shadow-lg ${m.glow} ${m.hoverBorder} cursor-default`}>
               <p className={`text-2xl font-black ${m.color} group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300`}>{m.value}</p>
               <p className="text-[10px] text-reflex-text/50 uppercase tracking-wider mt-1 font-bold">{m.label}</p>
-              <p className="text-[9px] text-reflex-text/45 mt-1.5 leading-tight">{m.interp}</p>
+              <p className="text-[9px] text-reflex-text/45 mt-1.5 leading-tight group-hover:text-white transition-colors duration-300">{m.interp}</p>
             </div>
           ))}
         </div>

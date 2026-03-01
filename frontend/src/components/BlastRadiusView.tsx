@@ -69,10 +69,7 @@ export default function BlastRadiusView() {
     <div className="space-y-4 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => useStore.getState().goBack()} className="text-reflex-muted hover:text-reflex-text text-sm transition-colors">← Back</button>
-            <h2 className="text-xl font-bold">💥 Blast Radius Calculator</h2>
-          </div>
+          <h2 className="text-xl font-bold">💥 Blast Radius Calculator</h2>
           <p className="text-reflex-muted text-sm mt-1">
             What happens when a node goes down? Select a service to see the cascade impact.
           </p>
@@ -124,12 +121,26 @@ export default function BlastRadiusView() {
                   <stop offset="0%" stopColor={ringColors[selected.severity]} stopOpacity="0.12" />
                   <stop offset="100%" stopColor={ringColors[selected.severity]} stopOpacity="0" />
                 </radialGradient>
+                <style>{`
+                  @keyframes blast-ring-pulse { 0%,100% { opacity: 0.12; } 50% { opacity: 0.25; } }
+                  @keyframes blast-ring-rotate { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 40; } }
+                  @keyframes blast-center-pulse { 0%,100% { r: 50; opacity: 1; } 50% { r: 53; opacity: 0.85; } }
+                  @keyframes blast-center-glow { 0%,100% { opacity: 0.15; r: 58; } 50% { opacity: 0.3; r: 64; } }
+                  @keyframes blast-node-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+                  .blast-ring { animation: blast-ring-rotate 6s linear infinite, blast-ring-pulse 3s ease-in-out infinite; }
+                  .blast-ring-1 { animation-delay: 0s; }
+                  .blast-ring-2 { animation-delay: 0.5s; }
+                  .blast-ring-3 { animation-delay: 1s; }
+                  .blast-center { animation: blast-center-pulse 2.5s ease-in-out infinite; }
+                  .blast-center-glow { animation: blast-center-glow 2.5s ease-in-out infinite; }
+                  .blast-node { animation: blast-node-bob 3s ease-in-out infinite; }
+                `}</style>
               </defs>
 
-              <circle cx="300" cy="300" r={Math.min(selected.depth + 1, 3) * 80 + 20} fill="url(#blastGrad)" />
+              <circle cx="300" cy="300" r={Math.min(selected.depth + 1, 3) * 80 + 20} fill="url(#blastGrad)" className="blast-ring-pulse" />
 
               {[3, 2, 1].map(ring => (
-                <circle key={ring} cx="300" cy="300" r={ring * 80} fill="none" stroke={ringColors[selected.severity]} strokeWidth="1" opacity={0.15 + (3 - ring) * 0.05} strokeDasharray="6 4" />
+                <circle key={ring} cx="300" cy="300" r={ring * 80} fill="none" stroke={ringColors[selected.severity]} strokeWidth="1" opacity={0.15 + (3 - ring) * 0.05} strokeDasharray="6 4" className={`blast-ring blast-ring-${ring}`} />
               ))}
 
               {selected.affected.map((name, i) => {
@@ -139,10 +150,12 @@ export default function BlastRadiusView() {
                 const dist = 130 + ringLevel * 70;
                 const x = 300 + dist * Math.cos(angle);
                 const y = 300 + dist * Math.sin(angle);
-                return <line key={`line-${name}`} x1="300" y1="300" x2={x} y2={y} stroke={ringColors[selected.severity]} strokeWidth="1.5" opacity="0.3" strokeDasharray="5 4" />;
+                return <line key={`line-${name}`} x1="300" y1="300" x2={x} y2={y} stroke={ringColors[selected.severity]} strokeWidth="1.5" opacity="0.3" strokeDasharray="5 4" className="blast-ring" />;
               })}
 
-              <circle cx="300" cy="300" r="50" fill="#1a1d27" stroke={ringColors[selected.severity]} strokeWidth="3" />
+              {/* Center glow ring */}
+              <circle cx="300" cy="300" r="58" fill="none" stroke={ringColors[selected.severity]} strokeWidth="1" className="blast-center-glow" />
+              <circle cx="300" cy="300" r="50" fill="#1a1d27" stroke={ringColors[selected.severity]} strokeWidth="3" className="blast-center" />
               <text x="300" y="288" textAnchor="middle" fontSize="20" className="pointer-events-none">💥</text>
               <text x="300" y="308" textAnchor="middle" fontSize={selected.origin.length > 14 ? '8' : '10'} fill="#f1f5f9" fontWeight="bold" className="pointer-events-none">
                 {selected.origin.length > 14 ? selected.origin.slice(0, 14) + '..' : selected.origin}
@@ -156,7 +169,8 @@ export default function BlastRadiusView() {
                 const x = 300 + dist * Math.cos(angle);
                 const y = 300 + dist * Math.sin(angle);
                 return (
-                  <g key={name}>
+                  <g key={name} className="blast-node" style={{ transformOrigin: `${x}px ${y}px`, animationDelay: `${i * 0.4}s` }}>
+                    <circle cx={x} cy={y} r="44" fill="none" stroke="#ef4444" strokeWidth="1" opacity="0.2" strokeDasharray="3 3" className="blast-ring" style={{ animationDelay: `${i * 0.3}s` }} />
                     <circle cx={x} cy={y} r="40" fill="#1a1d27" stroke="#ef4444" strokeWidth="2" opacity="0.9" />
                     <text x={x} y={y - 6} textAnchor="middle" fontSize="14" className="pointer-events-none">💀</text>
                     <text x={x} y={y + 12} textAnchor="middle" fontSize={name.length > 12 ? '8' : '9'} fill="#cbd5e1" fontWeight="600" className="pointer-events-none">

@@ -58,7 +58,7 @@ export default function App() {
           <nav className="flex gap-1">
             {NAV_ITEMS.map((item) => {
               if (item.id === 'code-view' && !analyzedCode) return null;
-              const blocked = galleryMode && item.id === 'editor';
+              const blocked = (galleryMode && item.id === 'editor') || (analysis && item.id === 'editor');
 
               return (
                 <button
@@ -69,7 +69,7 @@ export default function App() {
                       ? 'bg-reflex-accent/15 text-reflex-accent font-medium'
                       : 'text-reflex-muted hover:text-reflex-text hover:bg-reflex-border/50'
                   } ${!analysis && item.needsAnalysis ? 'opacity-40 pointer-events-none' : ''} ${blocked ? 'opacity-30 cursor-not-allowed' : ''}`}
-                  title={blocked ? 'Exit gallery mode to analyze new code' : undefined}
+                  title={blocked && analysis ? 'Click "New Scan" on Dashboard to analyze new code' : blocked ? 'Exit gallery mode to analyze new code' : undefined}
                 >
                   <span className="text-sm">{item.icon}</span>
                   {item.label}

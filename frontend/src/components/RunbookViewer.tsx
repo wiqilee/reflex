@@ -311,23 +311,24 @@ export default function RunbookViewer() {
 
     return (
       <div className="space-y-4">
-        {/* Navigation bar — top: back button only */}
+        {/* Navigation bar — top */}
         <div className="flex items-center justify-between">
           <button
-            onClick={() => {
-              if (cameFromGraph) {
-                // Go back to dependencies
-                setSelectedRunbook(null);
-                setView('graph');
-              } else {
-                setSelectedRunbook(null);
-              }
-            }}
+            onClick={() => setSelectedRunbook(null)}
             className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-accent/40 text-reflex-accent font-medium hover:bg-reflex-accent/10 hover:border-reflex-accent hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
           >
             <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-            {cameFromGraph ? '← Back to Dependencies' : 'All Runbooks'}
+            All Runbooks
           </button>
+          {cameFromGraph && (
+            <button
+              onClick={() => { setSelectedRunbook(null); setView('graph'); }}
+              className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-border/50 text-reflex-text/60 font-medium hover:border-reflex-accent/40 hover:text-reflex-accent hover:bg-reflex-accent/5 transition-all duration-300"
+            >
+              Dependencies
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          )}
         </div>
 
         <RunbookDetail runbook={selectedRunbook} />
