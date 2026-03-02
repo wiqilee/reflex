@@ -269,13 +269,14 @@ export default function DependencyGraph() {
                       style={{ transformOrigin: `${node.x}px ${node.y}px`, animation: 'spin 8s linear infinite' }}
                     />
                   )}
-                  {/* Idle pulse ring — subtle breathing */}
-                  {!isActive && !isClicked && (
+                  {/* Always-visible idle pulse ring — breathing + slow spin */}
+                  {!isClicked && (
                     <circle
-                      cx={node.x} cy={node.y} r={32}
-                      fill="none" stroke={tc.stroke} strokeWidth="0.5"
+                      cx={node.x} cy={node.y} r={34}
+                      fill="none" stroke={tc.stroke} strokeWidth="1"
+                      strokeDasharray="4 4"
                       className="dep-node-idle"
-                      style={{ animationDelay: `${Math.random() * 3}s` }}
+                      style={{ transformOrigin: `${node.x}px ${node.y}px`, animation: `dep-node-pulse 3s ease-in-out infinite, dep-ring-spin 10s linear infinite`, animationDelay: `${positions.indexOf(node) * 0.6}s` }}
                     />
                   )}
                   {/* Runbook indicator ring */}
