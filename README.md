@@ -19,10 +19,6 @@
 <img src="docs/pixel-scene.svg" alt="REFLEX Pixel Art" width="640" />
 <br>
 
-### 🚀 Live Demo
-
-[![Try It Now](https://img.shields.io/badge/Try_It_Now-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://YOUR_PROJECT.vercel.app)
-
 ### 🎬 Video Demo
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/watch?v=YOUR_VIDEO_ID)
