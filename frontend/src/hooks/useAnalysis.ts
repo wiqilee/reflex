@@ -1,11 +1,11 @@
 import { useStore } from './useStore';
 import { DEMO_RESULT, DEMO_CODE } from '../data/demo';
-import { getDemoSnippet } from '../data/demoSnippets';
+import { getDemoSnippet, DEMO_SNIPPETS } from '../data/demoSnippets';
 
 const API_BASE = '/api/v1';
 
 export function useAnalysis() {
-  const { setAnalysis, setLoading, setError, setAnalyzedCode } = useStore();
+  const { setAnalysis, setLoading, setError, setAnalyzedCode, setView } = useStore();
 
   const analyze = async (code: string, filename: string, language: string, context?: string) => {
     setLoading(true);
@@ -35,6 +35,25 @@ export function useAnalysis() {
     }
   };
 
+  /** Load a demo snippet into the CodeEditor page (does NOT auto-analyze).
+   *  The user can review the code, tweak filename, then click Analyze manually.
+   */
+  const loadDemoToEditor = (language: string) => {
+    const snippet = getDemoSnippet(language);
+    if (snippet) {
+      // Pre-fill the editor state — user will see the code filled in on the editor page
+      useStore.getState().setAnalyzedCode({
+        code: snippet.code,
+        filename: snippet.filename,
+        language: snippet.language,
+      });
+      // Navigate to editor page — CodeEditor will pick up the prefilled code
+      setView('editor');
+      return snippet;
+    }
+    return null;
+  };
+
   const loadDemo = async (language?: string) => {
     setLoading(true);
     setError(null);
@@ -43,7 +62,7 @@ export function useAnalysis() {
     if (language) {
       const snippet = getDemoSnippet(language);
       if (snippet) {
-        // Save the demo code for code-view highlighting
+        // FIX: Save the CORRECT demo code for this language (not always Python)
         setAnalyzedCode({ code: snippet.code, filename: snippet.filename, language: snippet.language });
         try {
           const res = await fetch(`${API_BASE}/analyze`, {
@@ -84,5 +103,5 @@ export function useAnalysis() {
     }
   };
 
-  return { analyze, loadDemo };
+  return { analyze, loadDemo, loadDemoToEditor };
 }

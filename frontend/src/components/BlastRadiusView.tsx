@@ -10,7 +10,7 @@ interface BlastResult {
 }
 
 export default function BlastRadiusView() {
-  const { analysis, selectedNode, setSelectedNode } = useStore();
+  const { analysis, selectedNode, setSelectedNode, setView } = useStore();
 
   if (!analysis) return null;
 
@@ -67,13 +67,35 @@ export default function BlastRadiusView() {
 
   return (
     <div className="space-y-4 animate-fade-in">
+      {/* FIX: Added Dashboard button + animated back button */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold">💥 Blast Radius Calculator</h2>
-          <p className="text-reflex-muted text-sm mt-1">
-            What happens when a node goes down? Select a service to see the cascade impact.
-          </p>
+        <div className="flex items-center gap-3">
+          {/* Animated back button */}
+          <button
+            onClick={() => setView('graph')}
+            className="group flex items-center gap-1.5 px-3 py-2 rounded-xl border border-reflex-text/15 text-reflex-text/50 hover:border-purple-400/40 hover:text-purple-400 hover:bg-purple-500/5 transition-all duration-300"
+            title="Back to Dependencies"
+          >
+            <span className="group-hover:-translate-x-1 transition-transform duration-300 text-lg">←</span>
+            <span className="text-sm">Dependencies</span>
+          </button>
+
+          <div>
+            <h2 className="text-xl font-bold">💥 Blast Radius Calculator</h2>
+            <p className="text-reflex-muted text-sm mt-1">
+              What happens when a node goes down? Select a service to see the cascade impact.
+            </p>
+          </div>
         </div>
+
+        {/* Dashboard button */}
+        <button
+          onClick={() => setView('dashboard')}
+          className="group flex items-center gap-2 px-4 py-2 rounded-xl border border-reflex-accent/30 text-reflex-accent hover:bg-reflex-accent/10 hover:border-reflex-accent hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
+        >
+          <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" /></svg>
+          <span className="text-sm font-medium">Dashboard</span>
+        </button>
       </div>
 
       {/* Node selector grid */}
@@ -103,7 +125,6 @@ export default function BlastRadiusView() {
       {/* Blast visualization */}
       {selected && (
         <div className="card animate-fade-in">
-          {/* FIXED: full text, no truncation, word-wrap */}
           <div className="flex items-start justify-between mb-4 gap-4">
             <h3 className="font-bold text-lg leading-snug">
               If <span className="text-reflex-accent break-all">{selected.origin}</span> goes down...
@@ -153,7 +174,6 @@ export default function BlastRadiusView() {
                 return <line key={`line-${name}`} x1="300" y1="300" x2={x} y2={y} stroke={ringColors[selected.severity]} strokeWidth="1.5" opacity="0.3" strokeDasharray="5 4" className="blast-ring" />;
               })}
 
-              {/* Center glow ring */}
               <circle cx="300" cy="300" r="58" fill="none" stroke={ringColors[selected.severity]} strokeWidth="1" className="blast-center-glow" />
               <circle cx="300" cy="300" r="50" fill="#1a1d27" stroke={ringColors[selected.severity]} strokeWidth="3" className="blast-center" />
               <text x="300" y="288" textAnchor="middle" fontSize="20" className="pointer-events-none">💥</text>
@@ -182,7 +202,7 @@ export default function BlastRadiusView() {
             </svg>
           </div>
 
-          {/* Impact stats — animated gradient borders like CodeAnalysisView */}
+          {/* Impact stats */}
           <div className="grid grid-cols-4 gap-4 mt-2">
             <div className="relative overflow-hidden rounded-xl border border-red-500/40 bg-gradient-to-br from-red-500/20 via-red-600/5 to-transparent shadow-lg shadow-red-500/10 text-center py-4 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl cursor-default group">
               <p className="text-3xl font-black text-red-400 group-hover:drop-shadow-[0_0_8px_currentColor] transition-all duration-300">{selected.affected.length}</p>

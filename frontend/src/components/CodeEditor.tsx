@@ -11,6 +11,17 @@ const LANG_OPTIONS = DEMO_SNIPPETS.map(s => ({
   filename: s.filename,
 }));
 
+// Map language → default file extension
+const LANG_EXT: Record<string, string> = {
+  python: '.py',
+  javascript: '.js',
+  typescript: '.ts',
+  go: '.go',
+  rust: '.rs',
+  java: '.java',
+  yaml: '.yml',
+};
+
 // === Triage Wizard Questions ===
 const TRIAGE_QUESTIONS = [
   {
@@ -126,14 +137,36 @@ function TriageWizard({ triage, setTriage, visible }: {
 }
 
 export default function CodeEditor() {
-  const { loading, error, setView, galleryMode } = useStore();
-  const { analyze, loadDemo } = useAnalysis();
-  const [code, setCode] = useState('');
-  const [filename, setFilename] = useState('service.py');
-  const [language, setLanguage] = useState('python');
+  const { loading, error, setView, galleryMode, analyzedCode: prefilled } = useStore();
+  const { analyze } = useAnalysis();
+
+  // FIX: Initialize state from prefilled analyzedCode (set by demo or gallery)
+  const [code, setCode] = useState(prefilled?.code || '');
+  const [filename, setFilename] = useState(prefilled?.filename || 'service.py');
+  const [language, setLanguage] = useState(prefilled?.language || 'python');
   const [showDemoMenu, setShowDemoMenu] = useState(false);
   const [triage, setTriage] = useState<Record<string, string>>({});
   const menuRef = useRef<HTMLDivElement>(null);
+  const initializedRef = useRef(false);
+
+  // FIX: When prefilled data changes (e.g. demo loaded), update local state
+  useEffect(() => {
+    if (prefilled && prefilled.code && !initializedRef.current) {
+      setCode(prefilled.code);
+      setFilename(prefilled.filename);
+      setLanguage(prefilled.language);
+      initializedRef.current = true;
+    }
+  }, [prefilled]);
+
+  // Also update when navigating back to editor with new demo
+  useEffect(() => {
+    if (prefilled && prefilled.code) {
+      setCode(prefilled.code);
+      setFilename(prefilled.filename);
+      setLanguage(prefilled.language);
+    }
+  }, [prefilled?.filename]); // trigger on filename change = new demo loaded
 
   // Close menu on click outside
   useEffect(() => {
@@ -143,6 +176,17 @@ export default function CodeEditor() {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
+
+  // FIX: Auto-update filename extension when language changes
+  const handleLanguageChange = (newLang: string) => {
+    setLanguage(newLang);
+    // Auto-rename extension if filename still has old extension
+    const oldExt = LANG_EXT[language] || '.py';
+    const newExt = LANG_EXT[newLang] || '.py';
+    if (filename.endsWith(oldExt)) {
+      setFilename(filename.replace(new RegExp(`\\${oldExt}$`), newExt));
+    }
+  };
 
   // Build context string from triage answers
   const buildTriageContext = (): string | undefined => {
@@ -194,7 +238,11 @@ export default function CodeEditor() {
             </button>
           )}
           {code.trim() && (
-            <button onClick={handleReset} className="btn-ghost text-sm border border-reflex-border text-reflex-muted hover:text-white">
+            /* FIX: Clear button — brighter, softer color (light gray with subtle hover) */
+            <button
+              onClick={handleReset}
+              className="btn-ghost text-sm border border-reflex-text/20 text-reflex-text/50 hover:text-reflex-text/80 hover:border-reflex-text/35 hover:bg-reflex-text/5 transition-all"
+            >
               ✕ Clear
             </button>
           )}
@@ -247,7 +295,7 @@ export default function CodeEditor() {
           <label className="text-xs text-pink-400/80 font-bold uppercase tracking-wider mb-1 block">Language</label>
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) => handleLanguageChange(e.target.value)}
             className="w-full bg-reflex-surface border border-reflex-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-400/60 focus:shadow-[0_0_12px_rgba(244,114,182,0.15)] transition-all duration-300"
           >
             <option value="python">Python</option>

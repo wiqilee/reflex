@@ -12,34 +12,31 @@ const ON_CALL_TOOLTIPS: Record<string, string> = {
   L1: 'L1 — Front-line support: monitoring dashboards, restart services, follow documented procedures',
   L2: 'L2 — Platform engineer: server SSH access, database queries, config changes, deploy rollbacks',
   L3: 'L3 — Infrastructure lead: database admin, network config, DNS changes, cloud IAM, architecture decisions',
-  'codebase access': 'Codebase Access — Requires read access to the source code repository to inspect affected files and trace the issue in version control',
-  'database access': 'Database Access — Requires read/write access to production database for queries, migrations, and data integrity checks',
-  'admin access': 'Admin Access — Requires administrative privileges on the target infrastructure for system-level changes',
-  'read-only': 'Read-Only — Can be performed with read-only access to monitoring and logging systems, no write permissions needed',
-  'code deploy access': 'Code Deploy Access — Requires permissions to trigger deployments: CI/CD pipeline access, container registry push, or direct deploy rights to staging/production',
-  'deploy access': 'Deploy Access — Requires permissions to deploy code or config changes to the target environment (e.g. Kubernetes rollout, AWS CodeDeploy, Vercel deploy)',
-  'config access': 'Config Access — Requires access to configuration management: environment variables, feature flags, secrets manager, or config files',
-  'network access': 'Network Access — Requires access to network infrastructure: firewall rules, load balancer config, DNS records, or VPN settings',
-  'monitoring access': 'Monitoring Access — Requires access to observability tools: dashboards, log aggregation, APM, or alerting systems (Datadog, Grafana, PagerDuty)',
+  'codebase access': 'Codebase Access — Requires read access to the source code repository',
+  'database access': 'Database Access — Requires read/write access to production database',
+  'admin access': 'Admin Access — Requires administrative privileges on the target infrastructure',
+  'read-only': 'Read-Only — Can be performed with read-only access to monitoring and logging systems',
+  'code deploy access': 'Code Deploy Access — Requires permissions to trigger deployments',
+  'deploy access': 'Deploy Access — Requires permissions to deploy code or config changes',
+  'config access': 'Config Access — Requires access to configuration management',
+  'network access': 'Network Access — Requires access to network infrastructure',
+  'monitoring access': 'Monitoring Access — Requires access to observability tools',
 };
 
 function OnCallBadge({ level }: { level: string }) {
   const [show, setShow] = useState(false);
-
   const normalizedLevel = level.trim();
   const tooltip = ON_CALL_TOOLTIPS[normalizedLevel]
     || ON_CALL_TOOLTIPS[normalizedLevel.toLowerCase()]
     || (normalizedLevel.match(/^L\d/i)
       ? `${normalizedLevel} — Access level: ${normalizedLevel}`
-      : `🔑 ${normalizedLevel} — Requires ${normalizedLevel.toLowerCase()} permissions to perform this step. Verify your access before proceeding.`);
-
+      : `🔑 ${normalizedLevel} — Requires ${normalizedLevel.toLowerCase()} permissions.`);
   const isOnCall = /^L\d/i.test(normalizedLevel);
   const icon = isOnCall ? '🔑' : '🔐';
   const badgeColor = isOnCall
     ? 'bg-reflex-accent/15 text-reflex-accent border-reflex-accent/20 hover:border-reflex-accent/50'
     : 'bg-purple-500/15 text-purple-400 border-purple-500/20 hover:border-purple-500/50';
 
-  // Close tooltip on click anywhere
   useEffect(() => {
     if (!show) return;
     const handler = () => setShow(false);
@@ -49,10 +46,7 @@ function OnCallBadge({ level }: { level: string }) {
 
   return (
     <span className="relative inline-flex items-center">
-      <span
-        onClick={(e) => { e.stopPropagation(); setShow(!show); }}
-        className={`text-xs ${badgeColor} px-2 py-0.5 rounded-full border transition-colors cursor-pointer select-none`}
-      >
+      <span onClick={(e) => { e.stopPropagation(); setShow(!show); }} className={`text-xs ${badgeColor} px-2 py-0.5 rounded-full border transition-colors cursor-pointer select-none`}>
         {icon} {normalizedLevel}
       </span>
       {show && (
@@ -86,29 +80,19 @@ function StepCard({ step, phase }: { step: RunbookStep; phase: string }) {
           <p className="text-sm text-reflex-text/90">{step.action}</p>
         </div>
       </div>
-
       {step.command && (
         <div className="mt-2 relative group">
           <pre className="bg-black/40 rounded-lg p-3 text-xs font-mono text-green-400 overflow-x-auto whitespace-pre-wrap">{step.command}</pre>
-          <button
-            onClick={copyCmd}
-            className="absolute top-2 right-2 text-xs bg-reflex-border hover:bg-reflex-accent/30 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-          >
+          <button onClick={copyCmd} className="absolute top-2 right-2 text-xs bg-reflex-border hover:bg-reflex-accent/30 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
             {copied ? '✅ Copied' : '📋 Copy'}
           </button>
         </div>
       )}
-
       {step.expected_output && (
-        <p className="text-xs text-reflex-text/60 mt-1.5">
-          <span className="text-green-400/70">Expected:</span> {step.expected_output}
-        </p>
+        <p className="text-xs text-reflex-text/60 mt-1.5"><span className="text-green-400/70">Expected:</span> {step.expected_output}</p>
       )}
-
       {step.warning && (
-        <p className="text-xs text-yellow-400 mt-1.5 flex items-center gap-1">
-          ⚠️ {step.warning}
-        </p>
+        <p className="text-xs text-yellow-400 mt-1.5 flex items-center gap-1">⚠️ {step.warning}</p>
       )}
     </div>
   );
@@ -126,7 +110,6 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
     pt: '🇧🇷 Portuguese', ja: '🇯🇵 Japanese', ko: '🇰🇷 Korean', zh: '🇨🇳 Chinese',
   };
 
-  // Close language dropdown on click outside
   useEffect(() => {
     if (!showLangs) return;
     const handler = () => setShowLangs(false);
@@ -139,12 +122,11 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
     let md = `# 🚨 ${s.title}\n\n`;
     md += `> **Severity:** ${s.severity.toUpperCase()} | **On-Call:** ${runbook.on_call_level} | **Est:** ${runbook.estimated_resolution}\n\n`;
     md += `**What:** ${s.description}\n\n**Trigger:** ${s.trigger}\n\n**Impact:** ${s.impact}\n\n---\n\n`;
-
     const phases = { detection: '🔍 Detection', diagnosis: '🔬 Diagnosis', fix: '🔧 Fix', rollback: '⏪ Rollback' };
     for (const [key, label] of Object.entries(phases)) {
-      const steps = (runbook as any)[key] as RunbookStep[];
+      const pSteps = (runbook as any)[key] as RunbookStep[];
       md += `## ${label}\n\n`;
-      for (const step of steps) {
+      for (const step of pSteps) {
         md += `**Step ${step.order}** ${step.estimated_time ? `(⏱ ${step.estimated_time})` : ''}\n\n`;
         md += `${step.action}\n\n`;
         if (step.command) md += `\`\`\`bash\n${step.command}\n\`\`\`\n\n`;
@@ -153,11 +135,9 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
       }
       md += '---\n\n';
     }
-
     md += `## 🛡️ Prevention\n\n`;
     runbook.prevention.forEach((p, i) => { md += `${i + 1}. ${p}\n`; });
     md += `\n\n*Generated by REFLEX — AI Incident Runbook Generator · © 2026 Wiqi Lee*\n`;
-
     const blob = new Blob([md], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -198,7 +178,6 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      {/* Header */}
       <div className="card border-l-4 border-l-reflex-accent transition-all duration-300 hover:border-reflex-accent/40 hover:bg-reflex-accent/5 cursor-default">
         <div className="flex items-start justify-between">
           <div>
@@ -274,7 +253,6 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
         })}
       </div>
 
-      {/* Steps */}
       <div className="card">
         <p className="text-xs text-reflex-text/70 mb-4 font-bold">{PHASE_CONFIG[activePhase].desc}</p>
         <div className="space-y-4">
@@ -284,7 +262,6 @@ function RunbookDetail({ runbook }: { runbook: Runbook }) {
         </div>
       </div>
 
-      {/* Prevention */}
       {runbook.prevention.length > 0 && (
         <div className="card">
           <h4 className="font-semibold mb-3 flex items-center gap-2">🛡️ Long-term Prevention</h4>
@@ -312,13 +289,10 @@ export default function RunbookViewer() {
     const currentIdx = runbooks.findIndex(r => r.id === selectedRunbook.id);
     const hasPrev = currentIdx > 0;
     const hasNext = currentIdx < runbooks.length - 1;
-
-    // Check if user came from dependencies page
     const cameFromGraph = prevView === 'graph';
 
     return (
       <div className="space-y-4">
-        {/* Navigation bar — top */}
         <div className="flex items-center justify-between">
           <button
             onClick={() => setSelectedRunbook(null)}
@@ -327,20 +301,20 @@ export default function RunbookViewer() {
             <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             All Runbooks
           </button>
-          {cameFromGraph && (
-            <button
-              onClick={() => { setSelectedRunbook(null); setView('graph'); }}
-              className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-border/50 text-reflex-text/60 font-medium hover:border-reflex-accent/40 hover:text-reflex-accent hover:bg-reflex-accent/5 transition-all duration-300"
-            >
-              Dependencies
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-            </button>
-          )}
+          <div className="flex gap-2">
+            {cameFromGraph && (
+              <button
+                onClick={() => { setSelectedRunbook(null); setView('graph'); }}
+                className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-border/50 text-reflex-text/60 font-medium hover:border-purple-400/40 hover:text-purple-400 hover:bg-purple-500/5 transition-all duration-300"
+              >
+                🕸️ Dependencies
+              </button>
+            )}
+          </div>
         </div>
 
         <RunbookDetail runbook={selectedRunbook} />
 
-        {/* Navigation — bottom: "1 of N" with prev/next */}
         <div className="flex items-center justify-center gap-3 pt-2 pb-4">
           <button
             onClick={() => hasPrev && setSelectedRunbook(runbooks[currentIdx - 1])}
@@ -364,9 +338,19 @@ export default function RunbookViewer() {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      <div>
-        <h2 className="text-xl font-bold">Incident Runbooks</h2>
-        <p className="text-reflex-muted text-sm">{runbooks.length} runbooks generated — click to view details</p>
+      {/* FIX: Header with Next → Dependencies button */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold">Incident Runbooks</h2>
+          <p className="text-reflex-muted text-sm">{runbooks.length} runbooks generated — click to view details</p>
+        </div>
+        <button
+          onClick={() => setView('graph')}
+          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-purple-500/30 text-purple-400 font-medium hover:bg-purple-500/10 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+        >
+          <span>🕸️ Dependencies</span>
+          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+        </button>
       </div>
 
       <div className="grid gap-3">

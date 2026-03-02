@@ -34,14 +34,15 @@ export default function App() {
       <header className="nav-glass sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            {/* Back button */}
+            {/* Back button — FIX: more visible with color animation */}
             {prevView && (
               <button
                 onClick={goBack}
-                className="text-reflex-muted hover:text-reflex-text text-sm px-2 py-1.5 rounded-lg hover:bg-reflex-border/50 transition-all"
+                className="group flex items-center gap-1 text-reflex-muted hover:text-reflex-accent text-sm px-2.5 py-1.5 rounded-lg hover:bg-reflex-accent/10 border border-transparent hover:border-reflex-accent/30 transition-all duration-300"
                 title="Go back"
               >
-                ←
+                <span className="group-hover:-translate-x-0.5 transition-transform duration-300">←</span>
+                <span className="text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">Back</span>
               </button>
             )}
             <div
@@ -81,10 +82,20 @@ export default function App() {
       </header>
 
       {/* Gallery mode banner — global, all pages except gallery */}
+      {/* FIX: Show the filename being viewed */}
       {galleryMode && view !== 'gallery' && (
         <div className="sticky top-[57px] z-40 border-b border-amber-500/20">
           <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between bg-amber-500/[0.06] backdrop-blur-sm">
-            <span className="text-sm text-amber-400 flex items-center gap-2">📂 <strong>Gallery Mode</strong> — viewing saved analysis</span>
+            <span className="text-sm text-amber-400 flex items-center gap-2">
+              📂 <strong>Gallery Mode</strong>
+              <span className="text-amber-400/60">—</span>
+              <span className="text-amber-300/80">
+                viewing{' '}
+                <span className="font-mono font-bold text-amber-300">
+                  {analyzedCode?.filename || 'saved analysis'}
+                </span>
+              </span>
+            </span>
             <div className="flex items-center gap-2">
               <button onClick={exitGalleryMode} className="text-xs text-amber-400 font-medium hover:text-amber-300 transition-colors border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500/10">
                 ← Back to Gallery

@@ -89,8 +89,8 @@ function LoadingProgress() {
 }
 
 export default function Dashboard() {
-  const { analysis, setView, setSelectedRunbook, loading, galleryMode, exitGalleryMode } = useStore();
-  const { loadDemo } = useAnalysis();
+  const { analysis, setView, setSelectedRunbook, loading, galleryMode, exitGalleryMode, analyzedCode } = useStore();
+  const { loadDemoToEditor } = useAnalysis();
 
   // Close demo dropdown on click outside
   useEffect(() => {
@@ -169,7 +169,7 @@ export default function Dashboard() {
               </span>
               {loading && <div className="analyzing-btn-sweep" />}
             </button>
-            {/* Language dropdown */}
+            {/* Language dropdown — FIX: now redirects to editor with code prefilled */}
             <div
               id="demo-dropdown"
               className="hidden absolute top-full left-0 mt-2 w-56 rounded-xl border border-reflex-border/50 bg-reflex-surface/95 backdrop-blur-xl shadow-2xl shadow-black/50 z-50 overflow-hidden"
@@ -182,7 +182,8 @@ export default function Dashboard() {
                   key={s.language}
                   onClick={() => {
                     document.getElementById('demo-dropdown')?.classList.add('hidden');
-                    loadDemo(s.language);
+                    // FIX: Navigate to editor with code prefilled instead of auto-analyzing
+                    loadDemoToEditor(s.language);
                   }}
                   className="w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-reflex-accent/10 transition-colors text-sm text-reflex-text/70 hover:text-reflex-accent"
                 >
@@ -228,22 +229,27 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 view-enter">
-      {/* Action bar */}
+      {/* Action bar — FIX: Only New Scan button with orange gradient, no New Analysis when viewing results */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => { exitGalleryMode?.(); setView('dashboard'); window.location.reload(); }}
-          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl border border-reflex-text/15 text-reflex-text/60 hover:border-reflex-accent/40 hover:text-reflex-accent hover:bg-reflex-accent/5 transition-all duration-300"
-        >
-          <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" /></svg>
-          New Scan
-        </button>
-        <button
-          onClick={() => setView('editor')}
           className="group relative flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm text-black bg-gradient-to-r from-orange-400 via-reflex-accent to-amber-500 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105 transition-all duration-300 overflow-hidden"
         >
-          <span className="relative z-10 flex items-center gap-2">⚡ New Analysis</span>
+          <span className="relative z-10 flex items-center gap-2">
+            <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" /></svg>
+            New Scan
+          </span>
           <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-reflex-accent to-amber-500 blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
         </button>
+
+        {/* Show current file info if available */}
+        {analyzedCode && (
+          <div className="flex items-center gap-2 text-xs text-reflex-text/50 bg-reflex-border/20 px-3 py-1.5 rounded-lg border border-reflex-border/30">
+            <span className="font-mono text-reflex-accent">{analyzedCode.filename}</span>
+            <span className="w-1 h-1 rounded-full bg-reflex-text/20" />
+            <span>{analyzedCode.language}</span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 stagger-children">

@@ -145,11 +145,15 @@ export const useStore = create<AppState>((set, get) => ({
   galleryMode: false,
 
   addToGallery: (analysis) => {
+    const currentCode = get().analyzedCode;
     const item: GalleryItem = {
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
       analysis,
-      analyzedCode: get().analyzedCode,
+      // FIX: Deep clone analyzedCode so each gallery entry preserves its own filename/code/language
+      analyzedCode: currentCode
+        ? { code: currentCode.code, filename: currentCode.filename, language: currentCode.language }
+        : null,
     };
     const updated = [item, ...get().gallery].slice(0, 50);
     saveGallery(updated);
@@ -161,7 +165,10 @@ export const useStore = create<AppState>((set, get) => ({
     if (item) {
       set({
         analysis: item.analysis,
-        analyzedCode: item.analyzedCode || null,
+        // FIX: Restore the exact analyzedCode that was saved with this gallery item
+        analyzedCode: item.analyzedCode
+          ? { code: item.analyzedCode.code, filename: item.analyzedCode.filename, language: item.analyzedCode.language }
+          : null,
         selectedRunbook: null,
         selectedNode: null,
         galleryMode: true,
