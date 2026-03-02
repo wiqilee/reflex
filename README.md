@@ -23,7 +23,6 @@
 
 [![Watch on YouTube](https://img.shields.io/badge/Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=icBRBr-_XTM)
 
-[Features](#-features-21) · [Quick Start](#-quick-start) · [Architecture](#️-architecture) · [API Reference](#-api-reference) · [Who Benefits](#-who-benefits)
 
 [![Failure Analysis](https://img.shields.io/badge/Failure-Analysis-ef4444?style=flat-square)](.) [![Runbook Generation](https://img.shields.io/badge/Runbook-Generation-f97316?style=flat-square)](.) [![Dependency Graph](https://img.shields.io/badge/Dependency-Graph-8b5cf6?style=flat-square)](.) [![Blast Radius](https://img.shields.io/badge/Blast-Radius-ec4899?style=flat-square)](.) [![Multi-Pass Validation](https://img.shields.io/badge/Multi--Pass-Validation-3b82f6?style=flat-square)](.) [![Agent Triage](https://img.shields.io/badge/Agent-Triage-2dd4bf?style=flat-square)](.) [![18-Lang Translation](https://img.shields.io/badge/18--Lang-Translation-22c55e?style=flat-square)](.)
 
