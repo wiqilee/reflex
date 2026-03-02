@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 100">
+  <rect width="640" height="100" fill="#0a0a1a"/>
+  <text x="320" y="28" text-anchor="middle" font-size="28">🛡️</text>
+  <rect x="60" y="44" width="120" height="20" fill="#1e293b" rx="4"/>
+  <text x="120" y="58" text-anchor="middle" font-family="monospace" font-size="7" fill="#22c55e">✓ No data stored</text>
+  <rect x="200" y="44" width="120" height="20" fill="#1e293b" rx="4"/>
+  <text x="260" y="58" text-anchor="middle" font-family="monospace" font-size="7" fill="#22c55e">✓ Human in loop</text>
+  <rect x="340" y="44" width="120" height="20" fill="#1e293b" rx="4"/>
+  <text x="400" y="58" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24">⚠ Review first</text>
+  <rect x="480" y="44" width="120" height="20" fill="#1e293b" rx="4"/>
+  <text x="540" y="58" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24">⚠ Not a scanner</text>
+  <text x="320" y="84" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">Support — not replace — human judgment</text>
+</svg>

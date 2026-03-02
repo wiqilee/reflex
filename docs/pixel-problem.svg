@@ -1,46 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
-  <defs>
-    <style>
-      @keyframes ring { 0%,100%{opacity:0.3} 50%{opacity:1} }
-      @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-2px)} 75%{transform:translateX(2px)} }
-    </style>
-  </defs>
-  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
-  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
-  <!-- PagerDuty alert -->
-  <g transform="translate(16, 8)">
-    <rect width="32" height="32" rx="4" fill="#1a1d27" stroke="#ef4444" stroke-width="1.5"/>
-    <text x="16" y="22" text-anchor="middle" font-size="16" style="animation:shake 0.5s ease-in-out infinite">🚨</text>
-  </g>
-  <!-- 3 AM text -->
-  <text x="60" y="20" font-size="10" fill="#ef4444" font-family="monospace" font-weight="bold">3:00 AM</text>
-  <text x="60" y="34" font-size="7" fill="#64748b" font-family="monospace">Production is down</text>
-  <!-- Stale runbook -->
-  <g transform="translate(150, 8)">
-    <rect width="40" height="32" rx="3" fill="#1a1d27" stroke="#64748b" stroke-width="1" stroke-dasharray="3 2"/>
-    <text x="20" y="15" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">RUNBOOK</text>
-    <line x1="8" y1="20" x2="32" y2="20" stroke="#ef4444" stroke-width="1" opacity="0.5"/>
-    <line x1="8" y1="24" x2="28" y2="24" stroke="#ef4444" stroke-width="1" opacity="0.5"/>
-    <text x="20" y="31" text-anchor="middle" font-size="5" fill="#ef4444" font-family="monospace">STALE</text>
-  </g>
-  <!-- Arrow -->
-  <text x="200" y="28" font-size="14" fill="#f97316">→</text>
-  <!-- Broken commands -->
-  <g transform="translate(220, 8)">
-    <rect width="80" height="32" rx="3" fill="#1a1d27" stroke="#ef4444" stroke-width="1"/>
-    <text x="8" y="16" font-size="6" fill="#ef4444" font-family="monospace">$ cmd --fix ❌</text>
-    <text x="8" y="26" font-size="6" fill="#ef4444" font-family="monospace">$ rollback ❌</text>
-  </g>
-  <!-- Result: hours wasted -->
-  <g transform="translate(316, 8)">
-    <rect width="64" height="32" rx="3" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444" stroke-width="1"/>
-    <text x="32" y="16" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" font-weight="bold">2+ HOURS</text>
-    <text x="32" y="28" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" opacity="0.7">downtime</text>
-  </g>
-  <!-- Phone ringing -->
-  <g transform="translate(400, 8)">
-    <text x="16" y="22" text-anchor="middle" font-size="14" style="animation:ring 1s ease-in-out infinite">📱</text>
-    <text x="40" y="18" font-size="6" fill="#64748b" font-family="monospace">MTTR</text>
-    <text x="40" y="28" font-size="8" fill="#ef4444" font-family="monospace" font-weight="bold">💀</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160">
+  <rect width="640" height="160" fill="#0a0a1a"/>
+  <rect x="40" y="16" width="80" height="44" fill="#1e293b" rx="4"/>
+  <text x="80" y="46" text-anchor="middle" font-family="monospace" font-size="24" font-weight="bold" fill="#ef4444">3:00</text>
+  <text x="80" y="12" text-anchor="middle" font-family="monospace" font-size="8" fill="#ef4444">AM</text>
+  <rect x="160" y="24" width="32" height="48" fill="#374151" rx="4"/>
+  <rect x="164" y="30" width="24" height="28" fill="#ef4444" opacity="0.3"/>
+  <text x="176" y="50" text-anchor="middle" font-family="monospace" font-size="14" fill="#ef4444">🔔</text>
+  <rect x="196" y="32" width="8" height="4" fill="#ef4444" opacity="0.6"/>
+  <rect x="200" y="24" width="8" height="4" fill="#ef4444" opacity="0.4"/>
+  <rect x="40" y="82" width="100" height="40" fill="#1e293b" rx="4"/>
+  <rect x="40" y="72" width="24" height="20" fill="#fbbf24" rx="2"/>
+  <rect x="44" y="80" width="4" height="2" fill="#0a0a1a"/>
+  <rect x="52" y="80" width="4" height="2" fill="#0a0a1a"/>
+  <rect x="36" y="122" width="108" height="8" fill="#78350f"/>
+  <rect x="260" y="20" width="120" height="100" fill="#1e293b" rx="4"/>
+  <text x="320" y="42" text-anchor="middle" font-family="monospace" font-size="9" fill="#64748b">RUNBOOK v2.1</text>
+  <text x="320" y="54" text-anchor="middle" font-family="monospace" font-size="7" fill="#ef4444">Last updated: 6 months ago</text>
+  <rect x="272" y="62" width="60" height="4" fill="#374151"/>
+  <rect x="272" y="70" width="48" height="4" fill="#374151"/>
+  <rect x="272" y="78" width="72" height="4" fill="#374151"/>
+  <rect x="272" y="86" width="36" height="4" fill="#374151"/>
+  <rect x="272" y="94" width="56" height="4" fill="#374151"/>
+  <line x1="280" y1="30" x2="360" y2="110" stroke="#ef4444" stroke-width="6" opacity="0.4"/>
+  <line x1="360" y1="30" x2="280" y2="110" stroke="#ef4444" stroke-width="6" opacity="0.4"/>
+  <text x="320" y="138" text-anchor="middle" font-family="monospace" font-size="9" fill="#ef4444">⚠ OUTDATED • COMMANDS BROKEN</text>
+  <rect x="460" y="40" width="20" height="20" fill="#fbbf24" rx="2"/>
+  <rect x="464" y="48" width="4" height="4" fill="#0a0a1a"/>
+  <rect x="472" y="48" width="4" height="4" fill="#0a0a1a"/>
+  <rect x="466" y="56" width="8" height="3" fill="#ef4444"/>
+  <rect x="456" y="62" width="28" height="28" fill="#3b82f6"/>
+  <text x="500" y="40" font-family="monospace" font-size="16" fill="#f97316">?</text>
+  <text x="516" y="52" font-family="monospace" font-size="12" fill="#ef4444">?</text>
+  <text x="444" y="36" font-family="monospace" font-size="14" fill="#fbbf24">?</text>
+  <rect x="520" y="50" width="60" height="40" fill="#1e293b" rx="2"/>
+  <rect x="524" y="54" width="52" height="32" fill="#0f172a"/>
+  <rect x="528" y="58" width="24" height="3" fill="#ef4444" opacity="0.8"/>
+  <rect x="528" y="64" width="36" height="3" fill="#ef4444" opacity="0.6"/>
+  <rect x="528" y="70" width="18" height="3" fill="#ef4444" opacity="0.8"/>
+  <rect x="0" y="150" width="640" height="4" fill="#374151" opacity="0.3"/>
 </svg>

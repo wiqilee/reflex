@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 100">
+  <rect width="640" height="100" fill="#0a0a1a"/>
+  <text x="30" y="18" font-family="monospace" font-size="9" fill="#f97316" font-weight="bold">reflex/</text>
+  <text x="50" y="32" font-family="monospace" font-size="8" fill="#3b82f6">├── backend/</text>
+  <text x="160" y="32" font-family="monospace" font-size="7" fill="#64748b">FastAPI + Mistral</text>
+  <text x="50" y="46" font-family="monospace" font-size="8" fill="#ef4444">├── engine/</text>
+  <text x="160" y="46" font-family="monospace" font-size="7" fill="#64748b">Rust WASM</text>
+  <text x="50" y="60" font-family="monospace" font-size="8" fill="#22c55e">├── frontend/</text>
+  <text x="160" y="60" font-family="monospace" font-size="7" fill="#64748b">React + Tailwind</text>
+  <text x="50" y="74" font-family="monospace" font-size="8" fill="#a855f7">├── tests/</text>
+  <text x="160" y="74" font-family="monospace" font-size="7" fill="#64748b">pytest</text>
+  <text x="50" y="88" font-family="monospace" font-size="8" fill="#fbbf24">└── docs/</text>
+  <text x="160" y="88" font-family="monospace" font-size="7" fill="#64748b">Pixel art SVGs</text>
+  <rect x="340" y="14" width="120" height="24" fill="#1e293b" rx="4"/>
+  <text x="400" y="30" text-anchor="middle" font-family="monospace" font-size="8" fill="#3b82f6">5 backend files</text>
+  <rect x="480" y="14" width="120" height="24" fill="#1e293b" rx="4"/>
+  <text x="540" y="30" text-anchor="middle" font-family="monospace" font-size="8" fill="#ef4444">1 Rust lib</text>
+  <rect x="340" y="48" width="120" height="24" fill="#1e293b" rx="4"/>
+  <text x="400" y="64" text-anchor="middle" font-family="monospace" font-size="8" fill="#22c55e">12+ components</text>
+  <rect x="480" y="48" width="120" height="24" fill="#1e293b" rx="4"/>
+  <text x="540" y="64" text-anchor="middle" font-family="monospace" font-size="8" fill="#fbbf24">18 SVG arts</text>
+</svg>

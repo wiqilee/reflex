@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 100">
+  <rect width="640" height="100" fill="#0a0a1a"/>
+  <rect x="60" y="8" width="520" height="80" fill="#0f172a" rx="6" stroke="#374151" stroke-width="1"/>
+  <circle cx="78" cy="20" r="4" fill="#ef4444"/>
+  <circle cx="90" cy="20" r="4" fill="#fbbf24"/>
+  <circle cx="102" cy="20" r="4" fill="#22c55e"/>
+  <text x="80" y="38" font-family="monospace" font-size="8" fill="#22c55e">$ git clone https://github.com/wiqilee/reflex.git</text>
+  <text x="80" y="50" font-family="monospace" font-size="8" fill="#22c55e">$ cd reflex &amp;&amp; pip install -r requirements.txt</text>
+  <text x="80" y="62" font-family="monospace" font-size="8" fill="#f97316">$ uvicorn backend.main:app --reload</text>
+  <text x="80" y="74" font-family="monospace" font-size="8" fill="#3b82f6">$ cd frontend &amp;&amp; npm run dev</text>
+  <text x="80" y="84" font-family="monospace" font-size="7" fill="#64748b">Ready at http://localhost:5173</text>
+</svg>

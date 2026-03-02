@@ -1,41 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
-  <defs><style>@keyframes check { 0%,100%{opacity:0.4} 50%{opacity:1} }</style></defs>
-  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
-  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
-  <g transform="translate(12, 6)">
-    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#ef4444" stroke-width="1"/>
-    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace" font-weight="bold">🔍 Detect</text>
-    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">8 scenarios</text>
-    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite">✓</text>
-  </g>
-  <g transform="translate(92, 6)">
-    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#f97316" stroke-width="1"/>
-    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#f97316" font-family="monospace" font-weight="bold">📋 Runbook</text>
-    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">5-phase</text>
-    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:0.3s">✓</text>
-  </g>
-  <g transform="translate(172, 6)">
-    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#8b5cf6" stroke-width="1"/>
-    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#8b5cf6" font-family="monospace" font-weight="bold">🕸️ Graph</text>
-    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">deps + links</text>
-    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:0.6s">✓</text>
-  </g>
-  <g transform="translate(252, 6)">
-    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#ec4899" stroke-width="1"/>
-    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#ec4899" font-family="monospace" font-weight="bold">💥 Blast</text>
-    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">Rust WASM</text>
-    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:0.9s">✓</text>
-  </g>
-  <g transform="translate(332, 6)">
-    <rect width="70" height="36" rx="3" fill="#1a1d27" stroke="#2dd4bf" stroke-width="1"/>
-    <text x="35" y="14" text-anchor="middle" font-size="6" fill="#2dd4bf" font-family="monospace" font-weight="bold">🤖 Agent</text>
-    <text x="35" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">triage</text>
-    <text x="35" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:1.2s">✓</text>
-  </g>
-  <g transform="translate(412, 6)">
-    <rect width="56" height="36" rx="3" fill="#1a1d27" stroke="#22c55e" stroke-width="1"/>
-    <text x="28" y="14" text-anchor="middle" font-size="6" fill="#22c55e" font-family="monospace" font-weight="bold">🌍 i18n</text>
-    <text x="28" y="26" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">18 langs</text>
-    <text x="28" y="34" text-anchor="middle" font-size="8" fill="#22c55e" style="animation:check 1.5s ease infinite;animation-delay:1.5s">✓</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140">
+  <rect width="640" height="140" fill="#0a0a1a"/>
+  <rect x="30" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="62" y="36" text-anchor="middle" font-size="14">🔍</text>
+  <text x="62" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#ef4444">Detect</text>
+  <rect x="106" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="138" y="36" text-anchor="middle" font-size="14">📋</text>
+  <text x="138" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#f97316">Runbooks</text>
+  <rect x="182" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="214" y="36" text-anchor="middle" font-size="14">🔄</text>
+  <text x="214" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#fbbf24">Validate</text>
+  <rect x="258" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="290" y="36" text-anchor="middle" font-size="14">🕸️</text>
+  <text x="290" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#a855f7">Graph</text>
+  <rect x="334" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="366" y="36" text-anchor="middle" font-size="14">💥</text>
+  <text x="366" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#ec4899">Blast</text>
+  <rect x="410" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="442" y="36" text-anchor="middle" font-size="14">📊</text>
+  <text x="442" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#3b82f6">Diff</text>
+  <rect x="486" y="14" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="518" y="36" text-anchor="middle" font-size="14">🤖</text>
+  <text x="518" y="50" text-anchor="middle" font-family="monospace" font-size="6" fill="#2dd4bf">Agent</text>
+  <rect x="30" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="62" y="92" text-anchor="middle" font-size="14">💻</text>
+  <text x="62" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#22c55e">CodeView</text>
+  <rect x="106" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="138" y="92" text-anchor="middle" font-size="14">📂</text>
+  <text x="138" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#f97316">Gallery</text>
+  <rect x="182" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="214" y="92" text-anchor="middle" font-size="14">🌍</text>
+  <text x="214" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#3b82f6">18 Lang</text>
+  <rect x="258" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="290" y="92" text-anchor="middle" font-size="14">📝</text>
+  <text x="290" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#fbbf24">Export</text>
+  <rect x="334" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="366" y="92" text-anchor="middle" font-size="14">🔁</text>
+  <text x="366" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#a855f7">Regen</text>
+  <rect x="410" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="442" y="92" text-anchor="middle" font-size="14">🎮</text>
+  <text x="442" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#ec4899">6 Demos</text>
+  <rect x="486" y="70" width="64" height="44" fill="#1e293b" rx="4"/>
+  <text x="518" y="92" text-anchor="middle" font-size="14">🎨</text>
+  <text x="518" y="106" text-anchor="middle" font-family="monospace" font-size="6" fill="#ef4444">Pixel Art</text>
+  <rect x="564" y="30" width="60" height="70" fill="#1e293b" rx="6" stroke="#f97316" stroke-width="1"/>
+  <text x="594" y="74" text-anchor="middle" font-family="monospace" font-size="32" font-weight="bold" fill="#f97316">21</text>
+  <text x="594" y="90" text-anchor="middle" font-family="monospace" font-size="8" fill="#64748b">features</text>
 </svg>

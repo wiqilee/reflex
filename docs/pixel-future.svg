@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 100">
+  <rect width="640" height="100" fill="#0a0a1a"/>
+  <text x="32" y="36" font-size="24">🚀</text>
+  <rect x="70" y="10" width="160" height="28" fill="#1e293b" rx="4"/>
+  <text x="150" y="28" text-anchor="middle" font-family="monospace" font-size="7" fill="#3b82f6">🔧 CI/CD Integration</text>
+  <rect x="246" y="10" width="160" height="28" fill="#1e293b" rx="4"/>
+  <text x="326" y="28" text-anchor="middle" font-family="monospace" font-size="7" fill="#22c55e">🌳 AST-Aware Analysis</text>
+  <rect x="422" y="10" width="160" height="28" fill="#1e293b" rx="4"/>
+  <text x="502" y="28" text-anchor="middle" font-family="monospace" font-size="7" fill="#a855f7">☸ Terraform / K8s</text>
+  <rect x="70" y="48" width="160" height="28" fill="#1e293b" rx="4"/>
+  <text x="150" y="66" text-anchor="middle" font-family="monospace" font-size="7" fill="#ec4899">📟 PagerDuty Export</text>
+  <rect x="246" y="48" width="160" height="28" fill="#1e293b" rx="4"/>
+  <text x="326" y="66" text-anchor="middle" font-family="monospace" font-size="7" fill="#f97316">💻 VS Code Extension</text>
+  <text x="320" y="94" text-anchor="middle" font-family="monospace" font-size="9" fill="#fbbf24">The future is bright ⭐</text>
+</svg>

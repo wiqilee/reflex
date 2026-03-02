@@ -1,34 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 48" width="480" height="48">
-  <defs><style>@keyframes cross { 0%,100%{opacity:0.5} 50%{opacity:1} }</style></defs>
-  <rect width="480" height="48" rx="6" fill="#0a0a12"/>
-  <rect x="1" y="1" width="478" height="46" rx="5" fill="none" stroke="#1e293b" stroke-width="1"/>
-  <!-- ChatGPT side -->
-  <g transform="translate(12, 6)">
-    <rect width="100" height="36" rx="4" fill="#1a1d27" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2"/>
-    <text x="50" y="14" text-anchor="middle" font-size="6" fill="#ef4444" font-family="monospace">ChatGPT</text>
-    <text x="50" y="24" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">free-form text</text>
-    <text x="50" y="34" text-anchor="middle" font-size="8" fill="#ef4444" style="animation:cross 1s ease infinite">✗</text>
-  </g>
-  <!-- VS -->
-  <text x="125" y="30" font-size="10" fill="#64748b" font-family="monospace" font-weight="bold">vs</text>
-  <!-- REFLEX side -->
-  <g transform="translate(148, 6)">
-    <rect width="100" height="36" rx="4" fill="#1a1d27" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="50" y="14" text-anchor="middle" font-size="6" fill="#22c55e" font-family="monospace" font-weight="bold">⚡ REFLEX</text>
-    <text x="50" y="24" text-anchor="middle" font-size="5" fill="#64748b" font-family="monospace">structured pipeline</text>
-    <text x="50" y="34" text-anchor="middle" font-size="8" fill="#22c55e">✓</text>
-  </g>
-  <!-- Comparison items -->
-  <g transform="translate(264, 4)">
-    <text x="0" y="10" font-size="5" fill="#ef4444" font-family="monospace">✗ no validation</text>
-    <text x="0" y="20" font-size="5" fill="#ef4444" font-family="monospace">✗ no blast sim</text>
-    <text x="0" y="30" font-size="5" fill="#ef4444" font-family="monospace">✗ no graph</text>
-    <text x="0" y="40" font-size="5" fill="#ef4444" font-family="monospace">✗ no history</text>
-  </g>
-  <g transform="translate(370, 4)">
-    <text x="0" y="10" font-size="5" fill="#22c55e" font-family="monospace">✓ multi-pass</text>
-    <text x="0" y="20" font-size="5" fill="#22c55e" font-family="monospace">✓ Rust WASM</text>
-    <text x="0" y="30" font-size="5" fill="#22c55e" font-family="monospace">✓ interactive</text>
-    <text x="0" y="40" font-size="5" fill="#22c55e" font-family="monospace">✓ gallery+diff</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140">
+  <rect width="640" height="140" fill="#0a0a1a"/>
+  <rect x="40" y="12" width="240" height="108" fill="#1e293b" rx="6"/>
+  <text x="160" y="34" text-anchor="middle" font-family="monospace" font-size="11" fill="#64748b">ChatGPT</text>
+  <rect x="56" y="44" width="80" height="4" fill="#374151"/>
+  <rect x="56" y="52" width="100" height="4" fill="#374151"/>
+  <rect x="56" y="60" width="60" height="4" fill="#374151"/>
+  <rect x="56" y="68" width="90" height="4" fill="#374151"/>
+  <rect x="56" y="76" width="70" height="4" fill="#374151"/>
+  <rect x="56" y="84" width="110" height="4" fill="#374151"/>
+  <text x="240" y="52" font-family="monospace" font-size="12" fill="#ef4444">✗</text>
+  <text x="240" y="68" font-family="monospace" font-size="12" fill="#ef4444">✗</text>
+  <text x="240" y="84" font-family="monospace" font-size="12" fill="#ef4444">✗</text>
+  <text x="160" y="110" text-anchor="middle" font-family="monospace" font-size="7" fill="#64748b">Free-form text output</text>
+  <text x="320" y="72" text-anchor="middle" font-family="monospace" font-size="16" font-weight="bold" fill="#f97316">VS</text>
+  <rect x="360" y="12" width="240" height="108" fill="#1e293b" rx="6" stroke="#f97316" stroke-width="1"/>
+  <text x="480" y="34" text-anchor="middle" font-family="monospace" font-size="11" fill="#f97316" font-weight="bold">⚡ REFLEX</text>
+  <rect x="376" y="44" width="40" height="4" fill="#ef4444" opacity="0.6"/>
+  <rect x="420" y="44" width="60" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="376" y="52" width="32" height="4" fill="#f97316" opacity="0.6"/>
+  <rect x="412" y="52" width="80" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="376" y="60" width="48" height="4" fill="#fbbf24" opacity="0.6"/>
+  <rect x="428" y="60" width="52" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="376" y="68" width="28" height="4" fill="#3b82f6" opacity="0.6"/>
+  <rect x="408" y="68" width="72" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="376" y="76" width="56" height="4" fill="#a855f7" opacity="0.6"/>
+  <rect x="436" y="76" width="44" height="4" fill="#22c55e" opacity="0.6"/>
+  <rect x="376" y="84" width="36" height="4" fill="#ec4899" opacity="0.6"/>
+  <rect x="416" y="84" width="64" height="4" fill="#22c55e" opacity="0.6"/>
+  <text x="560" y="52" font-family="monospace" font-size="12" fill="#22c55e">✓</text>
+  <text x="560" y="68" font-family="monospace" font-size="12" fill="#22c55e">✓</text>
+  <text x="560" y="84" font-family="monospace" font-size="12" fill="#22c55e">✓</text>
+  <text x="480" y="110" text-anchor="middle" font-family="monospace" font-size="7" fill="#f97316">Structured 5-phase runbooks</text>
+  <rect x="0" y="130" width="640" height="4" fill="#374151" opacity="0.2"/>
 </svg>
